@@ -26,7 +26,7 @@ if __name__ == "__main__":
     Creating the visualizations for 50 objects one at a time
     '''
     # Reading in the data for one scene at a time
-    for i in range(2):
+    for i in range(50):
         df = pandas.read_csv(file_path,usecols=[2,3,4],skiprows=i*72000,nrows=72000,names=["X","Y", "Z"])
         
         # Creating the tuples
@@ -35,8 +35,10 @@ if __name__ == "__main__":
         z = tuple(df['Z'].tolist())
 
         # Creating the 3d mesh
-        trace = go.Mesh3d(x=x,y=y,z=z,color='grey',opacity=0.10)
-        trace2 = go.Scatter3d(x=x,y=y,z=z,mode='markers',marker=dict(color='rgb(0, 0, 0)',size=2,opacity=0.6))
+        trace = go.Scatter3d(x=x,y=y,z=z,mode='markers',marker=dict(color='rgb(0, 0, 0)',size=2,opacity=0.6))
+        data = [trace]
+        
+        # Remove the points which is not representing an object
 
         # plot the points on 3d plot and saving it.
-        plot([trace,trace2],filename=directory_path[directory_path.rfind('/')+1:]+'{}.html'.format(i),auto_open=False,show_link=False)
+        plot(data,filename=directory_path[directory_path.rfind('/')+1:]+'{}.html'.format(i),auto_open=False,show_link=False)
