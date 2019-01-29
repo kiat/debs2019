@@ -1,0 +1,8 @@
+#!/bin/bash
+#Usage: ./allobjects <directory of all objects>
+#example: ./allobjects /home/user/datachallange/debs2019_initial_dataset
+for dir in `ls -d $1/*`
+do
+  echo $dir
+  `python3 SingleObject50ScencesPlot.py $dir`
+done
