@@ -9,6 +9,7 @@ import sys
 from plotly.offline import plot
 import plotly.plotly as py
 import plotly.graph_objs as go
+from datetime import datetime
 
 if __name__ == "__main__":
     # Checking the number of arguments
@@ -27,7 +28,8 @@ if __name__ == "__main__":
     Creating the visualizations for 50 objects one at a time
     '''
     # Reading in the data for one scene at a time
-    for j in range(1):
+    for j in range(50):
+        starting = datetime.now()
         df = pandas.read_csv(file_path,usecols=[1,2,3,4],skiprows=j*72000,nrows=72000,names=["lz","X","Y", "Z"])
         df['radiusSquare'] = df['X']*df['X']+df['Y']*df['Y']+df['Z']*df['Z']
         df['radius'] = np.sqrt(df['radiusSquare']).round(1)
@@ -38,7 +40,7 @@ if __name__ == "__main__":
                 df.drop(df[(df['lz']==i) & (df['freq']==maxfreq)].index,inplace=True)
                 maxfreq = df[(df['lz']==i) & (df['radius']!=0)]['freq'].max()
             df.drop(df[(df['lz']==i) & (df['radius']==0)].index,inplace=True)
-        
+        print('{} scene time taken for removing noise = {}'.format(j,datetime.now()-starting))
         # Creating the tuples
         x = tuple(df['X'].tolist())
         y = tuple(df['Y'].tolist())
