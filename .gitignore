@@ -33,3 +33,6 @@
 
 *.pdf
 *.html
+
+venv/
+my_env/
