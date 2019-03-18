@@ -12,8 +12,10 @@ import train
 import evaluate
 
 # Get the individual object points
-def get_object(dataframes):
-    clustered_dataframes = data.cluster(dataframes)
+def get_object(path_to_data):
+    # Read in the data set 
+    list_of_dataframes = data.remove_outliers(path_to_data)
+    clustered_dataframes = data.cluster(list_of_dataframes)
     object_points = data.object_points(clustered_dataframes)
     return object_points
 
@@ -24,17 +26,17 @@ def split_train_test(objects):
 
 # Main function
 def main():
-    # Read in the data set 
-    list_of_dataframes = data.remove_outliers(sys.argv[1])
-    
     # Get the object points
-    object_points = get_object(list_of_dataframes)
+    object_points = get_object(sys.argv[1])
+    print(object_points[0].head())
 
     # Split train and test data
     train_data, test_data = split_train_test(object_points)
-
+    
     # train the data
     # model = train.fit(train_data)
+
+    # save the model
 
     # test the data
     # results = evaluate.predict(test_data)

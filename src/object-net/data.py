@@ -4,6 +4,7 @@
 import pandas as pd
 import numpy as np
 import sys
+from sklearn.cluster import KMeans
 
 # Remove the outliers
 def remove_outliers(file_path):
@@ -21,14 +22,25 @@ def remove_outliers(file_path):
                 df.drop(df[(df['lz']==i) & (df['freq']==maxfreq)].index, inplace=True)
                 maxfreq = df[(df['lz']==i) & (df['radius']!=0)]['freq'].max()
             df.drop(df[(df['lz']==i) & (df['radius']==0)].index, inplace=True)
-        dataframe_lists.append(df)
+        dataframe_lists.append(df.iloc[:,1:4])
 
     return dataframe_lists
 
 # cluster the data points and get the results
-def cluster():
-    pass
+def cluster(dataframes):
+    points_with_labels = []
+    for i in dataframes:
+        kmeans_model = KMeans(n_clusters=3, random_state=1).fit(i)
+        i['labels'] = kmeans_model.labels_
+        points_with_labels.append(i)
+    
+    return points_with_labels
 
 # Return the object data points
-def object_points():
-    pass
+def object_points(dataframes):
+    return_object_points = []
+    for i in dataframes:
+        i = i[i['labels']==i.labels.mode()[0]]
+        return_object_points.append(i.iloc[:,:-1])
+    
+    return return_object_points
