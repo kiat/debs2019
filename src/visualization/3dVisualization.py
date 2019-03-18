@@ -23,20 +23,20 @@ data= pd.read_csv('/home/kia/Collected-Datasets/DEBS2019/debs2019_initial_datase
 data = pd.DataFrame(data)
 
 
-# Define a scnene number that we use to speare  data 
+# Define a scnene number that we use to speare  data
 sceneNr = 3
 
 
-# The use panda dataframe to slice it. 
-# Each scene is 72k rows 
+# The use panda dataframe to slice it.
+# Each scene is 72k rows
 data1 = data.loc[ (1-sceneNr) * 72000 : sceneNr * 72000]
 
 X=data1["X"]
 Y=data1["Y"]
 Z=data1["Z"]
 
-ax.scatter(X, Y, Z)
- 
+ax.scatter(X, Z, Y)
+
 
 
 plt.show()
