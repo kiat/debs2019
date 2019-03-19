@@ -12,12 +12,22 @@ import train
 import evaluate
 
 # Get the individual object points
-def get_object(path_to_data, num_of_clusters):
+def get_object(path_to_data):
     # Read in the data set 
-    list_of_dataframes = data.remove_outliers(path_to_data)
-    clustered_dataframes = data.cluster(list_of_dataframes,num_of_clusters)
+    outliers, list_of_dataframes = data.remove_outliers(path_to_data)
+    clustered_dataframes = data.cluster(list_of_dataframes)
     object_points = data.object_points(clustered_dataframes)
-    return list_of_dataframes
+    
+    labeled_data = []
+
+    # Adding the labels
+    for i,j in zip(outliers, list_of_dataframes):
+        i['labels'] = 0
+        j['labels'] = 1
+        i = i.append(j,ignore_index=True, sort=False)
+        labeled_data.append(i)
+
+    return labeled_data 
 
 # Split the train and test cases
 def split_train_test(objects):
@@ -27,10 +37,10 @@ def split_train_test(objects):
 # Main function
 def main():
     # Get the object points
-    object_points = get_object(sys.argv[1])
+    labeled_data = get_object(sys.argv[1])
     
     # visualizing the points
-    data.visualize(object_points,2)
+    data.visualize(labeled_data,2)
 
     # Split train and test data
     # train_data, test_data = split_train_test(object_points)
