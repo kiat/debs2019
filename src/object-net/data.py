@@ -18,7 +18,7 @@ def remove_outliers(file_path):
     dataframe_lists = []
     outliers = []
     # Creating the dataframe and selecting the required columns
-    for i in range(3):
+    for i in range(1):
         temp_out = pd.DataFrame()
         df = pd.read_csv(file_path, usecols=[1,2,3,4], skiprows=i*72000, nrows = 72000, names=["lz","X","Y","Z"])
         df['radiusSquare'] = df['X']*df['X']+df['Y']*df['Y']+df['Z']*df['Z']
@@ -32,8 +32,8 @@ def remove_outliers(file_path):
                 maxfreq = df[(df['lz']==j) & (df['radius']!=0)]['freq'].max()
             temp_out =  temp_out.append(df.loc[(df['lz']==j) & (df['radius']==0)],ignore_index=True)
             df.drop(df[(df['lz']==j) & (df['radius']==0)].index, inplace=True)
-        outliers.append(temp_out.iloc[:,1:4])
-        dataframe_lists.append(df.iloc[:,1:4])
+        outliers.append(temp_out.iloc[:,0:4])
+        dataframe_lists.append(df.iloc[:,0:4])
 
     return outliers, dataframe_lists
 
@@ -87,4 +87,4 @@ def visualize_base(data, type_of_vis, count=1):
         else:
             trace = go.Scatter3d(x=x,y=y,z=z, mode='markers', marker=dict(color='red',size=2,opacity=0.6))
         data=[trace]
-        plot(data,filename='../visuals/{}_{}.html'.format('vis',count), auto_open=False, show_link=False)
+        plot(data,filename='../visuals/{}_{}.html'.format('vis1',count), auto_open=False, show_link=False)
