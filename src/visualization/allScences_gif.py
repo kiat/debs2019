@@ -1,8 +1,9 @@
+from mpl_toolkits.mplot3d import Axes3D 
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-import sys
 
 class All_Scenes_Gif:
 
@@ -32,22 +33,43 @@ class All_Scenes_Gif:
         return objects
 
     # plot the two axes
-    def plot_two_axes(self,object_points, object_name, x = 0, y = 1):
+    def plot_two_axes(self,object_points, object_name, x = 0, y = 1, z=2):
+        grid_size= 1
+        fig = plt.figure(figsize=(10, 10), dpi= 100, facecolor='w', edgecolor='k')
+        
+        # ax = fig.gca()
+        # ax.set_xticks(np.arange(-40, 40, grid_size))
+        # ax.set_yticks(np.arange(-40, 40, grid_size))
+        
+               
         count  = 0
         for i in object_points:
-            plt.scatter(i[x],i[y])
-            plt.title(object_name)
-            plt.xlabel(x)
-            plt.ylabel(y)
+
+
+            # plt.scatter(i[x], i[y], s=8)
+            # plt.title(object_name)
+            # plt.xlabel(x)
+            # plt.ylabel(y)
+            
+            
+            
+            # ax.set_xticks(np.arange(-40, 40, grid_size))
+            # ax.set_yticks(np.arange(-40, 40, grid_size))
+            # ax.set_zticks(np.arange(-40, 40, grid_size))
+            ax = fig.add_subplot(111, projection='3d')
+            ax.scatter(i[z], i[x], i[y])
+            
             if count<10:
                 name = "0"+str(count)
             else:
                 name = str(count)
+            
+            # plt.grid()
             plt.savefig("../visuals/_"+name+"_"+object_name+".png")
             plt.clf()
             count+=1
 
     # Create the gif
-    def create_gif(self,object_name,x=0,y=1):
+    def create_gif(self,object_name,x=0, y=1, z=2):
         os.chdir("../visuals")
-        os.system("convert -delay 50 -loop 0 *{}.png {}_{}_{}.gif".format(object_name,object_name,x,y))
+        os.system("convert -delay 30 -loop 0 *{}.png {}_{}_{}.gif".format(object_name,object_name,x,y))
