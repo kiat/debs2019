@@ -85,6 +85,16 @@ def visualize_base(data, type_of_vis, count=1):
             labels = data['labels'].tolist()
             trace = go.Scatter3d(x=x,y=y,z=z, mode='markers', marker=dict(color=labels,size=2,opacity=0.6))
         else:
-            trace = go.Scatter3d(x=x,y=y,z=z, mode='markers', marker=dict(color='red',size=2,opacity=0.6))
+            trace = go.Scatter3d(x=x,y=z,z=y, mode='markers', marker=dict(color='red',size=2,opacity=0.6))
+            layout = go.Layout(
+                    scene = dict(
+                    xaxis = dict(
+                        nticks=4, range = [-100,100],),
+                    yaxis = dict(
+                        nticks=4, range = [-50,100],),
+                    zaxis = dict(
+                        nticks=4, range = [-100,100],),)
+                  )
         data=[trace]
-        plot(data,filename='../visuals/{}_{}.html'.format('vis1',count), auto_open=False, show_link=False)
+        fig = go.Figure(data=data, layout=layout)
+        plot(fig,filename='../visuals/{}_{}.html'.format('vis',count), auto_open=False, show_link=False)
