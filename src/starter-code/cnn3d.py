@@ -1,7 +1,15 @@
 from __future__ import division, print_function, absolute_import
 
 from keras.models import Sequential, model_from_json
-from keras.layers import Dense, Dropout, Flatten, Conv3D, MaxPool3D, BatchNormalization, Input
+from keras.layers import (
+    Dense,
+    Dropout,
+    Flatten,
+    Conv3D,
+    MaxPool3D,
+    BatchNormalization,
+    Input,
+)
 from keras.optimizers import RMSprop
 from keras.preprocessing.image import ImageDataGenerator
 from keras.utils.np_utils import to_categorical
@@ -13,13 +21,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-sns.set_style('white')
+sns.set_style("white")
 
 from sklearn.metrics import confusion_matrix, accuracy_score
 
 
-class CNNClassify(object):
-
+class ClassifyWith3dCnn(object):
     def __init__(self, X_train, y_train, X_test, y_test):
         # Hyper Parameter
         self.batch_size = 86
@@ -53,12 +60,24 @@ class CNNClassify(object):
         return s_m.to_rgba(array)[:, :-1]
 
     # Conv2D layer
-    def Conv(self, filters=16, kernel_size=(3, 3, 3), activation='relu', input_shape=None):
+    def Conv(
+        self, filters=16, kernel_size=(3, 3, 3), activation="relu", input_shape=None
+    ):
         if input_shape:
-            return Conv3D(filters=filters, kernel_size=kernel_size, padding='Same', activation=activation,
-                          input_shape=input_shape)
+            return Conv3D(
+                filters=filters,
+                kernel_size=kernel_size,
+                padding="Same",
+                activation=activation,
+                input_shape=input_shape,
+            )
         else:
-            return Conv3D(filters=filters, kernel_size=kernel_size, padding='Same', activation=activation)
+            return Conv3D(
+                filters=filters,
+                kernel_size=kernel_size,
+                padding="Same",
+                activation=activation,
+            )
 
     # Define Model
     def CNN(self, input_dim, num_classes):
@@ -78,13 +97,13 @@ class CNNClassify(object):
 
         model.add(Flatten())
 
-        model.add(Dense(4096, activation='relu'))
+        model.add(Dense(4096, activation="relu"))
         model.add(Dropout(0.5))
 
-        model.add(Dense(1024, activation='relu'))
+        model.add(Dense(1024, activation="relu"))
         model.add(Dropout(0.5))
 
-        model.add(Dense(num_classes, activation='softmax'))
+        model.add(Dense(num_classes, activation="softmax"))
 
         return model
 
@@ -92,17 +111,26 @@ class CNNClassify(object):
     def train(self, optimizer, scheduler):
 
         print("Training...")
-        self.model.compile(optimizer='adam', loss="categorical_crossentropy", metrics=["accuracy"])
+        self.model.compile(
+            optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"]
+        )
 
-        self.model.fit(x=self.X_train, y=self.y_train, batch_size=self.batch_size, epochs=self.epochs, validation_split=0.15,
-                  verbose=2, callbacks=[scheduler, self.tensorboard])
+        self.model.fit(
+            x=self.X_train,
+            y=self.y_train,
+            batch_size=self.batch_size,
+            epochs=self.epochs,
+            validation_split=0.15,
+            verbose=2,
+            callbacks=[scheduler, self.tensorboard],
+        )
 
     def evaluate(self):
 
         pred = self.model.predict(self.X_test)
         pred = np.argmax(pred, axis=1)
 
-        print("Accuracy: ",accuracy_score(pred, self.y_test))
+        print("Accuracy: ", accuracy_score(pred, self.y_test))
         # Heat Map
         array = confusion_matrix(self.y_test, pred)
         cm = pd.DataFrame(array, index=range(2), columns=range(2))
@@ -113,7 +141,9 @@ class CNNClassify(object):
     def cnn_initiate(self):
 
         optimizer = RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
-        scheduler = ReduceLROnPlateau(monitor='val_acc', patience=3, verbose=1, factor=0.5, min_lr=1e-5)
+        scheduler = ReduceLROnPlateau(
+            monitor="val_acc", patience=3, verbose=1, factor=0.5, min_lr=1e-5
+        )
 
         self.train(optimizer, scheduler)
         self.evaluate()

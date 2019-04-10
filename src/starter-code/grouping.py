@@ -1,75 +1,131 @@
-# Debs 2019
-
 # Packages
-import pandas
+import pandas as pd
 import numpy as np
-import os
-    
-# Visualization 
-from plotly.offline import plot, iplot
-import plotly.graph_objs as go
-
-# Data Grouping
 from sklearn.cluster import KMeans
 
-# Dataset
-for filen in os.listdir('dataset/'):
-    try: 
-        print("Grouping {}".format(filen))
-        directory = 'dataset/{}'.format(filen)
-        in_path = '{}/in.csv'.format(directory)
 
-        out_path = '{}/out.csv'.format(directory)
-        out_file = open(out_path,'r').readlines()
-        output_con = []
-        _totalsum = 0
-        for line in out_file:
-            line_sum = sum([int(con) for con in line.strip().split(',')[1:] if len(con)<3])
-            _totalsum+=line_sum
-            output_con.append((int(line[0:1]),line_sum))
+def remove_outliers(dataframes, number_of_scenes, path_to_pkl):
+    """Takes 0.36 sec to remove the outliers in each scene,Function to remove outliers"""
+    object_points = []
+    outliers = pd.read_pickle(path_to_pkl)
+    max_rad = []
+    min_rad = []
+    for i in range(64):
+        max_rad.append(outliers[outliers["lz"] == i]["max"].tolist()[0])
+        min_rad.append(outliers[outliers["lz"] == i]["min"].tolist()[0])
 
-        x,y,z=[],[],[]
-        # Reading in the data for one scene at a time
-        giant_df = pandas.DataFrame(columns=['timestamp','id','x','y','z','r_sq','r','freq'])
-        for j in range(len(output_con)):
-            df = pandas.read_csv(in_path, skiprows=j*72000, nrows=72000, names=["timestamp", "id", "x", "y", "z"])
-            df['r_sq'] = df['x']**2+df['y']**2+df['z']**2
-            df['r'] = np.sqrt(df['r_sq']).round(1)
-            df['freq'] = df.groupby(['id','r'])['r'].transform('count')
-            for i in range(64):
-                maxfreq = df[(df['id']==i) & (df['r']!=0)]['freq'].max()
-                while maxfreq>100:
-                    df.drop(df[(df['id']==i) & (df['freq']==maxfreq)].index,inplace=True)
-                    maxfreq = df[(df['id']==i) & (df['r']!=0)]['freq'].max()
-                df.drop(df[(df['id']==i) & (df['r']==0)].index,inplace=True)
-            giant_df = giant_df.append(df)
-            # Creating the tuples
-            x = tuple(df['x'].tolist())
-            y = tuple(df['y'].tolist())
-            z = tuple(df['z'].tolist())
-            
-            kmeans_model = KMeans(n_clusters=output_con[j][1]+2, random_state=1).fit(df.iloc[:, 2:5])
-            labels = kmeans_model.labels_
+    for i in range(number_of_scenes):
+        df = dataframes[i]
+        df["radius"] = df.X.pow(2).add(df.Y.pow(2).add(df.Z.pow(2))).pow(0.5).round(1)
+        df.drop(df[df["radius"] == 0].index, inplace=True)
+        temp_out = pd.DataFrame()
+        for j in range(64):
+            dummy_df = df[df["lz"] == j]
+            bool_vec = ~(
+                (dummy_df["radius"] <= max_rad[j]) & (dummy_df["radius"] >= min_rad[j])
+            )
+            temp_out = temp_out.append(dummy_df[bool_vec])
+        object_points.append(temp_out)
 
-            trace = go.Scatter3d(x=x, y=y, z=z, mode='markers', marker=dict(color=labels, size=2, opacity=0.4))
-            data = [trace]
-            print("grouping completed for {}".format(j))
-            
-            if not os.path.exists('visuals/'+filen):
-                os.makedirs('visuals/'+filen)
-            plot(data,filename='visuals/'+filen+'/in_{}.html'.format(j),auto_open=False,show_link=False)
+    return object_points
 
-        # Creating the tuples
-        xs = tuple(giant_df['x'].tolist())
-        ys = tuple(giant_df['y'].tolist())
-        zs = tuple(giant_df['z'].tolist())
 
-        kmeans_model = KMeans(n_clusters=_totalsum+2, random_state=1).fit(df.iloc[:, 2:5])
-        labels = kmeans_model.labels_
+def helper_object_points(object_points, num_clusters):
+    """Helper function to just return the object points by removing the """
 
-        trace = go.Scatter3d(x=xs, y=ys, z=zs, mode='markers', marker=dict(color=labels, size=2, opacity=0.4))
-        data = [trace]
-        plot(data,filename='visuals/{}/gaint_model.html'.format(filen),auto_open=False,show_link=False)
-        print("Grouped {}".format(filen))
-    except:
-        pass
+    # cluster the points and get the labels
+    kmeans_model = KMeans(n_clusters=num_clusters, random_state=1).fit(object_points)
+    object_points["labels"] = kmeans_model.labels_
+
+    # use the labels to slice the points and return the object points
+    object_points = object_points[
+        object_points["labels"] == object_points.labels.mode()[0]
+    ]
+    return object_points
+
+
+# TODO: think to remove this function
+def max_min(obj_data, img_length, img_height, view):
+    """
+    This function fits the points into the constant scale by calculating the x_max, x_min and y_max and y_min
+    This works only for XY view or ZY view
+    """
+    # Lists to return which will help in plotting and collecting the data with in this range for the CNN
+    x_max = []
+    x_min = []
+    y_max = []
+    y_min = []
+
+    ## going through each scene
+    for i in obj_data:
+
+        #         # calculate the y_max and min and then compare with the img_height and add the required height
+        #         y_maximum = i['Y'].max()
+        #         y_minimum = i['Y'].min()
+        #         range_y = y_maximum-y_minimum
+        #         first,second = generate_random(img_height -range_y)
+
+        # using the mean to calculate the y_max and y_min
+        y_mean = i["Y"].mean()
+        first, second = generate_random(img_height)
+
+        # Appending the max and min values
+        y_max.append(y_mean + first)
+        y_min.append(y_mean - second)
+
+        #         # Appending the max and min values
+        #         y_max.append(y_maximum+first)
+        #         y_min.append(y_minimum-second)
+
+        # if the view is XY calcualte for X
+        if view == 2:
+            #             x_maximum = i['X'].max()
+            #             x_minimum = i['X'].min()
+            #             range_x = x_maximum-x_minimum
+            #             first,second = generate_random(img_length -range_x)
+
+            #             # Appending the max and min values
+            #             x_max.append(x_maximum+first)
+            #             x_min.append(x_minimum-second)
+
+            # using the mean to calculate the y_max and y_min
+            x_mean = i["X"].mean()
+            first, second = generate_random(img_length)
+
+            # Appending the max and min values
+            x_max.append(x_mean + first)
+            x_min.append(x_mean - second)
+
+        # if the view is for ZY calcuate for Z
+        elif view == 3:
+            #             z_maximum = i['Z'].max()
+            #             z_minimum = i['Z'].min()
+            #             range_x = z_maximum-z_minimum
+            #             first,second = generate_random(img_length -range_x)
+
+            #             # Appending the max and min values
+            #             x_max.append(z_maximum+first)
+            #             x_min.append(z_minimum-second)
+
+            # using the mean to calculate the y_max and y_min
+            z_mean = i["Z"].mean()
+            first, second = generate_random(img_length)
+
+            # Appending the max and min values
+            x_max.append(z_mean + first)
+            x_min.append(z_mean - second)
+
+    return x_max, x_min, y_max, y_min
+
+
+# TODO: think to remove this function
+def generate_random(residual):
+    """
+    Helper function for max_min to generate random numbers
+    """
+    if residual < 0:
+        return 0, 0
+    first = random.randint(1, 20)
+    sec = random.randint(1, 20)
+    tot = float(first + sec)
+    return (first * residual / tot, sec * residual / tot)
