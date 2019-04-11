@@ -63,9 +63,9 @@ def load_graph(path_to_model="../models/two_d_cnn.ckpt"):
 def return_prediction(data_frame, session, object_names, img_length, img_height, y_pred_cls, x):
     return convert_pred_to_dict(data_frame,session, object_names, img_length, img_height, y_pred_cls, x)
 
-if __name__ == "__main__":
+def test():
     # Creating the session
-    session, object_names, img_length, img_height, y_pred_cls, x = load_graph()
+    session, object_names, img_length, img_height, y_pred_cls, x = load_graph("../dummy/two_d_cnn.ckpt")
 
     # Folder names
     folder_path1 = "/home/samba693/DataChallenge/debs2019_dataset2"
@@ -84,3 +84,6 @@ if __name__ == "__main__":
                         y_pred_cls,
                         x)
         print(result)
+
+if __name__ == "__main__":
+    test()

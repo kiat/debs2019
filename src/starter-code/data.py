@@ -69,6 +69,7 @@ def prepare_and_save_input(
     num_of_clusters,
     img_length,
     img_height,
+    save_here,
     list_of_angles=[30, 60, 90, 120, 150],
 ):
     """
@@ -134,17 +135,17 @@ def prepare_and_save_input(
             output.append(object_names[object_choice])
 
             # Save the objects
-    np.save("../data/{}_input.npy".format(object_names[object_choice]), input_data)
-    np.save("../data/{}_output.npy".format(object_names[object_choice]), output)
+    np.save("{}/{}_input.npy".format(save_here, object_names[object_choice]), input_data)
+    np.save("{}/{}_output.npy".format(save_here, object_names[object_choice]), output)
 
 
-def train_test_split(object_id, object_names):
+def train_test_split(object_id, object_names, target):
     """
         Function that creates the train and test split
     """
     # Input file and output file names
-    file_name = "../data/{}_input.npy".format(object_names[object_id])
-    output_file = "../data/{}_output.npy".format(object_names[object_id])
+    file_name = "{}/{}_input.npy".format(target,object_names[object_id])
+    output_file = "{}/{}_output.npy".format(target,object_names[object_id])
 
     # loading the saved npy format data
     object_input = np.load(file_name)
@@ -214,14 +215,12 @@ def random_batch(input_train, output_train, batch_size):
     # return the elements
     return x_batch, y_batch
 
-def optimize(num_iterations, input_train, output_train):
-
-    global total_iterations
+def optimize(num_iterations, train_batch_size, input_train, output_train, session, x, y_true, optimizer, accuracy):
 
     # Start time
     start_time = datetime.now()
 
-    for i in range(total_iterations, total_iterations + num_iterations):
+    for i in range(num_iterations):
 
         # get the batch of the training examples
         x_batch, y_true_batch = random_batch(
@@ -243,9 +242,6 @@ def optimize(num_iterations, input_train, output_train):
                     i + 1, acc
                 )
             )
-
-    # updating the total number of iterations performed
-    total_iterations += num_iterations
 
     # Ending time
     end_time = datetime.now()
@@ -297,3 +293,43 @@ def print_test_accuracy(self, test_input, test_output, show_confusion_matrix=Fal
     if show_confusion_matrix:
         print("Confusion Matrix:")
         Visualization().plot_confusion_matrix(cls_pred, cls_true)
+
+def data_prep(save_here):
+    # list of individual objects
+    list_of_object_choice = list(range(29))
+    list_of_object_choice.remove(22)
+
+    # objects
+    object_names = {0: 'Atm', 1: 'Bench', 2: 'BigSassafras', 3: 'BmwX5Simple', \
+                    4: 'ClothRecyclingContainer', 5: 'Cypress', 6: 'DrinkingFountain',\
+                    7: 'ElectricalCabinet', 8: 'EmergencyPhone', 9: 'FireHydrant',\
+                    10: 'GlassRecyclingContainer', 11: 'IceFreezerContainer', 12: 'Mailbox',\
+                    13: 'MetallicTrash', 14: 'MotorbikeSimple', 15: 'Oak', 16: 'OldBench',\
+                    17: 'Pedestrian', 18: 'PhoneBooth', 19: 'PublicBin', 20: 'Sassafras',\
+                    21: 'ScooterSimple', 22: 'set1', 23: 'ToyotaPriusSimple', 24: 'Tractor',\
+                    25: 'TrashBin', 26: 'TrashContainer', 27: 'UndergroundContainer',\
+                    28: 'WorkTrashContainer'}
+
+    
+    # Required variables
+    num_linear_transformations = 4
+    num_of_scenes = 50
+    path_to_pkl = "../object-net/outliers.pkl"
+    grid_size = 0.1
+    num_clusters = 4
+    img_length = 10
+    img_height = 7
+    
+    # Folder names
+    folder_path = "/home/samba693/DataChallenge/debs2019_initial_dataset"
+
+    # Preparing the data
+    for i in list_of_object_choice:
+        prepare_and_save_input(i, object_names, folder_path, num_linear_transformations,\
+                              num_of_scenes, path_to_pkl, grid_size,\
+                              num_clusters, img_length, img_height, save_here)
+
+if __name__ == "__main__":
+    save_here = "../dummy/"
+    data_prep(save_here)
+    

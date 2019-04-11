@@ -23,6 +23,9 @@ class ClassifyWith2dCnn(object):
         self.session = None
         self.y_pred_cls_ = None
         self.x = None
+        self.y_true = None
+        self.accuracy = None
+        self.optimizer = None
 
         # Varaibles to give the dimensions for the layers of graph
         self.img_shape = img_shape
@@ -147,4 +150,7 @@ class ClassifyWith2dCnn(object):
 
         self.x = x
         self.y_pred_cls_ = y_pred_cls
+        self.y_true = y_true
+        self.accuracy = accuracy
+        self.optimizer = optimizer
         
