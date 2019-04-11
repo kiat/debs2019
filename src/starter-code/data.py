@@ -8,14 +8,14 @@ from operator import itemgetter
 from functools import reduce
 
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-from .grouping import remove_outliers, helper_object_points, max_min
+from grouping import remove_outliers, helper_object_points, max_min
 
 
-def read_file(file_path, num_of_scenes):
+def read_file(file_path, num_of_scenes=50):
     """Reads in the 50 scenes in to the memory and then slices the data frame to achieve optimization
     Takes 1.72 sec to read the 50 scenes file into memory
     Slicing each scene takes 0.32 milli seconds on average"""
-    giant_df = pd.read_csv(file_path, usecols=[1, 2, 3, 4], names=["lz", "X", "Y", "Z"])
+    giant_df = pd.read_csv(file_path, usecols=[1, 2, 3, 4], names=["laser_id", "X", "Y", "Z"])
     num_of_scenes = len(giant_df) / 72000
     dataframes = []
 
@@ -195,3 +195,105 @@ def encode_output(output_arr):
 
     # returning the encoders and encoded values
     return encoded_out_test, encoder, encoder1
+
+def random_batch(input_train, output_train, batch_size):
+    # zipping the input and output
+    zipped_data = list(zip(input_train, output_train))
+
+    # Shuffle them
+    random.shuffle(zipped_data)
+
+    # select the elements equal to batch_size
+    zipped_data = zipped_data[:batch_size]
+
+    # unzip the elements
+    to_return = list(zip(*zipped_data))
+    x_batch = np.array(to_return[0], dtype=np.float32)
+    y_batch = np.array(to_return[1], dtype=np.float32)
+
+    # return the elements
+    return x_batch, y_batch
+
+def optimize(num_iterations, input_train, output_train):
+
+    global total_iterations
+
+    # Start time
+    start_time = datetime.now()
+
+    for i in range(total_iterations, total_iterations + num_iterations):
+
+        # get the batch of the training examples
+        x_batch, y_true_batch = random_batch(
+            input_train, output_train, batch_size= train_batch_size
+        )
+
+        # Put the batch in the dict with the proper names
+        feed_dict_train = {x: x_batch, y_true: y_true_batch}
+
+        # Run the optimizer using this batch of the training data
+        session.run(optimizer, feed_dict=feed_dict_train)
+
+        # printing status for every 10 iterations
+        if i % 100 == 0:
+            # Calculate the accuracy on the training set
+            acc = session.run(accuracy, feed_dict=feed_dict_train)
+            print(
+                "Optimization Iteration: {0:>6}, Training Accuracy: {1:6.1%}".format(
+                    i + 1, acc
+                )
+            )
+
+    # updating the total number of iterations performed
+    total_iterations += num_iterations
+
+    # Ending time
+    end_time = datetime.now()
+
+    print("Time usage: {}".format(end_time - start_time))
+
+def print_test_accuracy(self, test_input, test_output, show_confusion_matrix=False):
+
+    # number of images in the test -set
+    num_test = len(test_input)
+
+    # creating an empty array
+    cls_pred = np.zeros(shape=num_test, dtype=np.int)
+
+    # Starting index
+    i = 0
+
+    while i < num_test:
+        # J is the ending index
+        j = min(i + test_batch_size, num_test)
+
+        # get the images
+        images = test_input[i:j]
+
+        # Get the assiciated labels
+        labels = test_output[i:j]
+
+        # Feed the dict with the images and labels
+        feed_dict = {x: images, y_true: labels}
+
+        # Calculate the predicated class using TensorFlow
+        cls_pred[i:j] = session.run(y_pred_cls, feed_dict=feed_dict)
+
+        i = j
+
+    cls_true = [np.argmax(i) for i in test_output]
+    cls_true = np.array(cls_true)
+
+    correct = cls_true == cls_pred
+    correct_sum = correct.sum()
+
+    acc = float(correct_sum) / num_test
+
+    msg = "Accuracy on Test-Set: {0:.1%} ({1} / {2})"
+
+    print(msg.format(acc, correct_sum, num_test))
+
+    # Plot the confusion matrix, if desired.
+    if show_confusion_matrix:
+        print("Confusion Matrix:")
+        Visualization().plot_confusion_matrix(cls_pred, cls_true)

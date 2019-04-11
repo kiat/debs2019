@@ -1,26 +1,44 @@
 # Packages
-import pandas as pd
 import numpy as np
-
-# Libraries for neural net training and evaluation
 import tensorflow as tf
-from .visualization import Visualization
 
-
+"""
+    This class creates an  tensor flow graph 2_D_CNN graph
+"""
 class ClassifyWith2dCnn(object):
-    def __init__(self):
-        self.tf.__version__ = tf.__version__
-        self.session = tf.Session()
-        self.session_run = self.session.run(tf.global_variables_initializer())
-        self.train_batch_size = 32
-        # Counter for the total number of iterations performed so far
-        self.total_iterations = 0
-        self.test_batch_size = 64
+    def __init__(
+        self, 
+        img_shape=(70,100), 
+        num_classes = 28,
+        num_channels = 1, 
+        filter_size = 5, 
+        number_of_filters = 16, 
+        fc_size = 128
+        ):
+
+        # To see the version of the tensorflow
+        self.__version__ = tf.__version__
+
+        # Variable to store the tf.Session and input and output layer of the graph
+        self.session = None
+        self.y_pred_cls_ = None
+        self.x = None
+
+        # Varaibles to give the dimensions for the layers of graph
+        self.img_shape = img_shape
+        self.img_size_flat = img_shape[0]*img_shape[1]
+        self.num_classes = num_classes
+        self.num_channels = num_channels
+        self.filter_size1 = filter_size
+        self.filter_size2 = filter_size
+        self.num_filters1 = number_of_filters
+        self.num_filters2 = number_of_filters
+        self.fc_size = fc_size
 
     def new_weights(self, shape):
         return tf.Variable(tf.truncated_normal(shape, stddev=0.05))
 
-    def new_biases(length):
+    def new_biases(self,length):
         return tf.Variable(tf.constant(0.05, shape=[length]))
 
     def new_conv_layer(
@@ -83,40 +101,42 @@ class ClassifyWith2dCnn(object):
         return layer
 
     def sample_structure(self):
-        x = tf.placeholder(tf.float32, shape=[None, img_size_flat], name="x")
-        x_image = tf.reshape(x, [-1, img_shape[0], img_shape[1], num_channels])
-        y_true = tf.placeholder(tf.float32, shape=[None, num_classes], name="y_true")
+        x = tf.placeholder(tf.float32, shape=[None, self.img_size_flat], name="x")
+        x_image = tf.reshape(x, [-1, self.img_shape[0], self.img_shape[1], self.num_channels])
+        y_true = tf.placeholder(tf.float32, shape=[None, self.num_classes], name="y_true")
         y_true_cls = tf.argmax(y_true, axis=1)
         layer_conv1, weights_conv1 = self.new_conv_layer(
             input_layer=x_image,
-            num_input_channels=num_channels,
-            filter_size=filter_size1,
-            num_filters=num_filters1,
+            num_input_channels=self.num_channels,
+            filter_size=self.filter_size1,
+            num_filters=self.num_filters1,
             use_pooling=True,
         )
 
         layer_conv2, weights_conv2 = self.new_conv_layer(
             input_layer=layer_conv1,
-            num_input_channels=num_filters1,
-            filter_size=filter_size2,
-            num_filters=num_filters2,
+            num_input_channels=self.num_filters1,
+            filter_size=self.filter_size2,
+            num_filters=self.num_filters2,
             use_pooling=True,
         )
         layer_flat, num_features = self.flatten_layer(layer_conv2)
         layer_fc1 = self.new_fc_layer(
             input_layer=layer_flat,
             num_inputs=num_features,
-            num_outputs=fc_size,
+            num_outputs=self.fc_size,
             use_relu=True,
         )
         layer_fc2 = self.new_fc_layer(
             input_layer=layer_fc1,
-            num_inputs=fc_size,
-            num_outputs=num_classes,
+            num_inputs=self.fc_size,
+            num_outputs=self.num_classes,
             use_relu=False,
         )
         y_pred = tf.nn.softmax(layer_fc2)
         y_pred_cls = tf.argmax(y_pred, axis=1)
+        
+        
         cross_entropy = tf.nn.softmax_cross_entropy_with_logits(
             logits=layer_fc2, labels=y_true
         )
@@ -125,104 +145,6 @@ class ClassifyWith2dCnn(object):
         correct_prediction = tf.equal(y_pred_cls, y_true_cls)
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-    def random_batch(self, input_train, output_train, batch_size):
-        # zipping the input and output
-        zipped_data = list(zip(input_train, output_train))
-
-        # Shuffle them
-        random.shuffle(zipped_data)
-
-        # select the elements equal to batch_size
-        zipped_data = zipped_data[:batch_size]
-
-        # unzip the elements
-        to_return = list(zip(*zipped_data))
-        x_batch = np.array(to_return[0], dtype=np.float32)
-        y_batch = np.array(to_return[1], dtype=np.float32)
-
-        # return the elements
-        return x_batch, y_batch
-
-    def optimize(self, num_iterations, input_train, output_train):
-
-        global total_iterations
-
-        # Start time
-        start_time = datetime.now()
-
-        for i in range(total_iterations, total_iterations + num_iterations):
-
-            # get the batch of the training examples
-            x_batch, y_true_batch = self.random_batch(
-                input_train, output_train, batch_size=self.train_batch_size
-            )
-
-            # Put the batch in the dict with the proper names
-            feed_dict_train = {x: x_batch, y_true: y_true_batch}
-
-            # Run the optimizer using this batch of the training data
-            self.session.run(optimizer, feed_dict=feed_dict_train)
-
-            # printing status for every 10 iterations
-            if i % 100 == 0:
-                # Calculate the accuracy on the training set
-                acc = self.session.run(accuracy, feed_dict=feed_dict_train)
-                print(
-                    "Optimization Iteration: {0:>6}, Training Accuracy: {1:6.1%}".format(
-                        i + 1, acc
-                    )
-                )
-
-        # updating the total number of iterations performed
-        total_iterations += num_iterations
-
-        # Ending time
-        end_time = datetime.now()
-
-        print("Time usage: {}".format(end_time - start_time))
-
-    def print_test_accuracy(self, test_input, test_output, show_confusion_matrix=False):
-
-        # number of images in the test -set
-        num_test = len(test_input)
-
-        # creating an empty array
-        cls_pred = np.zeros(shape=num_test, dtype=np.int)
-
-        # Starting index
-        i = 0
-
-        while i < num_test:
-            # J is the ending index
-            j = min(i + self.test_batch_size, num_test)
-
-            # get the images
-            images = test_input[i:j]
-
-            # Get the assiciated labels
-            labels = test_output[i:j]
-
-            # Feed the dict with the images and labels
-            feed_dict = {x: images, y_true: labels}
-
-            # Calculate the predicated class using TensorFlow
-            cls_pred[i:j] = self.session.run(y_pred_cls, feed_dict=feed_dict)
-
-            i = j
-
-        cls_true = [np.argmax(i) for i in test_output]
-        cls_true = np.array(cls_true)
-
-        correct = cls_true == cls_pred
-        correct_sum = correct.sum()
-
-        acc = float(correct_sum) / num_test
-
-        msg = "Accuracy on Test-Set: {0:.1%} ({1} / {2})"
-
-        print(msg.format(acc, correct_sum, num_test))
-
-        # Plot the confusion matrix, if desired.
-        if show_confusion_matrix:
-            print("Confusion Matrix:")
-            Visualization().plot_confusion_matrix(cls_pred, cls_true)
+        self.x = x
+        self.y_pred_cls_ = y_pred_cls
+        

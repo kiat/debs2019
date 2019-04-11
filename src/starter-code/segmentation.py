@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.cluster import DBSCAN
-from .grouping import remove_outliers, helper_object_points, max_min
-
+from grouping import remove_outliers, helper_object_points, max_min
+from data import input_nn, flat_input
 
 # Using the DB Scan of scikit learn for segmenting the data, take in the dataframe and return the labeled_df
 # This DB scan is sensitive to starting point
@@ -31,27 +31,6 @@ def prepare_data(data_frame):
     return data_frame
 
 
-# Get the labels of each scene
-segmented_dataframe = []
-error = 0
-sum_ = 0
-for i in range(0, len(test_outliers_dataframes)):
-    temp = prepare_data(test_outliers_dataframes[i])
-    a = len(temp["labels"].value_counts())
-    b = sum(outfile_list[i].values())
-    error += (a - b) * (a - b)
-    sum_ += a - b
-    print(
-        "Detected no of objects {}, original no of objects {}, difference = {}".format(
-            a, b, a - b
-        )
-    )
-    segmented_dataframe.append(temp)
-
-print(error)
-print("sum {}".format(sum_))
-
-
 # Extract the points of the clusters
 def list_of_objects(dataframe):
     num_of_objects = dataframe["labels"].value_counts().index.shape[0] - 1
@@ -63,7 +42,8 @@ def list_of_objects(dataframe):
 
 
 # Function for pred the input
-def pred_scene(test_input):
+def pred_scene(test_input, session, y_pred_cls, x):
+    test_batch_size = 64
     num_obj = len(test_input)
     cls_pred = np.zeros(shape=num_obj, dtype=np.int)
 
@@ -85,12 +65,15 @@ def pred_scene(test_input):
 
 
 # Take the points of the cluster and fix the input using the above function
-output_pred = []
-
-for i in segmented_dataframe:
-    object_dataframes = list_of_objects(i)
+def predict(data_frame, session, img_length, img_height, y_pred_cls, x):
+    # prepare the data and segment it
+    data_frame = remove_outliers([data_frame])[0]
+    segmented_df = prepare_data(data_frame)
+    object_df = list_of_objects(segmented_df)
     dummy_input = []
-    for j in object_dataframes:
+    img_length = 10
+    img_heigth = 7
+    for j in object_df:
         x_max, x_min, y_max, y_min = max_min([j], img_length, img_height, 2)
         object_arr = input_nn(
             j,
@@ -103,25 +86,28 @@ for i in segmented_dataframe:
         )
         object_arr = flat_input([object_arr]).tolist()[0]
         dummy_input.append(object_arr)
-    # Using the saved_model predict the results
-    output_pred.append(pred_scene(np.array(dummy_input)))
-
+    return pred_scene(np.array(dummy_input), session, y_pred_cls, x)
 
 # Take the predicted list and convert to dictionary of object counts for each scene
-def convert_pred_to_dict(output_pred):
-    to_return = []
-    for i in output_pred:
-        a = {}
-        for j in i:
-            if j >= 22:
-                if object_names[j + 1] in a:
-                    a[object_names[j + 1]] = a[object_names[j + 1]] + 1
-                else:
-                    a[object_names[j + 1]] = 1
+def convert_pred_to_dict(data_frame, 
+                        session,
+                        object_names,
+                        img_length,
+                        img_height,
+                        y_pred_cls, x):
+
+    output_pred = predict(data_frame, session, img_length, img_height, y_pred_cls, x)
+    a = {}
+    for j in output_pred:
+        if j >= 22:
+            if object_names[j + 1] in a:
+                a[object_names[j + 1]] = a[object_names[j + 1]] + 1
             else:
-                if object_names[j] in a:
-                    a[object_names[j]] = a[object_names[j]] + 1
-                else:
-                    a[object_names[j]] = 1
-        to_return.append(a)
-    return to_return
+                a[object_names[j + 1]] = 1
+        else:
+            if object_names[j] in a:
+                a[object_names[j]] = a[object_names[j]] + 1
+            else:
+                a[object_names[j]] = 1
+        
+    return a

@@ -1,11 +1,12 @@
 # Packages
 import pandas as pd
 import numpy as np
+import random
 from sklearn.cluster import KMeans
 
-
-def remove_outliers(dataframes, number_of_scenes, path_to_pkl):
-    """Takes 0.36 sec to remove the outliers in each scene,Function to remove outliers"""
+# ToDo: optimize this function by storing the below lists of max and min radius and by considering only up certain laser number. 
+def remove_outliers(dataframes, number_of_scenes=1, path_to_pkl="../object-net/outliers.pkl"):
+    """Takes 0.36 sec to remove the outliers in each scene,Function to remove outliers"""    
     object_points = []
     outliers = pd.read_pickle(path_to_pkl)
     max_rad = []
@@ -20,7 +21,7 @@ def remove_outliers(dataframes, number_of_scenes, path_to_pkl):
         df.drop(df[df["radius"] == 0].index, inplace=True)
         temp_out = pd.DataFrame()
         for j in range(64):
-            dummy_df = df[df["lz"] == j]
+            dummy_df = df[df["laser_id"] == j]
             bool_vec = ~(
                 (dummy_df["radius"] <= max_rad[j]) & (dummy_df["radius"] >= min_rad[j])
             )
@@ -59,12 +60,6 @@ def max_min(obj_data, img_length, img_height, view):
     ## going through each scene
     for i in obj_data:
 
-        #         # calculate the y_max and min and then compare with the img_height and add the required height
-        #         y_maximum = i['Y'].max()
-        #         y_minimum = i['Y'].min()
-        #         range_y = y_maximum-y_minimum
-        #         first,second = generate_random(img_height -range_y)
-
         # using the mean to calculate the y_max and y_min
         y_mean = i["Y"].mean()
         first, second = generate_random(img_height)
@@ -73,20 +68,8 @@ def max_min(obj_data, img_length, img_height, view):
         y_max.append(y_mean + first)
         y_min.append(y_mean - second)
 
-        #         # Appending the max and min values
-        #         y_max.append(y_maximum+first)
-        #         y_min.append(y_minimum-second)
-
         # if the view is XY calcualte for X
         if view == 2:
-            #             x_maximum = i['X'].max()
-            #             x_minimum = i['X'].min()
-            #             range_x = x_maximum-x_minimum
-            #             first,second = generate_random(img_length -range_x)
-
-            #             # Appending the max and min values
-            #             x_max.append(x_maximum+first)
-            #             x_min.append(x_minimum-second)
 
             # using the mean to calculate the y_max and y_min
             x_mean = i["X"].mean()
@@ -98,14 +81,6 @@ def max_min(obj_data, img_length, img_height, view):
 
         # if the view is for ZY calcuate for Z
         elif view == 3:
-            #             z_maximum = i['Z'].max()
-            #             z_minimum = i['Z'].min()
-            #             range_x = z_maximum-z_minimum
-            #             first,second = generate_random(img_length -range_x)
-
-            #             # Appending the max and min values
-            #             x_max.append(z_maximum+first)
-            #             x_min.append(z_minimum-second)
 
             # using the mean to calculate the y_max and y_min
             z_mean = i["Z"].mean()
