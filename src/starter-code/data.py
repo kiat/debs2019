@@ -11,6 +11,50 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from grouping import remove_outliers, helper_object_points, max_min
 
 
+# Fixed Outliers
+def get_outliers(file_path):
+    # Take the outliers
+    outliers , others = helper_outliers("{}/Atm/in.csv".format(file_path))
+
+    # get the min and max values for each outlier range 
+    for i in outliers:
+        i['radiusSquare'] = i['X']**2+i['Y']**2+i['Z']**2
+        i['radius'] = np.sqrt(i['radiusSquare']).round(1)
+        i = i[i['radius']>0]
+        i['max'] = i.groupby(['lz'])['radius'].transform('max')
+        i['min'] = i.groupby(['lz'])['radius'].transform('min')
+        i = i[['lz','max','min']]
+        i.drop_duplicates(subset=['lz','max','min'],inplace=True)
+    
+    # Save the data frame
+    i.to_pickle("../outliers.pkl")
+
+
+# Remove the outliers
+def helper_outliers(file_path):
+    # return the list of dataframes
+    dataframe_lists = []
+    outliers = []
+    # Creating the dataframe and selecting the required columns
+    for i in range(1):
+        temp_out = pd.DataFrame()
+        df = pd.read_csv(file_path, usecols=[1,2,3,4], skiprows=i*72000, nrows = 72000, names=["lz","X","Y","Z"])
+        df['radiusSquare'] = df['X']*df['X']+df['Y']*df['Y']+df['Z']*df['Z']
+        df['radius'] = np.sqrt(df['radiusSquare']).round(1)
+        df['freq'] = df.groupby(['lz','radius'])['radius'].transform('count')
+        for j in range(64):
+            maxfreq = df[(df['lz']==j) & (df['radius']!=0)]['freq'].max()
+            while maxfreq>75:
+                temp_out =  temp_out.append(df.loc[(df['lz']==j) & (df['freq']==maxfreq)],ignore_index=True)
+                df.drop(df[(df['lz']==j) & (df['freq']==maxfreq)].index, inplace=True)
+                maxfreq = df[(df['lz']==j) & (df['radius']!=0)]['freq'].max()
+            temp_out =  temp_out.append(df.loc[(df['lz']==j) & (df['radius']==0)],ignore_index=True)
+            df.drop(df[(df['lz']==j) & (df['radius']==0)].index, inplace=True)
+        outliers.append(temp_out.iloc[:,0:4])
+        dataframe_lists.append(df.iloc[:,0:4])
+
+    return outliers, dataframe_lists
+
 def read_file(file_path, num_of_scenes=50):
     """Reads in the 50 scenes in to the memory and then slices the data frame to achieve optimization
     Takes 1.72 sec to read the 50 scenes file into memory
@@ -30,13 +74,13 @@ def read_file(file_path, num_of_scenes=50):
 def input_nn(object_points, x_range, y_range, grid_size, img_length, img_height, view):
     """Function to create the input to the cnn function, need to see the time and optimize it later"""
     # Need to check the time
-    start_time = datetime.now()
+    # start_time = datetime.now()
 
     # create an empty numpy array for the counts
     n_rows = int(img_height / grid_size)
     n_cols = int(img_length / grid_size)
 
-    input_list = np.zeros((n_rows, n_cols))
+    # input_list = np.zeros((n_rows, n_cols))
 
     # Populate the input array
     gridx = np.linspace(x_range[0], x_range[1], n_cols + 1)
@@ -314,7 +358,7 @@ def data_prep(save_here):
     # Required variables
     num_linear_transformations = 4
     num_of_scenes = 50
-    path_to_pkl = "../object-net/outliers.pkl"
+    path_to_pkl = "../outliers.pkl"
     grid_size = 0.1
     num_clusters = 4
     img_length = 10
@@ -323,6 +367,9 @@ def data_prep(save_here):
     # Folder names
     folder_path = "/home/samba693/DataChallenge/debs2019_initial_dataset"
 
+    # Create the outliers
+    get_outliers(folder_path)
+
     # Preparing the data
     for i in list_of_object_choice:
         prepare_and_save_input(i, object_names, folder_path, num_linear_transformations,\
@@ -330,6 +377,6 @@ def data_prep(save_here):
                               num_clusters, img_length, img_height, save_here)
 
 if __name__ == "__main__":
-    save_here = "../dummy/"
+    save_here = "../data/"
     data_prep(save_here)
     

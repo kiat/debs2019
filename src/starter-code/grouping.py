@@ -5,7 +5,7 @@ import random
 from sklearn.cluster import KMeans
 
 # ToDo: optimize this function by storing the below lists of max and min radius and by considering only up certain laser number. 
-def remove_outliers(dataframes, number_of_scenes=1, path_to_pkl="../object-net/outliers.pkl"):
+def remove_outliers(dataframes, number_of_scenes=1, path_to_pkl="../outliers.pkl"):
     """Takes 0.36 sec to remove the outliers in each scene,Function to remove outliers"""    
     object_points = []
     outliers = pd.read_pickle(path_to_pkl)

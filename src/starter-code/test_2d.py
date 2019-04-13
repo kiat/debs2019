@@ -65,7 +65,7 @@ def return_prediction(data_frame, session, object_names, img_length, img_height,
 
 def test():
     # Creating the session
-    session, object_names, img_length, img_height, y_pred_cls, x = load_graph("../dummy/two_d_cnn.ckpt")
+    session, object_names, img_length, img_height, y_pred_cls, x = load_graph()
 
     # Folder names
     folder_path1 = "/home/samba693/DataChallenge/debs2019_dataset2"

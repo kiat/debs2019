@@ -39,3 +39,9 @@ my_env/
 __pycache__
 *.pyc
 *.ipynb_checkpoints/
+*.jpg
+*.npy
+*.index
+*.meta
+checkpoint
+*ckpt*

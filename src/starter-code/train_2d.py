@@ -76,7 +76,7 @@ def train():
     optimize(2000, train_batch_size, train_input_encode, train_out_encode, session,x, y_true, optimizer, accuracy)
 
     # saving the model
-    path_to_model = "../dummy/two_d_cnn.ckpt"
+    path_to_model = "../models/two_d_cnn.ckpt"
     save_model(session, path_to_model)
 
     # plot the test accuracy in between
