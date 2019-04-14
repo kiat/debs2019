@@ -103,6 +103,23 @@ class ClassifyWith2dCnn(object):
             layer = tf.nn.relu(layer)
         return layer
 
+    # Drop out layer
+    def new_drop_out(self, input_layer, num_inputs, num_outputs, use_relu=True):
+        # Create the new weights and biases
+        weights = self.new_weights(shape=[num_inputs, num_outputs])
+        biases = self.new_biases(length=num_outputs)
+
+        # Create the drop out layer
+        dropped = tf.nn.dropout(input_layer, keep_prob = 0.5)
+
+        # calculating the layer
+        layer = tf.matmul(dropped, weights) + biases
+
+        # check if is relu
+        if use_relu:
+            layer = tf.nn.relu(layer)
+        return layer
+
     def sample_structure(self):
         x = tf.placeholder(tf.float32, shape=[None, self.img_size_flat], name="x")
         x_image = tf.reshape(x, [-1, self.img_shape[0], self.img_shape[1], self.num_channels])
@@ -130,12 +147,14 @@ class ClassifyWith2dCnn(object):
             num_outputs=self.fc_size,
             use_relu=True,
         )
+        layer_dropout = tf.nn.dropout(layer_fc1 ,keep_prob=0.8)
         layer_fc2 = self.new_fc_layer(
-            input_layer=layer_fc1,
+            input_layer=layer_dropout,
             num_inputs=self.fc_size,
             num_outputs=self.num_classes,
             use_relu=False,
         )
+
         y_pred = tf.nn.softmax(layer_fc2)
         y_pred_cls = tf.argmax(y_pred, axis=1)
         

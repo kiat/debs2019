@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 from cnn2d import ClassifyWith2dCnn
-from data import train_test_split, encode_output, flat_input, optimize
+from data import train_test_split, encode_output, flat_input, optimize, print_test_accuracy
 
 # saving the model
 def save_model(session, path_to_model):
@@ -66,6 +66,7 @@ def train():
     session = cnn2d.session
     x = cnn2d.x
     y_true = cnn2d.y_true
+    y_pred_cls = cnn2d.y_pred_cls_
     optimizer = cnn2d.optimizer
     accuracy = cnn2d.accuracy
 
@@ -73,13 +74,15 @@ def train():
     session.run(tf.global_variables_initializer())
     train_batch_size = 32
 
-    optimize(2000, train_batch_size, train_input_encode, train_out_encode, session,x, y_true, optimizer, accuracy)
+    optimize(40, train_batch_size, train_input_encode, train_out_encode, session,x, y_true, optimizer, accuracy)
 
     # saving the model
     path_to_model = "../models/two_d_cnn.ckpt"
     save_model(session, path_to_model)
 
     # plot the test accuracy in between
+    print_test_accuracy(test_input_encode, test_out_encode, session, y_true, y_pred_cls, x)
+
 
 if __name__ == "__main__":
     train()

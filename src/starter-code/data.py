@@ -1,3 +1,4 @@
+import math
 import pandas as pd
 import numpy as np
 from datetime import datetime
@@ -7,6 +8,7 @@ import random
 from operator import itemgetter
 from functools import reduce
 
+import tensorflow as tf
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from grouping import remove_outliers, helper_object_points, max_min
 
@@ -264,12 +266,30 @@ def optimize(num_iterations, train_batch_size, input_train, output_train, sessio
     # Start time
     start_time = datetime.now()
 
-    for i in range(num_iterations):
+    num_of_batches = math.ceil(len(input_train)/train_batch_size)
 
-        # get the batch of the training examples
-        x_batch, y_true_batch = random_batch(
-            input_train, output_train, batch_size= train_batch_size
-        )
+    # Converting the input into tensors
+    x_batch1 = tf.convert_to_tensor(input_train)
+    y_true_batch1 = tf.convert_to_tensor(output_train)
+
+    # Creating the input_queue
+    input_queue = tf.train.slice_input_producer([x_batch1, y_true_batch1])
+
+    # Slicing the image
+    sliced_x = input_queue[0]
+    sliced_y = input_queue[1]
+
+    # Batching the queue 
+    x_batch2, y_true_batch2 = tf.train.batch([sliced_x, sliced_y], batch_size = train_batch_size, allow_smaller_final_batch=True)
+
+    # Coordinating te multi threaded function
+    coord = tf.train.Coordinator()
+    threads = tf.train.start_queue_runners(coord=coord, sess = session)
+
+    
+    for i in range(num_of_batches*num_iterations):
+
+        x_batch, y_true_batch = session.run([x_batch2, y_true_batch2])
 
         # Put the batch in the dict with the proper names
         feed_dict_train = {x: x_batch, y_true: y_true_batch}
@@ -278,21 +298,32 @@ def optimize(num_iterations, train_batch_size, input_train, output_train, sessio
         session.run(optimizer, feed_dict=feed_dict_train)
 
         # printing status for every 10 iterations
-        if i % 100 == 0:
+        if i % num_of_batches == 0:
+
+            print("num_iterations {}".format(num_iterations))
+            print(i)
+            print("num_of_batches {}".format(num_of_batches))
+            x_batch3, y_true_batch3 = random_batch(input_train, output_train, 100)
             # Calculate the accuracy on the training set
-            acc = session.run(accuracy, feed_dict=feed_dict_train)
+            acc = session.run(accuracy, feed_dict={x: x_batch3, y_true: y_true_batch3})
             print(
                 "Optimization Iteration: {0:>6}, Training Accuracy: {1:6.1%}".format(
-                    i + 1, acc
+                    (i/num_of_batches) + 1, acc
                 )
             )
+        
+    
+    coord.request_stop()
+    coord.join(threads) 
+        
+        
 
     # Ending time
     end_time = datetime.now()
 
     print("Time usage: {}".format(end_time - start_time))
 
-def print_test_accuracy(self, test_input, test_output, show_confusion_matrix=False):
+def print_test_accuracy(test_input, test_output, session, y_true, y_pred_cls, x,  show_confusion_matrix=False):
 
     # number of images in the test -set
     num_test = len(test_input)
@@ -302,6 +333,8 @@ def print_test_accuracy(self, test_input, test_output, show_confusion_matrix=Fal
 
     # Starting index
     i = 0
+    
+    test_batch_size = 64
 
     while i < num_test:
         # J is the ending index
