@@ -12,7 +12,6 @@ import tensorflow as tf
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from grouping import remove_outliers, helper_object_points, max_min
 
-
 # Fixed Outliers
 def get_outliers(file_path):
     # Take the outliers
@@ -369,7 +368,7 @@ def print_test_accuracy(test_input, test_output, session, y_true, y_pred_cls, x,
     # Plot the confusion matrix, if desired.
     if show_confusion_matrix:
         print("Confusion Matrix:")
-        Visualization().plot_confusion_matrix(cls_pred, cls_true)
+        # Visualization().plot_confusion_matrix(cls_pred, cls_true)
 
 def data_prep(save_here):
     # list of individual objects
