@@ -184,7 +184,7 @@ def prepare_and_save_input(
     np.save("{}/{}_output.npy".format(save_here, object_names[object_choice]), output)
 
 
-def train_test_split(object_id, object_names, target):
+def train_test_split(object_id, object_names, target, train_percent=0.7):
     """
         Function that creates the train and test split
     """
@@ -202,7 +202,7 @@ def train_test_split(object_id, object_names, target):
     # use random.Random(4) for fixing the seed
     random.shuffle(c)
 
-    num_of_train = int(round(0.7 * len(c)))
+    num_of_train = int(round(train_percent * len(c)))
     train = c[:num_of_train]
     test = c[num_of_train:]
 
@@ -242,7 +242,7 @@ def encode_output(output_arr):
     # returning the encoders and encoded values
     return encoded_out_test, encoder, encoder1
 
-def random_batch(input_train, output_train, batch_size):
+def train_validation(input_train, output_train, batch_size):
     # zipping the input and output
     zipped_data = list(zip(input_train, output_train))
 
@@ -250,20 +250,37 @@ def random_batch(input_train, output_train, batch_size):
     random.shuffle(zipped_data)
 
     # select the elements equal to batch_size
-    zipped_data = zipped_data[:batch_size]
-
+    zipped_data1 = zipped_data[:batch_size]
+    zipped_data2 = zipped_data[batch_size:]
     # unzip the elements
-    to_return = list(zip(*zipped_data))
+    to_return = list(zip(*zipped_data1))
     x_batch = np.array(to_return[0], dtype=np.float32)
     y_batch = np.array(to_return[1], dtype=np.float32)
 
-    # return the elements
-    return x_batch, y_batch
+    to_return = list(zip(*zipped_data2))
+    val_x = np.array(to_return[0], dtype=np.float32)
+    val_y = np.array(to_return[1], dtype=np.float32)
 
-def optimize(num_iterations, train_batch_size, input_train, output_train, session, x, y_true, optimizer, accuracy):
+    # return the elements
+    return x_batch, y_batch, val_x, val_y
+
+def optimize(num_iterations, train_batch_size, input_train, output_train, session, x, y_true, optimizer, accuracy, cost):
 
     # Start time
     start_time = datetime.now()
+
+    # input and validation
+    len_validation_from = len(input_train)-int(len(input_train)/7)
+    
+    input_train, output_train, val_input, val_output = train_validation(input_train, output_train, len_validation_from)
+    
+    # Accuracy and cost lists
+    train_loss = []
+    val_loss= []
+
+    train_accu = []
+    val_accu = []
+
 
     num_of_batches = math.ceil(len(input_train)/train_batch_size)
 
@@ -299,15 +316,41 @@ def optimize(num_iterations, train_batch_size, input_train, output_train, sessio
         # printing status for every 10 iterations
         if i % num_of_batches == 0:
 
-            print("num_iterations {}".format(num_iterations))
-            print(i)
-            print("num_of_batches {}".format(num_of_batches))
-            x_batch3, y_true_batch3 = random_batch(input_train, output_train, 100)
-            # Calculate the accuracy on the training set
-            acc = session.run(accuracy, feed_dict={x: x_batch3, y_true: y_true_batch3})
+            count = 0
+            val_acc = 0
+            val_cost = 0
+            
+            for j in range(int(len(val_input)/100)):
+                val_acc = val_acc+session.run(accuracy, feed_dict={x: np.array(val_input[j*100:(j+1)*100], dtype=np.float32), y_true: np.array(val_output[j*100:(j+1)*100], dtype=np.float32)})
+                val_cost = val_cost+session.run(cost, feed_dict={x: np.array(val_input[j*100:(j+1)*100], dtype=np.float32), y_true: np.array(val_output[j*100:(j+1)*100], dtype=np.float32)})
+                count+=1
+            
+            val_acc = val_acc/count
+            val_cost = val_cost/count
+
+            val_accu.appen(val_acc)
+            val_loss.append(val_cost)
+
+            # Calculating the train accuracy
+            count = 0
+            train_acc = 0
+            train_cost = 0
+            
+            for j in range(int(len(input_train)/100)):
+                train_acc = train_acc+session.run(accuracy, feed_dict={x: np.array(input_train[j*100:(j+1)*100], dtype=np.float32), y_true: np.array(output_train[j*100:(j+1)*100], dtype=np.float32)})
+                train_cost = train_cost+session.run(cost, feed_dict={x: np.array(input_train[j*100:(j+1)*100], dtype=np.float32), y_true: np.array(output_train[j*100:(j+1)*100], dtype=np.float32)})
+                count+=1
+            
+            train_acc = train_acc/count
+            train_cost = train_cost/count
+
+            train_accu.append(train_acc)
+            train_loss.append(train_cost)
+            
+            print("---------")
             print(
-                "Optimization Iteration: {0:>6}, Training Accuracy: {1:6.1%}".format(
-                    (i/num_of_batches) + 1, acc
+                "Optimization Epochs: {0:>6}, Training Accuracy: {1:6.1%}, validation Accuracy: {2:6.1%}, training cost: {3}, val_cost: {4}".format(
+                    (i/num_of_batches) + 1, train_acc, val_acc, train_cost, val_cost
                 )
             )
         
@@ -321,6 +364,7 @@ def optimize(num_iterations, train_batch_size, input_train, output_train, sessio
     end_time = datetime.now()
 
     print("Time usage: {}".format(end_time - start_time))
+    return train_accu, val_accu, train_loss, val_loss
 
 def print_test_accuracy(test_input, test_output, session, y_true, y_pred_cls, x,  show_confusion_matrix=False):
 

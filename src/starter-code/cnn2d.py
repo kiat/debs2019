@@ -26,7 +26,8 @@ class ClassifyWith2dCnn(object):
         self.y_true = None
         self.accuracy = None
         self.optimizer = None
-
+        self.cost = None
+        
         # Varaibles to give the dimensions for the layers of graph
         self.img_shape = img_shape
         self.img_size_flat = img_shape[0]*img_shape[1]
@@ -140,6 +141,23 @@ class ClassifyWith2dCnn(object):
             num_filters=self.num_filters2,
             use_pooling=True,
         )
+
+        # layer_conv3, weights_conv3 = self.new_conv_layer(
+        #     input_layer=layer_conv2,
+        #     num_input_channels=self.num_filters1,
+        #     filter_size=self.filter_size2,
+        #     num_filters=self.num_filters2,
+        #     use_pooling=False,
+        # )
+
+        # layer_conv4, weights_conv4 = self.new_conv_layer(
+        #     input_layer=layer_conv3,
+        #     num_input_channels=self.num_filters1,
+        #     filter_size=self.filter_size2,
+        #     num_filters=self.num_filters2,
+        #     use_pooling=True,
+        # )
+
         layer_flat, num_features = self.flatten_layer(layer_conv2)
         layer_fc1 = self.new_fc_layer(
             input_layer=layer_flat,
@@ -172,4 +190,5 @@ class ClassifyWith2dCnn(object):
         self.y_true = y_true
         self.accuracy = accuracy
         self.optimizer = optimizer
+        self.cost = cost
         
