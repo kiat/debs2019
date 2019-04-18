@@ -45,8 +45,9 @@ Note: Place the dataset in the `dataset` directory.
 ---------------
 
 - Prepare the data for training the model.
-    - Features: Removing ground and noise  
-    - CMD: `python utils/data-prep.py`
+    - Features: Removing ground and noise
+    - CMD: `cd utils`
+    - CMD: `python data-prep.py`
    
 - Train the model.
     - CMD: `python train.py`

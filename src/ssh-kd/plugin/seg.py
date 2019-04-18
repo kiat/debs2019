@@ -6,7 +6,7 @@ from sklearn.cluster import KMeans
 from sklearn.cluster import DBSCAN
 
 
-def remove_outliers(dataframes, number_of_scenes=1, path_to_pkl="outliers.pkl"):
+def remove_outliers(dataframes, number_of_scenes=1, path_to_pkl="data/outliers.pkl"):
     """Takes 0.36 sec to remove the outliers in each scene,Function to remove outliers"""
     object_points = []
     outliers = pd.read_pickle(path_to_pkl)

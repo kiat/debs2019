@@ -40,9 +40,17 @@ __pycache__
 *.pyc
 *.ipynb_checkpoints/
 *.jpg
+*.png
+
+# Training data files
 *.npy
+
+# model files
 *.index
 *.meta
 checkpoint
 *ckpt*
+
+# original data files
 *.csv
+*.pkl

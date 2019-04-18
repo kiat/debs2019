@@ -2,9 +2,10 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 
 from plugin.model import ClassifyWith2dCnn
-from utils.data_prep import train_test_split, optimize, print_test_accuracy
+from utils.data_prep import train_test_split
 from plugin.encode import flat_input, encode_output
 from plugin.load_model import object_names_func
+from utils.optimize import optimize, print_test_accuracy
 
 # saving the model
 def save_model(session, path_to_model):
@@ -35,7 +36,6 @@ def train_test(list_of_objects, object_names, target):
 
 
 def train():
-    # objects
 
     # target
     target = "data"
@@ -44,6 +44,7 @@ def train():
     list_of_object_choice = list(range(29))
     list_of_object_choice.remove(22)
     object_names = object_names_func()
+    
     # Prepare the data
     input_train, input_test, output_train, output_test = train_test(
         list_of_object_choice, object_names, target
@@ -74,7 +75,7 @@ def train():
     train_batch_size = 32
 
     train_acc, val_acc, train_cost, val_cost = optimize(
-        27,
+        2,
         train_batch_size,
         train_input_encode,
         train_out_encode,
@@ -83,7 +84,7 @@ def train():
         y_true,
         optimizer,
         accuracy,
-        cost,
+        cost
     )
 
     fig = plt.figure()
