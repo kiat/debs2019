@@ -1,4 +1,7 @@
 import tensorflow as tf
+from .model import ClassifyWith2dCnn
+from .pred import convert_pred_to_dict
+
 
 # object names
 def object_names_func():
@@ -36,10 +39,10 @@ def object_names_func():
     }
 
     return object_names
-    
-# create the model and restore the weights
-def load_graph(path_to_model="../models/two_d_cnn.ckpt"):
 
+
+# create the model and restore the weights
+def load_graph(path_to_model="model/two_d_cnn.ckpt"):
     # variable
     img_length = 10
     img_height = 7
@@ -54,11 +57,16 @@ def load_graph(path_to_model="../models/two_d_cnn.ckpt"):
     session = cnn2d.session
     session.run(tf.global_variables_initializer())
     saver.restore(session, path_to_model)
-    y_pred_cls =  cnn2d.y_pred_cls_
+    y_pred_cls = cnn2d.y_pred_cls_
     x = cnn2d.x
-    
+
     return session, img_length, img_height, y_pred_cls, x
 
+
 # Remove the outliers, segment the data, predict the output and return json
-def return_prediction(data_frame, session, img_length, img_height, y_pred_cls, x):
-    return convert_pred_to_dict(data_frame,session, img_length, img_height, y_pred_cls, x)
+def return_prediction(
+    data_frame, session, object_names, img_length, img_height, y_pred_cls, x
+):
+    return convert_pred_to_dict(
+        data_frame, session, object_names, img_length, img_height, y_pred_cls, x
+    )

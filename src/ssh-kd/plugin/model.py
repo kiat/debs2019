@@ -4,16 +4,18 @@ import tensorflow as tf
 """
     This class creates an  tensor flow graph 2_D_CNN graph
 """
+
+
 class ClassifyWith2dCnn(object):
     def __init__(
-        self, 
-        img_shape=(70,100), 
-        num_classes = 28,
-        num_channels = 1, 
-        filter_size = 5, 
-        number_of_filters = 16, 
-        fc_size = 128
-        ):
+        self,
+        img_shape=(70, 100),
+        num_classes=28,
+        num_channels=1,
+        filter_size=5,
+        number_of_filters=16,
+        fc_size=128,
+    ):
 
         # To see the version of the tensorflow
         self.__version__ = tf.__version__
@@ -26,10 +28,10 @@ class ClassifyWith2dCnn(object):
         self.accuracy = None
         self.optimizer = None
         self.cost = None
-        
+
         # Varaibles to give the dimensions for the layers of graph
         self.img_shape = img_shape
-        self.img_size_flat = img_shape[0]*img_shape[1]
+        self.img_size_flat = img_shape[0] * img_shape[1]
         self.num_classes = num_classes
         self.num_channels = num_channels
         self.filter_size1 = filter_size
@@ -41,7 +43,7 @@ class ClassifyWith2dCnn(object):
     def new_weights(self, shape):
         return tf.Variable(tf.truncated_normal(shape, stddev=0.05))
 
-    def new_biases(self,length):
+    def new_biases(self, length):
         return tf.Variable(tf.constant(0.05, shape=[length]))
 
     def new_conv_layer(
@@ -110,7 +112,7 @@ class ClassifyWith2dCnn(object):
         biases = self.new_biases(length=num_outputs)
 
         # Create the drop out layer
-        dropped = tf.nn.dropout(input_layer, keep_prob = 0.5)
+        dropped = tf.nn.dropout(input_layer, keep_prob=0.5)
 
         # calculating the layer
         layer = tf.matmul(dropped, weights) + biases
@@ -122,8 +124,12 @@ class ClassifyWith2dCnn(object):
 
     def sample_structure(self):
         x = tf.placeholder(tf.float32, shape=[None, self.img_size_flat], name="x")
-        x_image = tf.reshape(x, [-1, self.img_shape[0], self.img_shape[1], self.num_channels])
-        y_true = tf.placeholder(tf.float32, shape=[None, self.num_classes], name="y_true")
+        x_image = tf.reshape(
+            x, [-1, self.img_shape[0], self.img_shape[1], self.num_channels]
+        )
+        y_true = tf.placeholder(
+            tf.float32, shape=[None, self.num_classes], name="y_true"
+        )
         y_true_cls = tf.argmax(y_true, axis=1)
         layer_conv1, weights_conv1 = self.new_conv_layer(
             input_layer=x_image,
@@ -164,7 +170,7 @@ class ClassifyWith2dCnn(object):
             num_outputs=self.fc_size,
             use_relu=True,
         )
-        layer_dropout = tf.nn.dropout(layer_fc1 ,keep_prob=0.8)
+        layer_dropout = tf.nn.dropout(layer_fc1, keep_prob=0.8)
         layer_fc2 = self.new_fc_layer(
             input_layer=layer_dropout,
             num_inputs=self.fc_size,
@@ -174,8 +180,7 @@ class ClassifyWith2dCnn(object):
 
         y_pred = tf.nn.softmax(layer_fc2)
         y_pred_cls = tf.argmax(y_pred, axis=1)
-        
-        
+
         cross_entropy = tf.nn.softmax_cross_entropy_with_logits(
             logits=layer_fc2, labels=y_true
         )
@@ -190,4 +195,3 @@ class ClassifyWith2dCnn(object):
         self.accuracy = accuracy
         self.optimizer = optimizer
         self.cost = cost
-        

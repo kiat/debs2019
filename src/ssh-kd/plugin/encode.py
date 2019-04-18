@@ -1,13 +1,14 @@
+# packages
+import numpy as np
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+
+
 def input_nn(object_points, x_range, y_range, grid_size, img_length, img_height, view):
-    """Function to create the input to the cnn function, need to see the time and optimize it later"""
-    # Need to check the time
-    # start_time = datetime.now()
+    """Function to create the input to the cnn function, need to see the time and optimize it later."""
 
     # create an empty numpy array for the counts
     n_rows = int(img_height / grid_size)
     n_cols = int(img_length / grid_size)
-
-    # input_list = np.zeros((n_rows, n_cols))
 
     # Populate the input array
     gridx = np.linspace(x_range[0], x_range[1], n_cols + 1)
@@ -21,19 +22,19 @@ def input_nn(object_points, x_range, y_range, grid_size, img_length, img_height,
 
     y = np.array(object_points["Y"])
 
+    # compute the bi-dimensional histogram of two data samples
     grid, _, _ = np.histogram2d(x, y, bins=[gridx, gridy])
-
-    #     print("Time taken = {}".format(datetime.now()-start_time))
 
     # Returning the input
     return np.rot90(grid)
 
+
 def flat_input(input_arr):
     """
-        Converting the input arr into flat array and return the flattened input array for training
+        Converting the input arr into flat array and return the flattened input array for training.
     """
-    # Reshape each numpy array in the list
     to_return = []
+    # Reshape each numpy array in the list
     for i in input_arr:
         to_return.append(i.flatten())
     return np.array(to_return)
@@ -41,7 +42,7 @@ def flat_input(input_arr):
 
 def encode_output(output_arr):
     """
-        Encodes the output arr to one hot encoding and return the encoders and encoded values
+        Encodes the output arr to one hot encoding and return the encoders and encoded values.
     """
     # Transforming the output to one hot encoding, buy using label encoder at first and then one hot encoder
     encoder = LabelEncoder()

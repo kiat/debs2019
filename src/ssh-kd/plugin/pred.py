@@ -1,3 +1,13 @@
+import numpy as np
+from .seg import (
+    remove_outliers,
+    helper_object_points,
+    max_min,
+    prepare_data,
+    list_of_objects,
+)
+from .encode import input_nn, flat_input
+
 # Function for pred the input
 def pred_scene(test_input, session, y_pred_cls, x):
     test_batch_size = 64
@@ -45,14 +55,11 @@ def predict(data_frame, session, img_length, img_height, y_pred_cls, x):
         dummy_input.append(object_arr)
     return pred_scene(np.array(dummy_input), session, y_pred_cls, x)
 
-# Take the predicted list and convert to dictionary of object counts for each scene
-def convert_pred_to_dict(data_frame, 
-                        session,
-                        object_names,
-                        img_length,
-                        img_height,
-                        y_pred_cls, x):
 
+# Take the predicted list and convert to dictionary of object counts for each scene
+def convert_pred_to_dict(
+    data_frame, session, object_names, img_length, img_height, y_pred_cls, x
+):
     output_pred = predict(data_frame, session, img_length, img_height, y_pred_cls, x)
     a = {}
     for j in output_pred:
@@ -66,5 +73,5 @@ def convert_pred_to_dict(data_frame,
                 a[object_names[j]] = a[object_names[j]] + 1
             else:
                 a[object_names[j]] = 1
-        
+
     return a

@@ -3,10 +3,11 @@ import pandas as pd
 import numpy as np
 import random
 from sklearn.cluster import KMeans
+from sklearn.cluster import DBSCAN
 
-# ToDo: optimize this function by storing the below lists of max and min radius and by considering only up certain laser number. 
-def remove_outliers(dataframes, number_of_scenes=1, path_to_pkl="../outliers.pkl"):
-    """Takes 0.36 sec to remove the outliers in each scene,Function to remove outliers"""    
+
+def remove_outliers(dataframes, number_of_scenes=1, path_to_pkl="outliers.pkl"):
+    """Takes 0.36 sec to remove the outliers in each scene,Function to remove outliers"""
     object_points = []
     outliers = pd.read_pickle(path_to_pkl)
     max_rad = []
@@ -45,7 +46,6 @@ def helper_object_points(object_points, num_clusters):
     return object_points
 
 
-# TODO: think to remove this function
 def max_min(obj_data, img_length, img_height, view):
     """
     This function fits the points into the constant scale by calculating the x_max, x_min and y_max and y_min
@@ -93,7 +93,6 @@ def max_min(obj_data, img_length, img_height, view):
     return x_max, x_min, y_max, y_min
 
 
-# TODO: think to remove this function
 def generate_random(residual):
     """
     Helper function for max_min to generate random numbers
@@ -103,12 +102,8 @@ def generate_random(residual):
     first = random.randint(1, 20)
     sec = random.randint(1, 20)
     tot = float(first + sec)
-    return (first * residual / tot, sec * residual / tot)
+    return first * residual / tot, sec * residual / tot
 
-import numpy as np
-from sklearn.cluster import DBSCAN
-from grouping import remove_outliers, helper_object_points, max_min
-from data import input_nn, flat_input
 
 # Using the DB Scan of scikit learn for segmenting the data, take in the dataframe and return the labeled_df
 # This DB scan is sensitive to starting point

@@ -3,29 +3,33 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 
+
 # Library for generating the random numbers
 import random
 from operator import itemgetter
-from functools import reduce
+import sys, os
+
+sys.path.insert(0, os.path.abspath(".."))
+from plugin.seg import remove_outliers, helper_object_points, max_min
+from plugin.encode import input_nn
 
 import tensorflow as tf
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 # Fixed Outliers
 def get_outliers(file_path):
     # Take the outliers
-    outliers , others = helper_outliers("{}/Atm/in.csv".format(file_path))
+    outliers, others = helper_outliers("{}/Atm/in.csv".format(file_path))
 
-    # get the min and max values for each outlier range 
+    # get the min and max values for each outlier range
     for i in outliers:
-        i['radiusSquare'] = i['X']**2+i['Y']**2+i['Z']**2
-        i['radius'] = np.sqrt(i['radiusSquare']).round(1)
-        i = i[i['radius']>0]
-        i['max'] = i.groupby(['lz'])['radius'].transform('max')
-        i['min'] = i.groupby(['lz'])['radius'].transform('min')
-        i = i[['lz','max','min']]
-        i.drop_duplicates(subset=['lz','max','min'],inplace=True)
-    
+        i["radiusSquare"] = i["X"] ** 2 + i["Y"] ** 2 + i["Z"] ** 2
+        i["radius"] = np.sqrt(i["radiusSquare"]).round(1)
+        i = i[i["radius"] > 0]
+        i["max"] = i.groupby(["lz"])["radius"].transform("max")
+        i["min"] = i.groupby(["lz"])["radius"].transform("min")
+        i = i[["lz", "max", "min"]]
+        i.drop_duplicates(subset=["lz", "max", "min"], inplace=True)
+
     # Save the data frame
     i.to_pickle("../outliers.pkl")
 
@@ -38,28 +42,43 @@ def helper_outliers(file_path):
     # Creating the dataframe and selecting the required columns
     for i in range(1):
         temp_out = pd.DataFrame()
-        df = pd.read_csv(file_path, usecols=[1,2,3,4], skiprows=i*72000, nrows = 72000, names=["lz","X","Y","Z"])
-        df['radiusSquare'] = df['X']*df['X']+df['Y']*df['Y']+df['Z']*df['Z']
-        df['radius'] = np.sqrt(df['radiusSquare']).round(1)
-        df['freq'] = df.groupby(['lz','radius'])['radius'].transform('count')
+        df = pd.read_csv(
+            file_path,
+            usecols=[1, 2, 3, 4],
+            skiprows=i * 72000,
+            nrows=72000,
+            names=["lz", "X", "Y", "Z"],
+        )
+        df["radiusSquare"] = df["X"] * df["X"] + df["Y"] * df["Y"] + df["Z"] * df["Z"]
+        df["radius"] = np.sqrt(df["radiusSquare"]).round(1)
+        df["freq"] = df.groupby(["lz", "radius"])["radius"].transform("count")
         for j in range(64):
-            maxfreq = df[(df['lz']==j) & (df['radius']!=0)]['freq'].max()
-            while maxfreq>75:
-                temp_out =  temp_out.append(df.loc[(df['lz']==j) & (df['freq']==maxfreq)],ignore_index=True)
-                df.drop(df[(df['lz']==j) & (df['freq']==maxfreq)].index, inplace=True)
-                maxfreq = df[(df['lz']==j) & (df['radius']!=0)]['freq'].max()
-            temp_out =  temp_out.append(df.loc[(df['lz']==j) & (df['radius']==0)],ignore_index=True)
-            df.drop(df[(df['lz']==j) & (df['radius']==0)].index, inplace=True)
-        outliers.append(temp_out.iloc[:,0:4])
-        dataframe_lists.append(df.iloc[:,0:4])
+            maxfreq = df[(df["lz"] == j) & (df["radius"] != 0)]["freq"].max()
+            while maxfreq > 75:
+                temp_out = temp_out.append(
+                    df.loc[(df["lz"] == j) & (df["freq"] == maxfreq)], ignore_index=True
+                )
+                df.drop(
+                    df[(df["lz"] == j) & (df["freq"] == maxfreq)].index, inplace=True
+                )
+                maxfreq = df[(df["lz"] == j) & (df["radius"] != 0)]["freq"].max()
+            temp_out = temp_out.append(
+                df.loc[(df["lz"] == j) & (df["radius"] == 0)], ignore_index=True
+            )
+            df.drop(df[(df["lz"] == j) & (df["radius"] == 0)].index, inplace=True)
+        outliers.append(temp_out.iloc[:, 0:4])
+        dataframe_lists.append(df.iloc[:, 0:4])
 
     return outliers, dataframe_lists
+
 
 def read_file(file_path, num_of_scenes=50):
     """Reads in the 50 scenes in to the memory and then slices the data frame to achieve optimization
     Takes 1.72 sec to read the 50 scenes file into memory
     Slicing each scene takes 0.32 milli seconds on average"""
-    giant_df = pd.read_csv(file_path, usecols=[1, 2, 3, 4], names=["laser_id", "X", "Y", "Z"])
+    giant_df = pd.read_csv(
+        file_path, usecols=[1, 2, 3, 4], names=["laser_id", "X", "Y", "Z"]
+    )
     num_of_scenes = len(giant_df) / 72000
     dataframes = []
 
@@ -69,6 +88,7 @@ def read_file(file_path, num_of_scenes=50):
         dataframes.append(giant_df.iloc[start:end, :])
 
     return dataframes
+
 
 def prepare_and_save_input(
     object_choice,
@@ -147,7 +167,9 @@ def prepare_and_save_input(
             output.append(object_names[object_choice])
 
             # Save the objects
-    np.save("{}/{}_input.npy".format(save_here, object_names[object_choice]), input_data)
+    np.save(
+        "{}/{}_input.npy".format(save_here, object_names[object_choice]), input_data
+    )
     np.save("{}/{}_output.npy".format(save_here, object_names[object_choice]), output)
 
 
@@ -156,8 +178,8 @@ def train_test_split(object_id, object_names, target, train_percent=0.7):
         Function that creates the train and test split
     """
     # Input file and output file names
-    file_name = "{}/{}_input.npy".format(target,object_names[object_id])
-    output_file = "{}/{}_output.npy".format(target,object_names[object_id])
+    file_name = "{}/{}_input.npy".format(target, object_names[object_id])
+    output_file = "{}/{}_output.npy".format(target, object_names[object_id])
 
     # loading the saved npy format data
     object_input = np.load(file_name)
@@ -182,6 +204,7 @@ def train_test_split(object_id, object_names, target, train_percent=0.7):
     # Adding them to the previous lists
     return train_input, test_input, train_output, test_output
 
+
 def train_validation(input_train, output_train, batch_size):
     # zipping the input and output
     zipped_data = list(zip(input_train, output_train))
@@ -204,25 +227,38 @@ def train_validation(input_train, output_train, batch_size):
     # return the elements
     return x_batch, y_batch, val_x, val_y
 
-def optimize(num_iterations, train_batch_size, input_train, output_train, session, x, y_true, optimizer, accuracy, cost):
+
+def optimize(
+    num_iterations,
+    train_batch_size,
+    input_train,
+    output_train,
+    session,
+    x,
+    y_true,
+    optimizer,
+    accuracy,
+    cost,
+):
 
     # Start time
     start_time = datetime.now()
 
     # input and validation
-    len_validation_from = len(input_train)-int(len(input_train)/7)
-    
-    input_train, output_train, val_input, val_output = train_validation(input_train, output_train, len_validation_from)
-    
+    len_validation_from = len(input_train) - int(len(input_train) / 7)
+
+    input_train, output_train, val_input, val_output = train_validation(
+        input_train, output_train, len_validation_from
+    )
+
     # Accuracy and cost lists
     train_loss = []
-    val_loss= []
+    val_loss = []
 
     train_accu = []
     val_accu = []
 
-
-    num_of_batches = math.ceil(len(input_train)/train_batch_size)
+    num_of_batches = math.ceil(len(input_train) / train_batch_size)
 
     # Converting the input into tensors
     x_batch1 = tf.convert_to_tensor(input_train)
@@ -235,15 +271,18 @@ def optimize(num_iterations, train_batch_size, input_train, output_train, sessio
     sliced_x = input_queue[0]
     sliced_y = input_queue[1]
 
-    # Batching the queue 
-    x_batch2, y_true_batch2 = tf.train.batch([sliced_x, sliced_y], batch_size = train_batch_size, allow_smaller_final_batch=True)
+    # Batching the queue
+    x_batch2, y_true_batch2 = tf.train.batch(
+        [sliced_x, sliced_y],
+        batch_size=train_batch_size,
+        allow_smaller_final_batch=True,
+    )
 
     # Coordinating te multi threaded function
     coord = tf.train.Coordinator()
-    threads = tf.train.start_queue_runners(coord=coord, sess = session)
+    threads = tf.train.start_queue_runners(coord=coord, sess=session)
 
-    
-    for i in range(num_of_batches*num_iterations):
+    for i in range(num_of_batches * num_iterations):
 
         x_batch, y_true_batch = session.run([x_batch2, y_true_batch2])
 
@@ -259,14 +298,34 @@ def optimize(num_iterations, train_batch_size, input_train, output_train, sessio
             count = 0
             val_acc = 0
             val_cost = 0
-            
-            for j in range(int(len(val_input)/100)):
-                val_acc = val_acc+session.run(accuracy, feed_dict={x: np.array(val_input[j*100:(j+1)*100], dtype=np.float32), y_true: np.array(val_output[j*100:(j+1)*100], dtype=np.float32)})
-                val_cost = val_cost+session.run(cost, feed_dict={x: np.array(val_input[j*100:(j+1)*100], dtype=np.float32), y_true: np.array(val_output[j*100:(j+1)*100], dtype=np.float32)})
-                count+=1
-            
-            val_acc = val_acc/count
-            val_cost = val_cost/count
+
+            for j in range(int(len(val_input) / 100)):
+                val_acc = val_acc + session.run(
+                    accuracy,
+                    feed_dict={
+                        x: np.array(
+                            val_input[j * 100 : (j + 1) * 100], dtype=np.float32
+                        ),
+                        y_true: np.array(
+                            val_output[j * 100 : (j + 1) * 100], dtype=np.float32
+                        ),
+                    },
+                )
+                val_cost = val_cost + session.run(
+                    cost,
+                    feed_dict={
+                        x: np.array(
+                            val_input[j * 100 : (j + 1) * 100], dtype=np.float32
+                        ),
+                        y_true: np.array(
+                            val_output[j * 100 : (j + 1) * 100], dtype=np.float32
+                        ),
+                    },
+                )
+                count += 1
+
+            val_acc = val_acc / count
+            val_cost = val_cost / count
 
             val_accu.append(val_acc)
             val_loss.append(val_cost)
@@ -275,30 +334,47 @@ def optimize(num_iterations, train_batch_size, input_train, output_train, sessio
             count = 0
             train_acc = 0
             train_cost = 0
-            
-            for j in range(int(len(input_train)/100)):
-                train_acc = train_acc+session.run(accuracy, feed_dict={x: np.array(input_train[j*100:(j+1)*100], dtype=np.float32), y_true: np.array(output_train[j*100:(j+1)*100], dtype=np.float32)})
-                train_cost = train_cost+session.run(cost, feed_dict={x: np.array(input_train[j*100:(j+1)*100], dtype=np.float32), y_true: np.array(output_train[j*100:(j+1)*100], dtype=np.float32)})
-                count+=1
-            
-            train_acc = train_acc/count
-            train_cost = train_cost/count
+
+            for j in range(int(len(input_train) / 100)):
+                train_acc = train_acc + session.run(
+                    accuracy,
+                    feed_dict={
+                        x: np.array(
+                            input_train[j * 100 : (j + 1) * 100], dtype=np.float32
+                        ),
+                        y_true: np.array(
+                            output_train[j * 100 : (j + 1) * 100], dtype=np.float32
+                        ),
+                    },
+                )
+                train_cost = train_cost + session.run(
+                    cost,
+                    feed_dict={
+                        x: np.array(
+                            input_train[j * 100 : (j + 1) * 100], dtype=np.float32
+                        ),
+                        y_true: np.array(
+                            output_train[j * 100 : (j + 1) * 100], dtype=np.float32
+                        ),
+                    },
+                )
+                count += 1
+
+            train_acc = train_acc / count
+            train_cost = train_cost / count
 
             train_accu.append(train_acc)
             train_loss.append(train_cost)
-            
+
             print("---------")
             print(
                 "Optimization Epochs: {0:>6}, Training Accuracy: {1:6.1%}, validation Accuracy: {2:6.1%}, training cost: {3}, val_cost: {4}".format(
-                    (i/num_of_batches) + 1, train_acc, val_acc, train_cost, val_cost
+                    (i / num_of_batches) + 1, train_acc, val_acc, train_cost, val_cost
                 )
             )
-        
-    
+
     coord.request_stop()
-    coord.join(threads) 
-        
-        
+    coord.join(threads)
 
     # Ending time
     end_time = datetime.now()
@@ -306,7 +382,10 @@ def optimize(num_iterations, train_batch_size, input_train, output_train, sessio
     print("Time usage: {}".format(end_time - start_time))
     return train_accu, val_accu, train_loss, val_loss
 
-def print_test_accuracy(test_input, test_output, session, y_true, y_pred_cls, x,  show_confusion_matrix=False):
+
+def print_test_accuracy(
+    test_input, test_output, session, y_true, y_pred_cls, x, show_confusion_matrix=False
+):
 
     # number of images in the test -set
     num_test = len(test_input)
@@ -316,7 +395,7 @@ def print_test_accuracy(test_input, test_output, session, y_true, y_pred_cls, x,
 
     # Starting index
     i = 0
-    
+
     test_batch_size = 64
 
     while i < num_test:
@@ -354,23 +433,45 @@ def print_test_accuracy(test_input, test_output, session, y_true, y_pred_cls, x,
         print("Confusion Matrix:")
         # Visualization().plot_confusion_matrix(cls_pred, cls_true)
 
+
 def data_prep(save_here):
     # list of individual objects
     list_of_object_choice = list(range(29))
     list_of_object_choice.remove(22)
 
     # objects
-    object_names = {0: 'Atm', 1: 'Bench', 2: 'BigSassafras', 3: 'BmwX5Simple', \
-                    4: 'ClothRecyclingContainer', 5: 'Cypress', 6: 'DrinkingFountain',\
-                    7: 'ElectricalCabinet', 8: 'EmergencyPhone', 9: 'FireHydrant',\
-                    10: 'GlassRecyclingContainer', 11: 'IceFreezerContainer', 12: 'Mailbox',\
-                    13: 'MetallicTrash', 14: 'MotorbikeSimple', 15: 'Oak', 16: 'OldBench',\
-                    17: 'Pedestrian', 18: 'PhoneBooth', 19: 'PublicBin', 20: 'Sassafras',\
-                    21: 'ScooterSimple', 22: 'set1', 23: 'ToyotaPriusSimple', 24: 'Tractor',\
-                    25: 'TrashBin', 26: 'TrashContainer', 27: 'UndergroundContainer',\
-                    28: 'WorkTrashContainer'}
+    object_names = {
+        0: "Atm",
+        1: "Bench",
+        2: "BigSassafras",
+        3: "BmwX5Simple",
+        4: "ClothRecyclingContainer",
+        5: "Cypress",
+        6: "DrinkingFountain",
+        7: "ElectricalCabinet",
+        8: "EmergencyPhone",
+        9: "FireHydrant",
+        10: "GlassRecyclingContainer",
+        11: "IceFreezerContainer",
+        12: "Mailbox",
+        13: "MetallicTrash",
+        14: "MotorbikeSimple",
+        15: "Oak",
+        16: "OldBench",
+        17: "Pedestrian",
+        18: "PhoneBooth",
+        19: "PublicBin",
+        20: "Sassafras",
+        21: "ScooterSimple",
+        22: "set1",
+        23: "ToyotaPriusSimple",
+        24: "Tractor",
+        25: "TrashBin",
+        26: "TrashContainer",
+        27: "UndergroundContainer",
+        28: "WorkTrashContainer",
+    }
 
-    
     # Required variables
     num_linear_transformations = 4
     num_of_scenes = 50
@@ -379,20 +480,29 @@ def data_prep(save_here):
     num_clusters = 4
     img_length = 10
     img_height = 7
-    
-    # Folder names
-    folder_path = "/home/samba693/DataChallenge/debs2019_initial_dataset"
 
+    # Folder names
+    dataset_dir = "../../dataset/train"
     # Create the outliers
-    get_outliers(folder_path)
+    get_outliers(dataset_dir)
 
     # Preparing the data
     for i in list_of_object_choice:
-        prepare_and_save_input(i, object_names, folder_path, num_linear_transformations,\
-                              num_of_scenes, path_to_pkl, grid_size,\
-                              num_clusters, img_length, img_height, save_here)
+        prepare_and_save_input(
+            i,
+            object_names,
+            dataset_dir,
+            num_linear_transformations,
+            num_of_scenes,
+            path_to_pkl,
+            grid_size,
+            num_clusters,
+            img_length,
+            img_height,
+            save_here,
+        )
+
 
 if __name__ == "__main__":
     save_here = "../data/"
     data_prep(save_here)
-    
