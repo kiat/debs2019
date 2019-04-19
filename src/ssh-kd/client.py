@@ -3,7 +3,7 @@ import json
 import pandas as pd
 import os
 
-from test import load_graph, return_prediction, object_names_func
+from plugin.load_model import load_graph, return_prediction, object_names_func
 
 
 def host_url(host, path):

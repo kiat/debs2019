@@ -1,0 +1,19 @@
+FROM ubuntu:16.04
+
+# install basic dependencies
+RUN apt-get update && apt-get install -y build-essential
+RUN apt-get update && apt-get install -y libtbb-dev
+
+RUN apt-get update && apt-get install -y python3-pip 
+
+# add your dependencies to the list below
+COPY ./requirements.txt /app/
+COPY model/ /app/model/
+COPY data/outliers.pkl /app/data/
+COPY plugin/ /app/plugin/
+copy ./client.py /app/
+
+WORKDIR /app
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+CMD ["python3", "client.py"]
