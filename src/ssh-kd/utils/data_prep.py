@@ -14,8 +14,6 @@ from plugin.seg import remove_outliers, helper_object_points, max_min
 from plugin.encode import input_nn
 from plugin.load_model import object_names_func
 
-import tensorflow as tf
-
 # Fixed Outliers
 def get_outliers(file_path):
     # Take the outliers

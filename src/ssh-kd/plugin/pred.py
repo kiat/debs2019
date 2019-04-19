@@ -1,12 +1,12 @@
 import numpy as np
-from .seg import (
+from plugin.seg import (
     remove_outliers,
     helper_object_points,
     max_min,
     prepare_data,
     list_of_objects,
 )
-from .encode import input_nn, flat_input
+from plugin.encode import input_nn, flat_input
 
 # Function for pred the input
 def pred_scene(test_input, session, y_pred_cls, x):
