@@ -40,6 +40,93 @@
 % the next command will enable that style.
 %\citestyle{acmauthoryear}
 
+
+
+
+
+% HERE STARTS OUR packages 
+
+% \usepackage{balance}  % for  \balance command ON LAST PAGE  (only there!)
+
+% \usepackage{multirow}
+% \usepackage [table]{xcolor}
+
+\usepackage{color}
+% \usepackage{times}
+%\usepackage{url}
+%\usepackage[utf8]{inputenc}
+%\usepackage{soul}
+%\usepackage{nameref} 
+%\usepackage{amsbsy}
+\usepackage{bezier}  
+\usepackage{colortbl}
+\usepackage{verbatim}
+%\usepackage{qtree}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{xspace}
+\usepackage{rotating}
+\usepackage{multirow}
+%\usepackage{hyperref}
+%\usepackage[capitalize]{cleveref}
+\usepackage{todonotes}
+\usepackage{microtype}
+\usepackage{fmtcount}
+\usepackage{graphicx}
+\usepackage{datetime}
+%\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{tcolorbox}
+%\usepackage{fancyvrb}
+
+%\usepackage{fancyvrb}
+\usepackage{float}
+%\usepackage{mathpazo}
+\usepackage[boxruled,slide,lined]{algorithm2e}
+
+\usepackage{caption}
+% \usepackage{subcaption}
+% \usepackage{graphicx}
+%\usepackage{courier}
+% \usepackage{cleveref}
+% \usepackage{amsmath}
+% \usepackage{amssymb}
+% \usepackage{latexsym}
+% \usepackage{bm}
+% \usepackage{subscript}
+% \usepackage{multirow}
+%\usepackage{tgheros}
+\usepackage{hyperref}
+
+\usepackage{listings}
+
+\lstset{
+language=Java,                  % the language of the code
+basicstyle=\scriptsize,        % the size of the fonts that are used for the code
+basicstyle=\ttfamily,           % the font used for the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=none,                     % adds a frame around the code, none, single 
+tabsize=1,                   	% sets default tabsize to 2 spaces
+captionpos=b,                  	% sets the caption-position to bottom
+breaklines=flase,                % sets automatic line breaking
+% breakatwhitespace=false,      % sets if automatic breaks should only happen at whitespace
+title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                                % also try caption instead of title
+escapeinside={\%*}{*)},         % if you want to add a comment within your code
+morekeywords={*,...},            % if you want to add more keywords to the set
+belowcaptionskip=-1.6em,
+belowskip=0em,
+framexleftmargin=10pt
+}
+
+
+
+\newcommand{\TODO}[1]{\todo[inline,color=orange!40]{KIA: #1}}
+
+
 %
 % end of the preamble, start of the body of the document source.
 \begin{document}
