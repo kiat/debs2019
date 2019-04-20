@@ -23,7 +23,7 @@ def format_output(output_path):
 
     return outfile_list
 
-def test():
+def test(proj=False, proj_type=None):
     # Creating the session
     session, img_length, img_height, y_pred_cls, x, weights1, weights2, conv1, conv2 = load_graph()
     object_names = object_names_func()
@@ -55,7 +55,9 @@ def test():
                     img_length,
                     img_height,
                     y_pred_cls,
-                    x
+                    x,
+                    proj,
+                    proj_type
                 )
                 pred_output.append(result)
     
@@ -77,7 +79,14 @@ def metrics(actual_output, pred_output):
 
 
 if __name__ == "__main__":
-    actual, prediction, time_taken = test()
+    
+    proj = True
+    proj_type = 'perspective'
+
+    if proj:
+        actual, prediction, time_taken = test(proj, proj_type)
+    else:
+        actual, prediction, time_taken = test()
     
     total_scenes = len(prediction) 
 

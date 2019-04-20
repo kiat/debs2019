@@ -37,7 +37,7 @@ def main():
     print("Getting scenes for predictions...")
 
     # Creating the session
-    session, img_length, img_height, y_pred_cls, x = load_graph()
+    session, img_length, img_height, y_pred_cls, x = load_graph(layers=False)
     object_names = object_names_func()
 
     # Here is an automated script for getting all scenes

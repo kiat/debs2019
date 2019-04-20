@@ -7,6 +7,7 @@ from plugin.seg import (
     list_of_objects,
 )
 from plugin.encode import input_nn, flat_input
+from plugin.projectios import prespective_project
 
 # Function for pred the input
 def pred_scene(test_input, session, y_pred_cls, x):
@@ -32,7 +33,7 @@ def pred_scene(test_input, session, y_pred_cls, x):
 
 
 # Take the points of the cluster and fix the input using the above function
-def predict(data_frame, session, img_length, img_height, y_pred_cls, x):
+def predict(data_frame, session, img_length, img_height, y_pred_cls, x, proj=False, proj_type=None):
     # prepare the data and segment it
     data_frame = remove_outliers([data_frame])[0]
     segmented_df = prepare_data(data_frame)
@@ -41,7 +42,12 @@ def predict(data_frame, session, img_length, img_height, y_pred_cls, x):
     img_length = 10
     img_heigth = 7
     for j in object_df:
+        
+        if proj and proj_type='perspective':
+            j = prespective_project(i, 4, 2)
+        
         x_max, x_min, y_max, y_min = max_min([j], img_length, img_height, 2)
+        
         object_arr = input_nn(
             j,
             [x_min[0], x_max[0]],
@@ -58,9 +64,9 @@ def predict(data_frame, session, img_length, img_height, y_pred_cls, x):
 
 # Take the predicted list and convert to dictionary of object counts for each scene
 def convert_pred_to_dict(
-    data_frame, session, object_names, img_length, img_height, y_pred_cls, x
+    data_frame, session, object_names, img_length, img_height, y_pred_cls, x, proj, proj_type
 ):
-    output_pred = predict(data_frame, session, img_length, img_height, y_pred_cls, x)
+    output_pred = predict(data_frame, session, img_length, img_height, y_pred_cls, x, proj, proj_type)
     a = {}
     for j in output_pred:
         if j >= 22:

@@ -1,17 +1,19 @@
-def normalize(df):
-    df['_x'] = (df['_x']-df['_x'].min())/(df['_x'].max()-df['_x'].min())
-    df['_y'] = (df['_y']-df['_y'].min())/(df['_y'].max()-df['_y'].min())
-    return df
+def normalize(x,y):
+    x = (x-x.min())/(x.max()-x.min())
+    y = (y-y.min())/(y.max()-y.min())
+    return x,y
 
 
 def prespective_project(df, d, view):
     if view==2:
         df['_x'] = ((df['X']/abs(df['Z']))*d)
         df['_y'] = ((df['Y']/abs(df['Z']))*d)
-
-    elif view==2:
+    
+    elif view==3:
         df['_x'] = ((df['Z']/abs(df['X']))*d)
         df['_y'] = ((df['Y']/abs(df['X']))*d)
+    
+    df['X'], df['Y'] = normalize(df['_x'], df['_y'])
     
     return df
 

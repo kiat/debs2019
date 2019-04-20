@@ -14,6 +14,7 @@ sys.path.insert(0, os.path.abspath(".."))
 from plugin.seg import remove_outliers, helper_object_points, max_min
 from plugin.encode import input_nn
 from plugin.load_model import object_names_func
+from plugin.projections import prespective_project
 
 # Fixed Outliers
 def get_outliers(file_path):
@@ -134,48 +135,82 @@ def prepare_and_save_input(
 
     for i in no_outliers:
         new_objects.append(helper_object_points(i, num_of_clusters))
+    
+    if proj and proj_type == 'perspective':
+        new_pres_objects = []
 
-    # scale the points
-    x_max_x, x_min_x, y_max_x, y_min_x = max_min(new_objects, img_length, img_height, 2)
-    x_max_z, x_min_z, y_max_z, y_min_z = max_min(new_objects, img_length, img_height, 3)
+        for i in new_objects:
+            new_pres_objects.append(prespective_project(i, 4, 2))
+            new_pres_objects.append(prespective_project(i, 4, 3))
+        # scale the points
+        x_max_x, x_min_x, y_max_x, y_min_x = max_min(new_pres_objects, img_length, img_height, 2)
 
-    # get the input for each scene with 4 different linear transformations
-    n = len(new_objects)
+        # get the input for each scene with 4 different linear transformations
+        n = len(new_pres_objects)
 
-    input_data = []
-    output = []
+        input_data = []
+        output = []
 
-    for i in range(n):
+        for i in range(n):
 
-        # get the objects with various number of linear transformations
-        for j in range(num_linear_transformations):
-            # creating the input in the XY view
-            input_data.append(
-                input_nn(
-                    new_objects[i],
-                    [x_min_x[i], x_max_x[i]],
-                    [y_min_x[i], y_max_x[i]],
-                    grid_size,
-                    img_length,
-                    img_height,
-                    2,
+            # get the objects with various number of linear transformations
+            for j in range(num_linear_transformations):
+                # creating the input in the XY view
+                input_data.append(
+                    input_nn(
+                        new_objects[i],
+                        [x_min_x[i], x_max_x[i]],
+                        [y_min_x[i], y_max_x[i]],
+                        grid_size,
+                        img_length,
+                        img_height,
+                        2,
+                    )
                 )
-            )
-            output.append(object_names[object_choice])
+                output.append(object_names[object_choice])
+        
+    else:
+        # scale the points
+        x_max_x, x_min_x, y_max_x, y_min_x = max_min(new_objects, img_length, img_height, 2)
+        x_max_z, x_min_z, y_max_z, y_min_z = max_min(new_objects, img_length, img_height, 3)
 
-            # Creating the input for the ZY view
-            input_data.append(
-                input_nn(
-                    new_objects[i],
-                    [x_min_z[i], x_max_z[i]],
-                    [y_min_z[i], y_max_z[i]],
-                    grid_size,
-                    img_length,
-                    img_height,
-                    3,
+        # get the input for each scene with 4 different linear transformations
+        n = len(new_objects)
+
+        input_data = []
+        output = []
+
+        for i in range(n):
+
+            # get the objects with various number of linear transformations
+            for j in range(num_linear_transformations):
+                # creating the input in the XY view
+                input_data.append(
+                    input_nn(
+                        new_objects[i],
+                        [x_min_x[i], x_max_x[i]],
+                        [y_min_x[i], y_max_x[i]],
+                        grid_size,
+                        img_length,
+                        img_height,
+                        2,
+                    )
                 )
-            )
-            output.append(object_names[object_choice])
+                output.append(object_names[object_choice])
+
+                # Creating the input for the ZY view
+                input_data.append(
+                    input_nn(
+                        new_objects[i],
+                        [x_min_z[i], x_max_z[i]],
+                        [y_min_z[i], y_max_z[i]],
+                        grid_size,
+                        img_length,
+                        img_height,
+                        3,
+                    )
+                )
+                output.append(object_names[object_choice])
 
             # Save the objects
     np.save(
@@ -238,7 +273,7 @@ def train_validation(input_train, output_train, batch_size):
     # return the elements
     return x_batch, y_batch, val_x, val_y
 
-def data_prep(save_here):
+def data_prep(save_here, proj = False, proj_type=None):
     # list of individual objects
     list_of_object_choice = list(range(29))
     list_of_object_choice.remove(22)
@@ -274,9 +309,18 @@ def data_prep(save_here):
             img_length,
             img_height,
             save_here,
+            proj,
+            proj_type
         )
 
 
 if __name__ == "__main__":
     save_here = "../data/"
-    data_prep(save_here)
+    proj = True
+    proj_type = 'perspective'
+    
+    if proj:
+        data_prep(save_here, proj, proj_type)
+
+    else:
+        data_prep(save_here)

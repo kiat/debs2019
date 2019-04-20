@@ -72,8 +72,8 @@ def load_graph(layers=True, path_to_model="model/two_d_cnn.ckpt"):
 
 # Remove the outliers, segment the data, predict the output and return json
 def return_prediction(
-    data_frame, session, object_names, img_length, img_height, y_pred_cls, x
+    data_frame, session, object_names, img_length, img_height, y_pred_cls, x, proj=False, proj_type=None
 ):
     return convert_pred_to_dict(
-        data_frame, session, object_names, img_length, img_height, y_pred_cls, x
+        data_frame, session, object_names, img_length, img_height, y_pred_cls, x, proj, proj_type
     )
