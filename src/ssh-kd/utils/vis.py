@@ -2,6 +2,8 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
+from plugin.load_model import object_names_func
+
 def plot_conv_weights(w, input_channel=0, file_name="../model/weights.png" ):
 
     weight_min = np.min(w)
@@ -62,3 +64,33 @@ def plot_conv_layer(values , file_name="../model/conv.png" ):
     
     
     plt.savefig(file_name)
+
+def plot_input_images():
+
+    object_names = object_names_func()
+    list_of_object_choice = list(range(29))
+    list_of_object_choice.remove(22)
+
+    # reading in the data of the desired object
+    for j in list_of_object_choice:
+        desired_object = j
+        file_name = "../data/{}_input.npy".format(object_names[desired_object])
+        to_plot = np.load(file_name)
+
+
+        # plotting the object
+        fig = plt.figure(figsize=(100,100))
+        colums = 20
+        rows = 20
+        count = 1
+
+        for i in to_plot:    
+            fig.add_subplot(rows, colums, count)
+            count+=1
+            plt.imshow(i)
+
+        plt.savefig("../model/{}.png".format(object_names[desired_object]))
+        plt.clf()
+
+if __name__ == "__main__":
+    plot_input_images()

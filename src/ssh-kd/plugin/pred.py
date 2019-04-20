@@ -7,7 +7,7 @@ from plugin.seg import (
     list_of_objects,
 )
 from plugin.encode import input_nn, flat_input
-from plugin.projectios import prespective_project
+from plugin.projections import prespective_project
 
 # Function for pred the input
 def pred_scene(test_input, session, y_pred_cls, x):
@@ -43,7 +43,7 @@ def predict(data_frame, session, img_length, img_height, y_pred_cls, x, proj=Fal
     img_heigth = 7
     for j in object_df:
         
-        if proj and proj_type='perspective':
+        if proj and proj_type=='perspective':
             j = prespective_project(i, 4, 2)
         
         x_max, x_min, y_max, y_min = max_min([j], img_length, img_height, 2)

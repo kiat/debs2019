@@ -158,9 +158,9 @@ def prepare_and_save_input(
                 # creating the input in the XY view
                 input_data.append(
                     input_nn(
-                        new_objects[i],
-                        [x_min_x[i], x_max_x[i]],
-                        [y_min_x[i], y_max_x[i]],
+                        new_pres_objects[i],
+                        [x_min_x[j], x_max_x[j]],
+                        [y_min_x[j], y_max_x[j]],
                         grid_size,
                         img_length,
                         img_height,
