@@ -1,10 +1,11 @@
 def normalize(x,y):
     x = (x-x.min())/(x.max()-x.min())
     y = (y-y.min())/(y.max()-y.min())
-    return x,y
+    return 7*x,3*y
 
 
 def prespective_project(df, d, view):
+    df1 = df.copy(deep=True)
     if view==2:
         df['_x'] = ((df['X']/abs(df['Z']))*d)
         df['_y'] = ((df['Y']/abs(df['Z']))*d)
@@ -13,9 +14,9 @@ def prespective_project(df, d, view):
         df['_x'] = ((df['Z']/abs(df['X']))*d)
         df['_y'] = ((df['Y']/abs(df['X']))*d)
     
-    df['X'], df['Y'] = normalize(df['_x'], df['_y'])
+    df1['X'], df1['Y'] = normalize(df['_x'], df['_y'])
     
-    return df
+    return df1
 
 
 def cabin_projection(df, alpha):

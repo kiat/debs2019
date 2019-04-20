@@ -1,6 +1,9 @@
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+import sys, os
+
+sys.path.insert(0, os.path.abspath(".."))
 
 from plugin.load_model import object_names_func
 
