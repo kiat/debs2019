@@ -34,11 +34,7 @@ def train_test(list_of_objects, object_names, target):
 
     return input_train, input_test, output_train, output_test
 
-
-def train():
-
-    # target
-    target = "data"
+def load_data(target="data"):
 
     # list of individual objects
     list_of_object_choice = list(range(29))
@@ -58,6 +54,12 @@ def train():
     test_out_encode, encoder2, encoder3 = encode_output(output_test)
     test_input_encode = flat_input(input_test)
 
+    return train_input_encode, train_out_encode, test_input_encode, test_out_encode
+
+def train():
+
+    train_input_encode, train_out_encode, test_input_encode, test_out_encode = load_data()
+
     # create the tensorflow graph
     cnn2d = ClassifyWith2dCnn()
     cnn2d.sample_structure()
@@ -75,7 +77,7 @@ def train():
     train_batch_size = 32
 
     train_acc, val_acc, train_cost, val_cost = optimize(
-        2,
+        27,
         train_batch_size,
         train_input_encode,
         train_out_encode,

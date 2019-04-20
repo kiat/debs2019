@@ -25,7 +25,7 @@ def format_output(output_path):
 
 def test():
     # Creating the session
-    session, img_length, img_height, y_pred_cls, x = load_graph()
+    session, img_length, img_height, y_pred_cls, x, weights1, weights2, conv1, conv2 = load_graph()
     object_names = object_names_func()
 
     # Folder names

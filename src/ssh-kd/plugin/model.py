@@ -28,6 +28,10 @@ class ClassifyWith2dCnn(object):
         self.accuracy = None
         self.optimizer = None
         self.cost = None
+        self.weights1 = None
+        self.weights2 = None
+        self.conv1 = None
+        self.conv2 = None
 
         # Varaibles to give the dimensions for the layers of graph
         self.img_shape = img_shape
@@ -195,3 +199,7 @@ class ClassifyWith2dCnn(object):
         self.accuracy = accuracy
         self.optimizer = optimizer
         self.cost = cost
+        self.weights1 = weights_conv1
+        self.weights2 = weights_conv2
+        self.conv1 = layer_conv1
+        self.conv2 = layer_conv2

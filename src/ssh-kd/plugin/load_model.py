@@ -59,8 +59,12 @@ def load_graph(path_to_model="model/two_d_cnn.ckpt"):
     saver.restore(session, path_to_model)
     y_pred_cls = cnn2d.y_pred_cls_
     x = cnn2d.x
+    weights1 = cnn2d.weights1
+    weights2 = cnn2d.weights2
+    conv1 = cnn2d.conv1
+    conv2 = cnn2d.conv2
 
-    return session, img_length, img_height, y_pred_cls, x
+    return session, img_length, img_height, y_pred_cls, x, weights1, weights2, conv1, conv2
 
 
 # Remove the outliers, segment the data, predict the output and return json
