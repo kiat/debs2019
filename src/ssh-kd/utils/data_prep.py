@@ -1,6 +1,7 @@
 import math
 import pandas as pd
 import numpy as np
+import pickle
 from datetime import datetime
 
 
@@ -29,8 +30,17 @@ def get_outliers(file_path):
         i = i[["lz", "max", "min"]]
         i.drop_duplicates(subset=["lz", "max", "min"], inplace=True)
 
-    # Save the data frame
-    i.to_pickle("../data/outliers.pkl")
+    # Save the values
+    max_rad = []
+    min_rad = []
+    for j in range(64):
+        max_rad.append(i[i["lz"] == j]["max"].tolist()[0])
+        min_rad.append(i[i["lz"] == j]["min"].tolist()[0])
+    total = max_rad+min_rad
+
+    out_file = open("../data/outliers.pkl", 'wb')
+    pickle.dump(total,out_file)
+    out_file.close()
 
 
 # Remove the outliers
@@ -101,6 +111,8 @@ def prepare_and_save_input(
     img_length,
     img_height,
     save_here,
+    proj = False,
+    proj_type = None,
     list_of_angles=[30, 60, 90, 120, 150],
 ):
     """

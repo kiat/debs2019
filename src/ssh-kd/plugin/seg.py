@@ -10,11 +10,8 @@ def remove_outliers(dataframes, number_of_scenes=1, path_to_pkl="data/outliers.p
     """Takes 0.36 sec to remove the outliers in each scene,Function to remove outliers"""
     object_points = []
     outliers = pd.read_pickle(path_to_pkl)
-    max_rad = []
-    min_rad = []
-    for i in range(64):
-        max_rad.append(outliers[outliers["lz"] == i]["max"].tolist()[0])
-        min_rad.append(outliers[outliers["lz"] == i]["min"].tolist()[0])
+    max_rad = outliers[:64]
+    min_rad = outliers[64:]
 
     for i in range(number_of_scenes):
         df = dataframes[i]

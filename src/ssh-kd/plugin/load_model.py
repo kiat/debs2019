@@ -42,7 +42,7 @@ def object_names_func():
 
 
 # create the model and restore the weights
-def load_graph(path_to_model="model/two_d_cnn.ckpt"):
+def load_graph(layers=True, path_to_model="model/two_d_cnn.ckpt"):
     # variable
     img_length = 10
     img_height = 7
@@ -64,7 +64,10 @@ def load_graph(path_to_model="model/two_d_cnn.ckpt"):
     conv1 = cnn2d.conv1
     conv2 = cnn2d.conv2
 
-    return session, img_length, img_height, y_pred_cls, x, weights1, weights2, conv1, conv2
+    if layers:
+        return session, img_length, img_height, y_pred_cls, x, weights1, weights2, conv1, conv2
+    else:
+        return session, img_length, img_height, y_pred_cls, x
 
 
 # Remove the outliers, segment the data, predict the output and return json

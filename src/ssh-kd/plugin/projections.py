@@ -4,9 +4,15 @@ def normalize(df):
     return df
 
 
-def prespective_project(df, d):
-    df['_x'] = ((df['X']/abs(df['Z']))*d)
-    df['_y'] = ((df['Y']/abs(df['Z']))*d)
+def prespective_project(df, d, view):
+    if view==2:
+        df['_x'] = ((df['X']/abs(df['Z']))*d)
+        df['_y'] = ((df['Y']/abs(df['Z']))*d)
+
+    elif view==2:
+        df['_x'] = ((df['Z']/abs(df['X']))*d)
+        df['_y'] = ((df['Y']/abs(df['X']))*d)
+    
     return df
 
 
