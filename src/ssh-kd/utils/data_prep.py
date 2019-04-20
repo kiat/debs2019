@@ -138,7 +138,7 @@ def prepare_and_save_input(
     
     if proj and proj_type == 'perspective':
         new_pres_objects = []
-
+        grid_size = 0.1
         for i in new_objects:
             new_pres_objects.append(prespective_project(i, 4, 2))
             new_pres_objects.append(prespective_project(i, 4, 3))
