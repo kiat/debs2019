@@ -44,20 +44,32 @@ def predict(data_frame, session, img_length, img_height, y_pred_cls, x, proj=Fal
     for j in object_df:
         
         if proj and proj_type=='perspective':
-            x,y,z = np.array(j['X'],j['Y'], j['Z'])
-            j = prespective_project(x,y,z, 4, 2)
+            X,y,z = np.array(j['X']),np.array(j['Y']), np.array(j['Z'])
+            i = prespective_project(X,y,z, 4, 2)
+            x_max, x_min, y_max, y_min = max_min([i], img_length, img_height, 2)
         
-        x_max, x_min, y_max, y_min = max_min([j], img_length, img_height, 2)
-        
-        object_arr = input_nn(
-            j,
-            [x_min[0], x_max[0]],
-            [y_min[0], y_max[0]],
-            0.1,
-            img_length,
-            img_height,
-            2,
-        )
+            object_arr = input_nn(
+                i,
+                [x_min[0], x_max[0]],
+                [y_min[0], y_max[0]],
+                0.1,
+                img_length,
+                img_height,
+                2,
+            )
+        else:
+
+            x_max, x_min, y_max, y_min = max_min([j], img_length, img_height, 2)
+            
+            object_arr = input_nn(
+                j,
+                [x_min[0], x_max[0]],
+                [y_min[0], y_max[0]],
+                0.1,
+                img_length,
+                img_height,
+                2,
+            )
         object_arr = flat_input([object_arr]).tolist()[0]
         dummy_input.append(object_arr)
     return pred_scene(np.array(dummy_input), session, y_pred_cls, x)

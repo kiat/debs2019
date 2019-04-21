@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
@@ -91,17 +93,17 @@ def train():
         prob
     )
 
-    fig = plt.figure()
-    plt.plot(train_acc)
-    plt.plot(val_acc)
-    fig.savefig("model/accuracy.png")
-    plt.clf()
+    # fig = plt.figure()
+    # plt.plot(train_acc)
+    # plt.plot(val_acc)
+    # fig.savefig("model/accuracy.png")
+    # plt.clf()
 
-    fig = plt.figure()
-    plt.plot(train_cost)
-    plt.plot(val_cost)
-    fig.savefig("model/loss.png")
-    plt.clf()
+    # fig = plt.figure()
+    # plt.plot(train_cost)
+    # plt.plot(val_cost)
+    # fig.savefig("model/loss.png")
+    # plt.clf()
 
     # saving the model
     path_to_model = "model/two_d_cnn_proj.ckpt"
