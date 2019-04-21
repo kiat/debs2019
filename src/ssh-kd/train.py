@@ -102,7 +102,7 @@ def train():
     plt.clf()
 
     # saving the model
-    path_to_model = "model/two_d_cnn.ckpt"
+    path_to_model = "model/two_d_cnn_proj.ckpt"
     save_model(session, path_to_model)
 
     # plot the test accuracy in between

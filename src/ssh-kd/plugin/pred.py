@@ -44,7 +44,7 @@ def predict(data_frame, session, img_length, img_height, y_pred_cls, x, proj=Fal
     for j in object_df:
         
         if proj and proj_type=='perspective':
-            j = prespective_project(i, 4, 2)
+            j = prespective_project(j, 4, 2)
         
         x_max, x_min, y_max, y_min = max_min([j], img_length, img_height, 2)
         

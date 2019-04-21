@@ -25,7 +25,7 @@ def format_output(output_path):
 
 def test(proj=False, proj_type=None):
     # Creating the session
-    session, img_length, img_height, y_pred_cls, x, weights1, weights2, conv1, conv2 = load_graph()
+    session, img_length, img_height, y_pred_cls, x, weights1, weights2, conv1, conv2 = load_graph(layers=True, path_to_model="model/two_d_cnn_proj.ckpt")
     object_names = object_names_func()
 
     # Folder names

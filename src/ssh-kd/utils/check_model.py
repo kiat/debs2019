@@ -10,7 +10,7 @@ from train import load_data
 def check_model():
     
     # Creating the session
-    session, img_length, img_height, y_pred_cls, x, weights1, weights2, conv1, conv2 = load_graph("../model/two_d_cnn.ckpt")
+    session, img_length, img_height, y_pred_cls, x, weights1, weights2, conv1, conv2 = load_graph(True,"../model/two_d_cnn_proj.ckpt")
     
     # object names
     object_names = object_names_func()
@@ -27,8 +27,8 @@ def check_model():
     # Select some images after reading in the data
     train_input_encode, train_out_encode, test_input_encode, test_out_encode = load_data("../data")
 
-    image = train_input_encode[0]
-    test_object = object_names[list_of_objects[np.argmax(train_out_encode[0])]]
+    image = train_input_encode[1000]
+    test_object = object_names[list_of_objects[np.argmax(train_out_encode[1000])]]
 
     feed_dict = {x: [image]}
 
