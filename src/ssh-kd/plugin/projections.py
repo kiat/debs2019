@@ -1,22 +1,29 @@
-def normalize(x,y):
+import pandas as pd
+
+def min_max_normalize(x,y):
     x = (x-x.min())/(x.max()-x.min())
     y = (y-y.min())/(y.max()-y.min())
     return 7*x,3*y
 
+def standard_normalization(x,y):
+    x = (x-x.mean())/x.std()
+    y = (y-y.mean())/y.std()
 
-def prespective_project(df, d, view):
-    df1 = df.copy(deep=True)
+    return x,y
+
+def prespective_project(x,y,z, d, view):
+    
     if view==2:
-        df['_x'] = ((df['X']/abs(df['Z']))*d)
-        df['_y'] = ((df['Y']/abs(df['Z']))*d)
+        X = ((x/abs(z))*d)
+        Y = ((y/abs(z))*d)
     
     elif view==3:
-        df['_x'] = ((df['Z']/abs(df['X']))*d)
-        df['_y'] = ((df['Y']/abs(df['X']))*d)
+        X = ((z/abs(x))*d)
+        Y = ((y/abs(x))*d)
     
-    df1['X'], df1['Y'] = normalize(df['_x'], df['_y'])
+    X,Y = standard_normalization(X, Y)
     
-    return df1
+    return pd.DataFrame({'X':X,'Y':Y})
 
 
 def cabin_projection(df, alpha):

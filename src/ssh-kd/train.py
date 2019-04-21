@@ -78,7 +78,7 @@ def train():
     train_batch_size = 32
 
     train_acc, val_acc, train_cost, val_cost = optimize(
-        17,
+        15,
         train_batch_size,
         train_input_encode,
         train_out_encode,

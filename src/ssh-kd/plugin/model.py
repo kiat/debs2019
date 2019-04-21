@@ -58,6 +58,7 @@ class ClassifyWith2dCnn(object):
         filter_size,
         num_filters,
         use_pooling=True,
+        use_normalization = True
     ):
         # Shape of the filter-weights for the convolution
         shape = [filter_size, filter_size, num_input_channels, num_filters]
@@ -71,6 +72,11 @@ class ClassifyWith2dCnn(object):
         )
         # adding the bias to the layer
         layer += biases
+
+        # adding the normalization layer
+        if use_normalization:
+            layer = tf.nn.batch_normalization(layer)
+
         # Create the max pooling layer
         if use_pooling:
             layer = tf.nn.max_pool(
@@ -142,6 +148,7 @@ class ClassifyWith2dCnn(object):
             filter_size=self.filter_size1,
             num_filters=self.num_filters1,
             use_pooling=False,
+            use_normalization = False
         )
 
         layer_conv2, weights_conv2 = self.new_conv_layer(
@@ -150,6 +157,7 @@ class ClassifyWith2dCnn(object):
             filter_size=self.filter_size2,
             num_filters=self.num_filters2,
             use_pooling=True,
+            use_normalization = False
         )
 
         layer_conv3, weights_conv3 = self.new_conv_layer(
@@ -158,7 +166,10 @@ class ClassifyWith2dCnn(object):
             filter_size=self.filter_size2,
             num_filters=self.num_filters2,
             use_pooling=False,
+            use_normalization = False
         )
+
+        
 
         layer_conv4, weights_conv4 = self.new_conv_layer(
             input_layer=layer_conv3,
@@ -166,8 +177,9 @@ class ClassifyWith2dCnn(object):
             filter_size=self.filter_size2,
             num_filters=self.num_filters2,
             use_pooling=True,
+            use_normalization = False
         )
-
+        
         layer_flat, num_features = self.flatten_layer(layer_conv4)
         layer_fc1 = self.new_fc_layer(
             input_layer=layer_flat,

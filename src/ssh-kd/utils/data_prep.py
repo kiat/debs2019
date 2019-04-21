@@ -140,8 +140,9 @@ def prepare_and_save_input(
         new_pres_objects = []
         grid_size = 0.1
         for i in new_objects:
-            new_pres_objects.append(prespective_project(i, 4, 2))
-            new_pres_objects.append(prespective_project(i, 4, 3))
+            x,y,z = np.array(i['X']),np.array(i['Y']), np.array(i['Z'])
+            new_pres_objects.append(prespective_project(x,y,z, 4, 2))
+            new_pres_objects.append(prespective_project(x,y,z, 4, 3))
         # scale the points
         x_max_x, x_min_x, y_max_x, y_min_x = max_min(new_pres_objects, img_length, img_height, 2)
 
@@ -282,7 +283,7 @@ def data_prep(save_here, proj = False, proj_type=None):
     object_names = object_names_func()
 
     # Required variables
-    num_linear_transformations = 4
+    num_linear_transformations = 10
     num_of_scenes = 50
     path_to_pkl = "../data/outliers.pkl"
     grid_size = 0.1
