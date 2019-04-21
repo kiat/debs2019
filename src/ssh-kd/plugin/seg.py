@@ -7,7 +7,7 @@ from sklearn.cluster import DBSCAN
 
 def remove_outliers(dataframes, number_of_scenes=1, path_to_pkl="data/outliers.pkl"):
     """Takes 0.18 sec to remove the outliers in each scene,Function to remove outliers"""
-    
+    pd.options.mode.chained_assignment = None
     object_points = []
     outliers = pd.read_pickle(path_to_pkl)
     max_rad = outliers[0]
@@ -15,7 +15,7 @@ def remove_outliers(dataframes, number_of_scenes=1, path_to_pkl="data/outliers.p
 
     for i in range(number_of_scenes):
         df = dataframes[i]
-        df["radius"] = df.X.pow(2).add(df.Y.pow(2).add(df.Z.pow(2))).pow(0.5).round(1)
+        df.loc[:,"radius"] = df.X.pow(2).add(df.Y.pow(2).add(df.Z.pow(2))).pow(0.5).round(1)
         rad = np.array(df.radius)
         bool_vec = (rad <= max_rad) & (rad >= min_rad)
         df = df[~bool_vec]
@@ -121,7 +121,7 @@ def prepare_data(data_frame):
             )
         )
     )
-    data_frame["labels"] = labels
+    data_frame.loc[:,"labels"] = labels
 
     return data_frame
 

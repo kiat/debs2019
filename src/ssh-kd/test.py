@@ -47,7 +47,7 @@ def test(proj=False, proj_type=None):
             # Read in the test data
             data_frames = read_file(infile_path)
             actual_output = actual_output + format_output(outfile_path)
-            print("yes")
+            
             for reconstructed_scene in data_frames:
                 result = return_prediction(
                     reconstructed_scene,
