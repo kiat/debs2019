@@ -61,6 +61,8 @@ def main():
             img_height,
             y_pred_cls,
             x,
+            True,
+            'perspective'
         )
 
         post_answer(host, result)
