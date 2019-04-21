@@ -32,6 +32,7 @@ class ClassifyWith2dCnn(object):
         self.weights2 = None
         self.conv1 = None
         self.conv2 = None
+        self.prob = None
 
         # Varaibles to give the dimensions for the layers of graph
         self.img_shape = img_shape
@@ -140,7 +141,7 @@ class ClassifyWith2dCnn(object):
             num_input_channels=self.num_channels,
             filter_size=self.filter_size1,
             num_filters=self.num_filters1,
-            use_pooling=True,
+            use_pooling=False,
         )
 
         layer_conv2, weights_conv2 = self.new_conv_layer(
@@ -151,30 +152,32 @@ class ClassifyWith2dCnn(object):
             use_pooling=True,
         )
 
-        # layer_conv3, weights_conv3 = self.new_conv_layer(
-        #     input_layer=layer_conv2,
-        #     num_input_channels=self.num_filters1,
-        #     filter_size=self.filter_size2,
-        #     num_filters=self.num_filters2,
-        #     use_pooling=False,
-        # )
+        layer_conv3, weights_conv3 = self.new_conv_layer(
+            input_layer=layer_conv2,
+            num_input_channels=self.num_filters1,
+            filter_size=self.filter_size2,
+            num_filters=self.num_filters2,
+            use_pooling=False,
+        )
 
-        # layer_conv4, weights_conv4 = self.new_conv_layer(
-        #     input_layer=layer_conv3,
-        #     num_input_channels=self.num_filters1,
-        #     filter_size=self.filter_size2,
-        #     num_filters=self.num_filters2,
-        #     use_pooling=True,
-        # )
+        layer_conv4, weights_conv4 = self.new_conv_layer(
+            input_layer=layer_conv3,
+            num_input_channels=self.num_filters1,
+            filter_size=self.filter_size2,
+            num_filters=self.num_filters2,
+            use_pooling=True,
+        )
 
-        layer_flat, num_features = self.flatten_layer(layer_conv2)
+        layer_flat, num_features = self.flatten_layer(layer_conv4)
         layer_fc1 = self.new_fc_layer(
             input_layer=layer_flat,
             num_inputs=num_features,
             num_outputs=self.fc_size,
             use_relu=True,
         )
-        layer_dropout = tf.nn.dropout(layer_fc1, keep_prob=0.8)
+
+        self.prob = tf.placeholder_with_default(1.0,shape=())
+        layer_dropout = tf.nn.dropout(layer_fc1, keep_prob=self.prob)
         layer_fc2 = self.new_fc_layer(
             input_layer=layer_dropout,
             num_inputs=self.fc_size,

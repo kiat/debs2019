@@ -16,6 +16,7 @@ def optimize(
     optimizer,
     accuracy,
     cost,
+    prob
 ):
 
     # Start time
@@ -68,7 +69,7 @@ def optimize(
         x_batch, y_true_batch = session.run([x_batch2, y_true_batch2])
 
         # Put the batch in the dict with the proper names
-        feed_dict_train = {x: x_batch, y_true: y_true_batch}
+        feed_dict_train = {x: x_batch, y_true: y_true_batch, prob: 0.8}
 
         # Run the optimizer using this batch of the training data
         session.run(optimizer, feed_dict=feed_dict_train)
@@ -90,7 +91,7 @@ def optimize(
                         y_true: np.array(
                             val_output[j * 100 : (j + 1) * 100], dtype=np.float32
                         ),
-                    },
+                    }
                 )
                 val_cost = val_cost + session.run(
                     cost,
@@ -126,6 +127,7 @@ def optimize(
                         y_true: np.array(
                             output_train[j * 100 : (j + 1) * 100], dtype=np.float32
                         ),
+                        prob:0.8
                     },
                 )
                 train_cost = train_cost + session.run(
@@ -137,6 +139,7 @@ def optimize(
                         y_true: np.array(
                             output_train[j * 100 : (j + 1) * 100], dtype=np.float32
                         ),
+                        prob:0.8
                     },
                 )
                 count += 1

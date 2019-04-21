@@ -71,13 +71,14 @@ def train():
     optimizer = cnn2d.optimizer
     accuracy = cnn2d.accuracy
     cost = cnn2d.cost
+    prob = cnn2d.prob
 
     # train the data
     session.run(tf.global_variables_initializer())
     train_batch_size = 32
 
     train_acc, val_acc, train_cost, val_cost = optimize(
-        27,
+        17,
         train_batch_size,
         train_input_encode,
         train_out_encode,
@@ -86,7 +87,8 @@ def train():
         y_true,
         optimizer,
         accuracy,
-        cost
+        cost,
+        prob
     )
 
     fig = plt.figure()
