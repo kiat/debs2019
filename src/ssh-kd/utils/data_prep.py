@@ -37,7 +37,7 @@ def get_outliers(file_path):
     for j in range(64):
         max_rad.append(i[i["lz"] == j]["max"].tolist()[0])
         min_rad.append(i[i["lz"] == j]["min"].tolist()[0])
-    total = max_rad+min_rad
+    total = (np.array(max_rad*1125),np.array(min_rad*1125))
 
     out_file = open("../data/outliers.pkl", 'wb')
     pickle.dump(total,out_file)

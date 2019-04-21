@@ -11,13 +11,16 @@ def standard_normalization(x,y):
 
     return x,y
 
+# ToDo: Avoid the division by zero
 def prespective_project(x,y,z, d, view):
     
     if view==2:
+        z[z==0] = 0.1
         X = ((x/abs(z))*d)
         Y = ((y/abs(z))*d)
     
     elif view==3:
+        x[x==0] = 0.1
         X = ((z/abs(x))*d)
         Y = ((y/abs(x))*d)
     

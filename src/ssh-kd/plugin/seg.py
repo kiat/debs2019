@@ -5,26 +5,22 @@ import random
 from sklearn.cluster import KMeans
 from sklearn.cluster import DBSCAN
 
-
 def remove_outliers(dataframes, number_of_scenes=1, path_to_pkl="data/outliers.pkl"):
-    """Takes 0.36 sec to remove the outliers in each scene,Function to remove outliers"""
+    """Takes 0.18 sec to remove the outliers in each scene,Function to remove outliers"""
+    
     object_points = []
     outliers = pd.read_pickle(path_to_pkl)
-    max_rad = outliers[:64]
-    min_rad = outliers[64:]
+    max_rad = outliers[0]
+    min_rad = outliers[1]
 
     for i in range(number_of_scenes):
         df = dataframes[i]
         df["radius"] = df.X.pow(2).add(df.Y.pow(2).add(df.Z.pow(2))).pow(0.5).round(1)
+        rad = np.array(df.radius)
+        bool_vec = (rad <= max_rad) & (rad >= min_rad)
+        df = df[~bool_vec]
         df.drop(df[df["radius"] == 0].index, inplace=True)
-        temp_out = pd.DataFrame()
-        for j in range(64):
-            dummy_df = df[df["laser_id"] == j]
-            bool_vec = ~(
-                (dummy_df["radius"] <= max_rad[j]) & (dummy_df["radius"] >= min_rad[j])
-            )
-            temp_out = temp_out.append(dummy_df[bool_vec])
-        object_points.append(temp_out)
+        object_points.append(df)
 
     return object_points
 
