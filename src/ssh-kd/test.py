@@ -68,15 +68,18 @@ def metrics(actual_output, pred_output):
     
     # variables to return
     acc = 0
+    acc_dict = {'avg':0, 'score':0,'zero':0}
     prec = 0
     reca = 0
 
     for i,j in zip(actual_output, pred_output):
-        acc = acc + accuracy(i,j)
+        temp = accuracy(i,j)
+        acc = acc + temp[0]
+        acc_dict[temp[1]]+=1
         prec = prec + precision(i,j)
         reca = reca + recall(i,j)
     
-    return acc, prec, reca
+    return acc, prec, reca, acc_dict
 
 
 if __name__ == "__main__":
@@ -93,6 +96,6 @@ if __name__ == "__main__":
 
     print("The total time taken for {} scenes  = {}".format(total_scenes, time_taken))
     
-    acc, prec, reca = metrics(actual, prediction)
+    acc, prec, reca, acc_dict = metrics(actual, prediction)
     
-    print(" Accuracy = {} \n Precision = {} \n Recall = {}".format(acc/total_scenes, prec/total_scenes, reca/total_scenes))
+    print(" Accuracy = {} \n Precision = {} \n Recall = {} \n Dict = {}".format(acc/total_scenes, prec/total_scenes, reca/total_scenes, acc_dict))

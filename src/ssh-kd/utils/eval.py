@@ -6,7 +6,7 @@ def accuracy(a, b):
     all_keys = set(a).union(b)
     score = len(common_keys) / len(all_keys) #key score
     if (score == 0):
-        return score
+        return score, 'zero'
     else: #value score
         pred = {}
         for k in common_keys:
@@ -21,9 +21,9 @@ def accuracy(a, b):
         pred_values_sum = reduce(lambda x,y:int(x)+int(y),pred.values())
         val_score = int(pred_values_sum)/int(true_values_sum)
         if score >= val_score:
-            return (score+val_score)/2
+            return (score+val_score)/2,'avg'
         else:
-            return score
+            return score,'score'
 
 
 def precision(a,b):

@@ -6,8 +6,17 @@ def min_max_normalize(x,y):
     return 7*x,3*y
 
 def standard_normalization(x,y):
-    x = (x-x.mean())/x.std()
-    y = (y-y.mean())/y.std()
+    
+    x_std = x.std()
+    y_std = y.std()
+
+    if x_std==0:
+        x_std = 0.01
+    if y_std==0:
+        y_std = 0.01
+
+    x = (x-x.mean())/x_std
+    y = (y-y.mean())/y_std
 
     return x,y
 

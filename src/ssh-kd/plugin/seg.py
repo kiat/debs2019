@@ -102,7 +102,7 @@ def generate_random(residual):
 # This DB scan is sensitive to starting point
 # Come up with another idea
 def segmentation(data):
-    clustering = DBSCAN(eps=1, min_samples=16).fit(data)
+    clustering = DBSCAN(eps=1, min_samples=10).fit(data)
     labels = clustering.labels_
 
     return labels
