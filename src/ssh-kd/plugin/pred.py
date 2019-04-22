@@ -38,18 +38,20 @@ def predict(data_frame, session, img_length, img_height, y_pred_cls, x, proj=Fal
     data_frame = remove_outliers([data_frame])[0]
     segmented_df = prepare_data(data_frame)
     object_df = list_of_objects(segmented_df)
+
     dummy_input = []
     img_length = 10
     img_heigth = 7
     for j in object_df:
         
         if proj and proj_type=='perspective':
-            X,y,z = np.array(j['X']),np.array(j['Y']), np.array(j['Z'])
-            i = prespective_project(X,y,z, 4, 2)
-            x_max, x_min, y_max, y_min = max_min([i], img_length, img_height, 2)
+
+            # Numpy implementation
+            X,y = prespective_project(j[:,0],j[:,1],j[:,2],4,3)
+            x_max, x_min, y_max, y_min = max_min([[X,y]], img_length, img_height, 2)
         
             object_arr = input_nn(
-                i,
+                [X,y],
                 [x_min[0], x_max[0]],
                 [y_min[0], y_max[0]],
                 0.1,
@@ -57,12 +59,15 @@ def predict(data_frame, session, img_length, img_height, y_pred_cls, x, proj=Fal
                 img_height,
                 2,
             )
+            
+            
+
         else:
 
-            x_max, x_min, y_max, y_min = max_min([j], img_length, img_height, 2)
+            x_max, x_min, y_max, y_min = max_min([j[:,0],j[:,1]], img_length, img_height, 2)
             
             object_arr = input_nn(
-                j,
+                [j[:,0],j[:,1]],
                 [x_min[0], x_max[0]],
                 [y_min[0], y_max[0]],
                 0.1,

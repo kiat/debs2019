@@ -34,8 +34,7 @@ def prespective_project(x,y,z, d, view):
         Y = ((y/abs(x))*d)
     
     X,Y = standard_normalization(X, Y)
-    
-    return pd.DataFrame({'X':X,'Y':Y})
+    return X,Y
 
 
 def cabin_projection(df, alpha):

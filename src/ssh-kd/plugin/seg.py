@@ -2,8 +2,7 @@
 import pandas as pd
 import numpy as np
 import random
-from sklearn.cluster import KMeans
-from sklearn.cluster import DBSCAN
+from sklearn.cluster import KMeans, DBSCAN, MeanShift
 
 def remove_outliers(dataframes, number_of_scenes=1, path_to_pkl="data/outliers.pkl"):
     """Takes 0.18 sec to remove the outliers in each scene,Function to remove outliers"""
@@ -14,12 +13,16 @@ def remove_outliers(dataframes, number_of_scenes=1, path_to_pkl="data/outliers.p
     min_rad = outliers[1]
 
     for i in range(number_of_scenes):
+
         df = dataframes[i]
-        df.loc[:,"radius"] = df.X.pow(2).add(df.Y.pow(2).add(df.Z.pow(2))).pow(0.5).round(1)
-        rad = np.array(df.radius)
+        df.drop(columns=['laser_id'],inplace=True)
+        df = df.to_numpy()
+        rad = np.round(np.sqrt(df[:,0]**2+df[:,1]**2+df[:,2]**2),1)
+        df = np.hstack([df,rad.reshape(-1,1)])
         bool_vec = (rad <= max_rad) & (rad >= min_rad)
         df = df[~bool_vec]
-        df.drop(df[df["radius"] == 0].index, inplace=True)
+        # df = df[(df[:,1]<=10)]
+        df = df[~(df[:,3]==0)]
         object_points.append(df)
 
     return object_points
@@ -54,7 +57,7 @@ def max_min(obj_data, img_length, img_height, view):
     for i in obj_data:
 
         # using the mean to calculate the y_max and y_min
-        y_mean = i["Y"].mean()
+        y_mean = i[1].mean()
         first, second = generate_random(img_height)
 
         # Appending the max and min values
@@ -65,7 +68,7 @@ def max_min(obj_data, img_length, img_height, view):
         if view == 2:
 
             # using the mean to calculate the y_max and y_min
-            x_mean = i["X"].mean()
+            x_mean = i[0].mean()
             first, second = generate_random(img_length)
 
             # Appending the max and min values
@@ -101,36 +104,45 @@ def generate_random(residual):
 # Using the DB Scan of scikit learn for segmenting the data, take in the dataframe and return the labeled_df
 # This DB scan is sensitive to starting point
 # Come up with another idea
-def segmentation(data):
-    clustering = DBSCAN(eps=1, min_samples=10).fit(data)
-    labels = clustering.labels_
+def segmentation(data, db_scan=True):
+    if db_scan:
+        # eps=2, min_sample=20 acc = 541335754464439
+        clustering = DBSCAN(eps=2, min_samples=20).fit(data)
+        labels = clustering.labels_
+    else:
+        clustering = MeanShift(bandwidth=2, bin_seeding=True, cluster_all=False, min_bin_freq=19, n_jobs=None, seeds=None).fit(data)
+        labels = clustering.labels_
 
     return labels
 
 
 # Try to use the top view to reduce the computation
 def prepare_data(data_frame):
+
     labels = segmentation(
         np.array(
             list(
                 zip(
-                    np.array(data_frame["X"]),
-                    np.array(data_frame["Y"]),
-                    np.array(data_frame["Z"]),
+                    data_frame[:,0],
+                    data_frame[:,1],
+                    data_frame[:,2]
                 )
             )
-        )
+        ),
+        True
     )
-    data_frame.loc[:,"labels"] = labels
+    
+    data_frame = np.hstack([data_frame, np.array(labels).reshape(-1,1)])
 
     return data_frame
 
 
 # Extract the points of the clusters
 def list_of_objects(dataframe):
-    num_of_objects = dataframe["labels"].value_counts().index.shape[0] - 1
+
+    num_of_objects = np.unique(dataframe[:,4]).shape[0]-1
     list_objects = []
     for i in range(num_of_objects):
-        list_objects.append(dataframe[dataframe["labels"] == i])
+        list_objects.append(dataframe[dataframe[:,4] == i])
 
     return list_objects

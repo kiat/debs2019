@@ -16,11 +16,11 @@ def input_nn(object_points, x_range, y_range, grid_size, img_length, img_height,
 
     # according to the view
     if view == 2:
-        x = np.array(object_points["X"])
+        x = np.array(object_points[0])
     elif view == 3:
         x = np.array(object_points["Z"])
 
-    y = np.array(object_points["Y"])
+    y = np.array(object_points[1])
 
     # compute the bi-dimensional histogram of two data samples
     grid, _, _ = np.histogram2d(x, y, bins=[gridx, gridy])
