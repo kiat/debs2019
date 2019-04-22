@@ -93,6 +93,50 @@ def max_min(obj_data, img_length, img_height, view):
     return x_max, x_min, y_max, y_min
 
 
+def max_min_3d(obj_data, img_length=16, img_height=16):
+    """
+    This function fits the points into the constant scale by calculating the x_max, x_min and y_max and y_min
+    This works only for XY view or ZY view
+    """
+    # Lists to return which will help in plotting and collecting the data with in this range for the CNN
+    x_max = []
+    x_min = []
+    y_max = []
+    y_min = []
+    z_max = []
+    z_min = []
+
+    ## going through each scene
+    for i in obj_data:
+
+        # using the mean to calculate the y_max and y_min
+        y_mean = i["Y"].mean()
+        first, second = generate_random(img_height)
+
+        # Appending the max and min values
+        y_max.append(y_mean + first)
+        y_min.append(y_mean - second)
+
+        # using the mean to calculate the y_max and y_min
+        x_mean = i["X"].mean()
+        first, second = generate_random(img_length)
+
+        # Appending the max and min values
+        x_max.append(x_mean + first)
+        x_min.append(x_mean - second)
+
+
+        # using the mean to calculate the y_max and y_min
+        z_mean = i["Z"].mean()
+        first, second = generate_random(img_length)
+
+        # Appending the max and min values
+        z_max.append(z_mean + first)
+        z_min.append(z_mean - second)
+
+    return x_max, x_min, y_max, y_min, z_max, z_min
+
+
 # TODO: think to remove this function
 def generate_random(residual):
     """
