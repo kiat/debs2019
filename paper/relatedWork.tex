@@ -2,19 +2,28 @@
 
 In this brief section we review some of the most important publications related to LiDAR point cloud classification approaches []
 
+%SAEED: describe some related work:
+\textbf{3D shape} analysis Performance of 3D shape analysis is heavily dependent on the input representation. The main representations are volumetric, point cloud and multi-view.
+
+The better compare 3D shape descriptors we will focus on the retrieval performance. Recent approaches show significant improvements on retrieval: Yavartanoo et al. \cite{DBLP:journals/corr/abs-1811-01571} introduces multi-view stereographic projection; it first transform a 3D input volume into a 2D planar image using stereographic projection.
+Zhou et al. \cite{Zhou_2018_CVPR} proposed a model that operates only on LiDAR data. In regard to that, it is the best ranked model on KITTI \cite{geiger2012we} for 3D and birds-eyeview detections using LiDAR data only. The basic idea is an end-to-end learning that operates on grid cells without using hand crafted features.
+Wu et al. \cite{DBLP:conf/icra/WuWYK18} present SqueezeSeg projects point cloud to the front view with cells gridded by LiDAR rotation and then applies normal 2D CNN
+for classification and segmentation. 
+Riegler et al \cite{DBLP:conf/cvpr/RieglerUG17} design more efficient 3D CNN or neural network architectures that exploit sparsity in point cloud. However,
+these CNN based methods still require quantitization of point clouds with certain voxel resolution.
+
 
 % KIA: I just put the paper titles here \ldots 
-Yavartanoo et al. \cite{DBLP:journals/corr/abs-1811-01571} propose an approach for 3D object classification  named SPNet - it is a deep 3D object classification and retrieval using stereographic projection. 
+% Yavartanoo et al. \cite{DBLP:journals/corr/abs-1811-01571} propose an approach for 3D object classification  named SPNet - it is a deep 3D object classification and retrieval using stereographic projection. 
 
-Wu et al. \cite{DBLP:conf/icra/WuWYK18} propose an approach for 3D LiDAR segmentation. 
-SqueezeSeg: Convolutional Neural Nets with Recurrent {CRF} for Real-Time Road-Object Segmentation from 3D LiDAR Point Cloud. 
-
+%Wu et al. \cite{DBLP:conf/icra/WuWYK18} propose an approach for 3D LiDAR segmentation. SqueezeSeg: Convolutional Neural Nets with Recurrent {CRF} for Real-Time Road-Object Segmentation from 3D LiDAR Point Cloud. 
 
 
-Yin et al. \cite{Zhou_2018_CVPR}  VoxelNet: End-to-End Learning for Point Cloud Based 3D Object Detection. 
+
+%Yin et al. \cite{Zhou_2018_CVPR}  VoxelNet: End-to-End Learning for Point Cloud Based 3D Object Detection. 
 
 
-Riegler et al \cite{DBLP:conf/cvpr/RieglerUG17} OctNet: Learning Deep 3D Representations at High Resolutions.  
+%Riegler et al \cite{DBLP:conf/cvpr/RieglerUG17} OctNet: Learning Deep 3D Representations at High Resolutions.  
  
 
 Huang et al. \cite{DBLP:conf/icpr/HuangY16}  Point cloud labeling using 3D Convolutional Neural Network. 
