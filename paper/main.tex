@@ -233,23 +233,39 @@ Many real-world applications include multi-lable data and require real-time high
 \maketitle
 
 \section{Introduction}
-One of the special and still not well-solved problems in robotics research, is the real-time object recognition surrounding an autonomous robot in rapidly changing environment.  Many applications like autonomous vehicles require object recognition in real-time with high accuracy. 
-   
+One of the special and still not completely solved problems in robotics research, is the real-time object recognition surrounding an autonomous robot. Highly dynamic and rapidly changing environment of a robot requires a fast and intelligent system to detect its surrounding objects. Many applications like autonomous vehicles or autonomous cleaning robots require object recognition in real-time with high accuracy. 
+For such applications, it is life-threatening to detect surrounding objects accurately in real-time and be able to react proactively based on object classification results. 
 
- 
+One of the surveying methods that is in such application is a LiDAR scanner (Light Direction and Ranging). Such laser scanner can be used to generate a three dimensional representation of the surrounding environment. 
+It uses multiple lasers to generate a point cloud of coordinates (x,y,z) of objects. 
+LiDAR point cloud includes data can be processed to recognize objects. This task includes a fast data process pipeline and an accurate learning model to learn and classify different object types. 
+
+The ACM DEBS 2019 grand challenge \cite{DEBSGC2019} describes an object recognition challenge from stream of LiDAR point cloud data. 
+The organizers of the challenge provide a training set of LiDAR data for 28 different object types like car (2 different types), pedestrian, trees (2 different types), ATM machine, pedestrian, benches, container. The challenge scenario, data set and evaluation criteria are described by DEBS2019 grand challenge organizers  Bodunov et al. \cite{DEBSGC2019}. 
+
+
+Our contributions in this paper are: 
+
+
+\begin{enumerate}
+  \item A brief state-of-the-art description (Sec. \ref{sec:relatedWork})
+  \item Description of our data analysis architecture including pre-processing step of ground data removal, data segmentation 
+  and multi-lable object classification  (Sec.  \ref{sec:Architecture}).
+  \item Experimental evaluations and comparisons of different data processing architectures for achieve high accuracy 
+  and real-time data processing (Sec. \ref{sec:Evaluation}).  
+  \item A brief discussion about lessons learned by designing and implementing such object detection system 
+  \item Future extensions of our implementation (Sec. \ref{sec:conclusion} )
+\end{enumerate}    
+
   
 
-Many real-world applications include multi-lable data and require real-time high-speed multi-lable classification. In most application, it is crucial to proactively react based on classification results. For example, in autonomous car application it is important to detect surrounding cars and pedestrians in real-time to send reaction signals. 
+
+
+  
 
 
 
 
-
-LiDAR data (Light Direction and Ranging)  
-
-
-
-\cite{DEBSGC2019}
 
 
 
