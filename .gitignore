@@ -31,8 +31,8 @@
 *.out
 *.app
 
-*.pdf
-*.html
+# *.pdf
+# *.html
 
 venv/
 my_env/
