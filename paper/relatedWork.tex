@@ -12,6 +12,10 @@ Wu et al. \cite{DBLP:conf/icra/WuWYK18} present SqueezeSeg projects point cloud 
 
 Riegler et al \cite{DBLP:conf/cvpr/RieglerUG17} design more efficient 3D CNN or neural network architectures that exploit sparsity in point cloud. However, these CNN based methods still require quantitization of point clouds with certain voxel resolution.
 
+Huang et al. \cite{DBLP:conf/icpr/HuangY16} take a point cloud and parse it through a dense voxel grid, generating a set of occupancy voxels which are used as input to a 3D CNN to produce one label per voxel. They then map back the labels to the point cloud. Although this approach has been applied successfully, it has some disadvantages like quantization, loss of spatial information, and unnecessarily large representations.
+
+Maturana et al. \cite{DBLP:conf/iros/MaturanaS15} used deep learning models is to first convert raw point cloud data into a volumetric representation, namely a 3D grid. This approach, however, usually introduces quantization artifacts and excessive memory usage, making it difficult to go to capture high-resolution or finegrained features.
+
 
 % KIA: I just put the paper titles here \ldots 
 % Yavartanoo et al. \cite{DBLP:journals/corr/abs-1811-01571} propose an approach for 3D object classification  named SPNet - it is a deep 3D object classification and retrieval using stereographic projection. 
@@ -22,7 +26,7 @@ Riegler et al \cite{DBLP:conf/cvpr/RieglerUG17} design more efficient 3D CNN or 
 
 %Riegler et al \cite{DBLP:conf/cvpr/RieglerUG17} OctNet: Learning Deep 3D Representations at High Resolutions.  
  
-Huang et al. \cite{DBLP:conf/icpr/HuangY16}  Point cloud labeling using 3D convolutional neural network. 
+%Huang et al. \cite{DBLP:conf/icpr/HuangY16}  Point cloud labeling using 3D convolutional neural network. 
 
 
-Maturana et al. \cite{DBLP:conf/iros/MaturanaS15}  VoxNet: {A} 3D convolutional neural network for real-time object recognition.
+%Maturana et al. \cite{DBLP:conf/iros/MaturanaS15}  VoxNet: {A} 3D convolutional neural network for real-time object recognition.
