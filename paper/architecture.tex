@@ -86,10 +86,32 @@ We training and test the classification model (in the Step-3) after removing the
 
 \subsection{Object Segmentation and Noise Removal}
 
+The first during the testing phase is to segment the point cloud to chunks of data that include possibly only one single object.
+For this task we have implemented different clustering methods to cluster the data in original 3 dimensional format and in projected 2D form.      
 
 
 
 
+\textbf{3D to 2D Projection.}
+
+
+\large 
+\begin{align*}
+d= \text{Distance from eye to a projection plane)} \\   
+x' =  x (\frac{d}{z}) \\  
+y' =  y (\frac{d}{z}) \\
+z' =  z (\frac{d}{z}) = d  
+\end{align*}
+\normalsize
+
+
+
+
+
+
+
+
+\textbf{Sectioning From Top-View.} 
 
 %\usepackage{graphics} is needed for \includegraphics
 \begin{figure*}[!ht]
