@@ -169,8 +169,6 @@ class ClassifyWith2dCnn(object):
             use_normalization = False
         )
 
-        
-
         layer_conv4, weights_conv4 = self.new_conv_layer(
             input_layer=layer_conv3,
             num_input_channels=self.num_filters1,
@@ -218,3 +216,16 @@ class ClassifyWith2dCnn(object):
         self.weights2 = weights_conv2
         self.conv1 = layer_conv1
         self.conv2 = layer_conv2
+
+        # Print the shape of the neural net architecture
+        print(x)
+        print(x_image)
+        print(layer_conv1)
+        print(layer_conv2)
+        print(layer_conv3)
+        print(layer_conv4)
+        print(layer_flat)
+        print(layer_fc1)
+        print(layer_dropout)
+        print(layer_fc2)
+        print(y_pred)
