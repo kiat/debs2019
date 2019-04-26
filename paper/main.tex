@@ -188,8 +188,8 @@
 % The abstract is a short summary of the work to be presented in the article.
 \begin{abstract}
 Recognition of objects surrounding a robot in a dynamic environment is one of the research challenges in robotics.
-LiDAR (Light Direction and Ranging) scanner is used to gather data about environment.  
-Applications like autonomous vehicles require real-time processing the LiDAR point cloud data with high accuracy.   
+LiDAR (Light Direction and Ranging) scanner is used to gather data about robot's environment.  
+Applications like autonomous vehicles require real-time processing of the LiDAR generated point cloud data with high accuracy.   
 
 We describe in this paper, our implementation for DEBS 2019 Grand Challenge for an object recognition system from high-speed 
 LiDAR data stream. Our system includes a data processing pipeline with 3 main stages, 1. LiDAR data filtering 2. Object segmentation and noise removal 3. Object classifications using Convolutional Neural Network (CNN). We have evaluated our system by using point cloud data in 3 dimensional system and in projection of it in 2D. Our evaluation shows that the we can classify objects with high accuracy using the point cloud data and neural network. However, we observed that the classification may fail if the object segmentation is not separating objects correctly in different segments specially when the objects are largely covered. We proposed segmentation approach based on separating LiDAR data first to multiple sectors before the main segmentation.     
