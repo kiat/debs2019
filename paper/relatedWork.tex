@@ -4,19 +4,22 @@ In this brief section, we review some of the most related publications regarding
 %SAEED: describe some related work:
 \textbf{3D shape analysis} Performance of 3D shape analysis is heavily dependent on the input representation. The main representations are volumetric, point cloud and multi-view.
 
-The better compare 3D shape descriptors we will focus on the retrieval performance. Recent approaches show significant improvements in retrieval. Yavartanoo et al. \cite{DBLP:journals/corr/abs-1811-01571} introduces multi-view stereographic projection; it first transform a 3D input volume into a 2D planar image using stereographic projection.
+To better compare 3D shape descriptors, we will focus on the retrieval performance. Recent approaches show significant improvements in retrieval. Yavartanoo et al. \cite{DBLP:journals/corr/abs-1811-01571} introduces multi-view stereographic projection; it first transforms a 3D input volume into a 2D planar image using stereographic projection.
 
 Zhou et al. \cite{Zhou_2018_CVPR} proposed a model that operates only on LiDAR data. In regard to that, it is the best-ranked model on KITTI \cite{geiger2012we} for 3D and birds-eye view detections using LiDAR data only. The basic idea is end-to-end learning that operates on grid cells without using handcrafted features. However, even with sparse 3D convolution operations, this model's computational speed is still slower than other similar proposed architectures.
 
 
-Wu et al. \cite{DBLP:conf/icra/WuWYK18} present SqueezeSeg projects point cloud to the front view with cells gridded by LiDAR rotation and then applies normal 2D CNN for classification and segmentation. The front view representation of point cloud shares the same multi-scale problem like the camera because the sizes of objects change as the distance varies.
+Wu et al. \cite{DBLP:conf/icra/WuWYK18} present SqueezeSeg which projects point cloud to the front view with cells gridded by LiDAR rotation. 
+It applies normal 2D CNN for classification and segmentation. The front view representation of point cloud shares the same multi-scale problem like the camera because the sizes of objects change as the distance varies.
 
 Riegler et al \cite{DBLP:conf/cvpr/RieglerUG17} design more efficient 3D CNN or neural network architectures that exploit sparsity in the point cloud. However, these CNN based methods still require quantization of point clouds with certain voxel resolution.
 
-Huang et al. \cite{DBLP:conf/icpr/HuangY16} take a point cloud and parse it through a dense voxel grid, generating a set of occupancy voxels which are used as input to a 3D CNN to produce one label per voxel. They then map back the labels to the point cloud. Although this approach has been applied successfully, it has some disadvantages like quantization, loss of spatial information, and unnecessarily large representations.
+Huang et al. \cite{DBLP:conf/icpr/HuangY16} take a point cloud and parse it through a dense voxel grid, generating a set of occupancy voxels which are used as input to a 3D CNN to produce one label per voxel. They map back the labels to the point cloud. Although this approach has been applied successfully, it has disadvantages like quantization, loss of spatial information, and unnecessarily large representations.
 
 Maturana et al. \cite{DBLP:conf/iros/MaturanaS15} used deep learning models is to first convert raw point cloud data into a volumetric representation, namely a 3D grid. This approach, however, usually introduces quantization artifacts and excessive memory usage, making it difficult to go to capture high-resolution or fine-grained features.
 
+
+The defined grand challenge 2019 \cite{DEBSGC2019} scenario for object is slightly different than the scenario for object recognition in the above state-of-the-art approaches because of multiple objects which partially cover each other and its object segmentation problem and classification problem.       
 
 % KIA: I just put the paper titles here \ldots
 % Yavartanoo et al. \cite{DBLP:journals/corr/abs-1811-01571} propose an approach for 3D object classification  named SPNet - it is a deep 3D object classification and retrieval using stereographic projection.
