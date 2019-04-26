@@ -4,6 +4,14 @@
 % 2. Segment data and sent it to classifier 
 % 3. Classification with Neural Network. 
 
+\begin{figure*}[!ht]
+ \begin{center}
+   \includegraphics[width=0.6\textwidth]{./images/DataProcessingPipleline.pdf}
+   \caption{Overview of our Data Processing Pipeline}
+   \label{fig:dataPipeline}
+ \end{center}
+\end{figure*}
+
 Our data processing pipeline consist of 3 main processing steps: 
 
 \begin{enumerate}
@@ -14,13 +22,7 @@ Our data processing pipeline consist of 3 main processing steps:
   \item \textbf{Step-3 Object Classification.}  Classifying an object from point cloud data containing one single object.
 \end{enumerate}
 
-\begin{figure*}[!h]
- \begin{center}
-   \includegraphics[width=0.9\textwidth]{./images/DataProcessingPipleline.pdf}
-   \caption{Overview of our Data Processing Pipeline}
-   \label{fig:dataPipeline}
- \end{center}
-\end{figure*}
+
 
 
 Figure \ref{fig:dataPipeline} depicts our data processing pipeline. As the system runs in the testing it gets point cloud data for a single scene which includes multiple objects and process it in 3 steps and to deliver the classification results in real-time.   
@@ -125,7 +127,7 @@ DBSCAN clustering algorithm is also able to remove the noise form the data set a
 
 \begin{figure*}[!h]
 \begin{center}
-  \includegraphics[width=.85\linewidth]{./images/seg_noise_removal.png}
+  \includegraphics[width=.65\linewidth]{./images/seg_noise_removal.png}
   \caption{Clustered Point Cloud Data after Filtering the Data Noise (Colors indicate Clusters). }
   \label{fig:ClusteringWithNoiseFiltering}
 \end{center}
@@ -165,7 +167,7 @@ For this purpose we calculate the radius of each point to the center ($\sqrt{x^2
 
 \begin{figure}[!h]
 \begin{center}
-  \includegraphics[scale=0.31]{./images/sectors_density.pdf}
+  \includegraphics[scale=0.2]{./images/sectors_density.pdf}
   \caption{Density of Points in a Single Sector with 3 Objects}
   \label{fig:SectorDensity}
 \end{center}

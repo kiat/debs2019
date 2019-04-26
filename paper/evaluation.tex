@@ -34,7 +34,7 @@ The figure also includes if in testing all 500 scenes are processed in time or i
 %\usepackage{graphics} is needed for \includegraphics
 \begin{figure*}[htp]
 \begin{center}
-  \includegraphics[width=0.8\linewidth]{images/evaluation2.pdf}
+  \includegraphics[width=0.6\linewidth]{images/evaluation2.pdf}
   \caption{Precision, Recall, Accuracy and Processing Time of 4 different our Experiment Variation}
   \label{fig:evaluation2}
 \end{center}
@@ -44,22 +44,22 @@ The figure also includes if in testing all 500 scenes are processed in time or i
 All of the above settings have a data filtering pre-processing step. In Figure \ref{fig:accuracy} and \ref{fig:loss} of our CNN implementation using TensorFlow to classify objects into 28 class types. 
 
 
-\begin{figure*}[!h]
-\centering
-\begin{minipage}{0.4\textwidth}
-  \centering
-        \includegraphics[width=0.8\linewidth]{images/accuracy.png}
+%\usepackage{graphics} is needed for \includegraphics
+\begin{figure}[htp]
+\begin{center}
+        \includegraphics[scale=0.5]{images/accuracy.png}
         \caption{Training and Validation Accuracy}
         \label{fig:accuracy}
-\end{minipage}%
-\begin{minipage}{0.4\textwidth}
-  \centering
-        \includegraphics[width=0.8\linewidth]{images/loss.png}
+\end{center}
+\end{figure}
+
+
+
+\begin{figure}[htp]
+\begin{center}
+        \includegraphics[scale=0.5]{images/loss.png}
         \caption{Training and Validation Loss}
         \label{fig:loss}
-\end{minipage}%
-% \caption{General caption.} \label{fig:1}
-\end{figure*}
-
-
+\end{center}
+\end{figure}
 

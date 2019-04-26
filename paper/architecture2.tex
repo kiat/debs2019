@@ -3,7 +3,7 @@
 % Describe here the CNN architecture.
 
 We have designed our model with classic 2D Convolutional neural network.
-Our network architecture is represented in fig:cnn.
+Our network architecture is represented in \ref{fig:cnn}.
 The network model is designed for multiclass classification of point cloud object. Convolutional Neural network gives promising result of object model with spatial data. CNN effectively learns the feature recognition of planes, corners, and the edge of the object model. Our Network model is designed with 4 Convolutional layers, where each layer filter is expected to recognize
 planes, corners, edges, and distribution of the objects per orientation.
 other layers learn the global label for the input grid from the knowledge passed by each layer.
@@ -17,7 +17,7 @@ which generates the input voxel grids. The input layer forwards each object inpu
 Convolutional Layer(input,f,s):
 There is 4 Convolutional layer in our architecture to learn features on each orientation.
 The first convolutional layer feed on three-dimensional input of size NxMxf from the input layer, a filter size=f and number of filter to be applied.
-The filter-size provided to convolutional layer is 5x5 with 16 such filters to be applied on the input.
+The filter-size provided to convolutional layer is $5x5$ with 16 such filters to be applied on the input.
 The convolutional layer equates filter f by apply convolutional on input dimension to create a feature map as output.
 The Convolutional layer learns about the spatial planes, edges, and distribution in the object, the convolutional layer passes the output to the rectified nonlinearity unit(Relu) before feeding it forward to next Layers.
 
@@ -45,7 +45,7 @@ and finally fed to a fully connected layer and softmax to classify the object in
 
 \begin{figure*}[!h]
      \begin{center}
-       \includegraphics[width=1.1\textwidth]{./images/object_net.pdf}
+       \includegraphics[width=0.5\textwidth]{./images/object_net.pdf}
        \caption{Overview of Convolutional Neural Network Layers}
        \label{fig:cnn}
      \end{center}
