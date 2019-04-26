@@ -1,11 +1,20 @@
 \section{Conclusion and Future Work}\label{sec:conclusion}
+We have seen that it is possible to use the LiDAR data to classify objects from the point cloud in real-time. 
+We have seen that the accuracy of our classification stage is very high when we train and test it on LiDAR point cloud containing only one object.  
+
+Clearly, our implementation can be improved and time optimized using all CPUs of a single machine using multi-threading and multi-processing achieve real-time processing time and met application requirements.    
 
 
+Lessons Learned form our implementation are: 
 
+\begin{enumerate}
+  \item Classification of LiDAR point cloud can achieve high accuracy and real-time processing time by projecting the 3D data into 2D view. 
+  \item Classification using CNN on point cloud does not need large number of hidden layers to achieve high accuracy.
+  \item CNN may fail only in classification of tiny objects or objects have variable density like ``Tree Objects''.   
+  \item If multiple objects are in a scene and they are hiding each other (completely or partially) then object segmentation using DBSCAN or other traditional clustering methods may fail to separate objects.   
+\end{enumerate}
 
+One of the parts that needs improvement, is the segmentation stage. We observed that if the segmentation stage fails to clearly separate objects into single voxels then the sub-sequent classifier cannot correctly classify the object type. This can be improved by extending our sectioning idea and combination of it with traditional density-based clustering. 
 
-
-
-
-
-
+ 
+  
