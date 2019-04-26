@@ -1,33 +1,33 @@
 \section{Related Work}\label{sec:relatedWork}
-In this brief section we review some of the most related publications regarding LiDAR point cloud object recognition problem.
+In this brief section, we review some of the most related publications regarding LiDAR point cloud object recognition problem.
 
 %SAEED: describe some related work:
 \textbf{3D shape analysis} Performance of 3D shape analysis is heavily dependent on the input representation. The main representations are volumetric, point cloud and multi-view.
 
-The better compare 3D shape descriptors we will focus on the retrieval performance. Recent approaches show significant improvements on retrieval. Yavartanoo et al. \cite{DBLP:journals/corr/abs-1811-01571} introduces multi-view stereographic projection; it first transform a 3D input volume into a 2D planar image using stereographic projection.
+The better compare 3D shape descriptors we will focus on the retrieval performance. Recent approaches show significant improvements in retrieval. Yavartanoo et al. \cite{DBLP:journals/corr/abs-1811-01571} introduces multi-view stereographic projection; it first transform a 3D input volume into a 2D planar image using stereographic projection.
 
-Zhou et al. \cite{Zhou_2018_CVPR} proposed a model that operates only on LiDAR data. In regard to that, it is the best ranked model on KITTI \cite{geiger2012we} for 3D and birds-eyeview detections using LiDAR data only. The basic idea is an end-to-end learning that operates on grid cells without using hand crafted features. However, even with sparse 3D convolution operations, this model's computational speed is still slower than other similar proposed architectures.
+Zhou et al. \cite{Zhou_2018_CVPR} proposed a model that operates only on LiDAR data. In regard to that, it is the best-ranked model on KITTI \cite{geiger2012we} for 3D and birds-eye view detections using LiDAR data only. The basic idea is end-to-end learning that operates on grid cells without using handcrafted features. However, even with sparse 3D convolution operations, this model's computational speed is still slower than other similar proposed architectures.
 
 
-Wu et al. \cite{DBLP:conf/icra/WuWYK18} present SqueezeSeg projects point cloud to the front view with cells gridded by LiDAR rotation and then applies normal 2D CNN for classification and segmentation. The front view representation of point cloud shares the same multi-scale problem as camera, because the sizes of objects change as distance varies.
+Wu et al. \cite{DBLP:conf/icra/WuWYK18} present SqueezeSeg projects point cloud to the front view with cells gridded by LiDAR rotation and then applies normal 2D CNN for classification and segmentation. The front view representation of point cloud shares the same multi-scale problem like the camera because the sizes of objects change as the distance varies.
 
-Riegler et al \cite{DBLP:conf/cvpr/RieglerUG17} design more efficient 3D CNN or neural network architectures that exploit sparsity in point cloud. However, these CNN based methods still require quantitization of point clouds with certain voxel resolution.
+Riegler et al \cite{DBLP:conf/cvpr/RieglerUG17} design more efficient 3D CNN or neural network architectures that exploit sparsity in the point cloud. However, these CNN based methods still require quantization of point clouds with certain voxel resolution.
 
 Huang et al. \cite{DBLP:conf/icpr/HuangY16} take a point cloud and parse it through a dense voxel grid, generating a set of occupancy voxels which are used as input to a 3D CNN to produce one label per voxel. They then map back the labels to the point cloud. Although this approach has been applied successfully, it has some disadvantages like quantization, loss of spatial information, and unnecessarily large representations.
 
-Maturana et al. \cite{DBLP:conf/iros/MaturanaS15} used deep learning models is to first convert raw point cloud data into a volumetric representation, namely a 3D grid. This approach, however, usually introduces quantization artifacts and excessive memory usage, making it difficult to go to capture high-resolution or finegrained features.
+Maturana et al. \cite{DBLP:conf/iros/MaturanaS15} used deep learning models is to first convert raw point cloud data into a volumetric representation, namely a 3D grid. This approach, however, usually introduces quantization artifacts and excessive memory usage, making it difficult to go to capture high-resolution or fine-grained features.
 
 
-% KIA: I just put the paper titles here \ldots 
-% Yavartanoo et al. \cite{DBLP:journals/corr/abs-1811-01571} propose an approach for 3D object classification  named SPNet - it is a deep 3D object classification and retrieval using stereographic projection. 
+% KIA: I just put the paper titles here \ldots
+% Yavartanoo et al. \cite{DBLP:journals/corr/abs-1811-01571} propose an approach for 3D object classification  named SPNet - it is a deep 3D object classification and retrieval using stereographic projection.
 
-%Wu et al. \cite{DBLP:conf/icra/WuWYK18} propose an approach for 3D LiDAR segmentation. SqueezeSeg: Convolutional Neural Nets with Recurrent {CRF} for Real-Time Road-Object Segmentation from 3D LiDAR Point Cloud. 
+%Wu et al. \cite{DBLP:conf/icra/WuWYK18} propose an approach for 3D LiDAR segmentation. SqueezeSeg: Convolutional Neural Nets with Recurrent {CRF} for Real-Time Road-Object Segmentation from 3D LiDAR Point Cloud.
 
-%Yin et al. \cite{Zhou_2018_CVPR}  VoxelNet: End-to-End Learning for Point Cloud Based 3D Object Detection. 
+%Yin et al. \cite{Zhou_2018_CVPR}  VoxelNet: End-to-End Learning for Point Cloud-Based 3D Object Detection.
 
-%Riegler et al \cite{DBLP:conf/cvpr/RieglerUG17} OctNet: Learning Deep 3D Representations at High Resolutions.  
- 
-%Huang et al. \cite{DBLP:conf/icpr/HuangY16}  Point cloud labeling using 3D convolutional neural network. 
+%Riegler et al \cite{DBLP:conf/cvpr/RieglerUG17} OctNet: Learning Deep 3D Representations at High Resolutions.
+
+%Huang et al. \cite{DBLP:conf/icpr/HuangY16}  Point cloud labeling using a 3D convolutional neural network.
 
 
 %Maturana et al. \cite{DBLP:conf/iros/MaturanaS15}  VoxNet: {A} 3D convolutional neural network for real-time object recognition.

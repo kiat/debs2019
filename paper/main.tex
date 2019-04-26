@@ -5,8 +5,8 @@
 %
 % defining the \BibTeX command - from Oren Patashnik's original BibTeX documentation.
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08emT\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
-    
-% Rights management information. 
+
+% Rights management information.
 % This information is sent to you when you complete the rights form.
 % These commands have SAMPLE values in them; it is your responsibility as an author to replace
 % the commands and values with those provided to you when you complete the rights form.
@@ -29,7 +29,7 @@
 %\acmDOI{10.1145/1122445.1122456}
 
 %
-% Submission ID. 
+% Submission ID.
 % Use this when submitting an article to a sponsored event. You'll receive a unique submission ID from the organizers
 % of the event, and this ID should be used as the parameter to this command.
 %\acmSubmissionID{123-A56-BU3}
@@ -44,7 +44,7 @@
 
 
 
-% HERE STARTS OUR packages 
+% HERE STARTS OUR packages
 
 % \usepackage{balance}  % for  \balance command ON LAST PAGE  (only there!)
 
@@ -57,9 +57,9 @@
 %\usepackage{url}
 %\usepackage[utf8]{inputenc}
 %\usepackage{soul}
-%\usepackage{nameref} 
+%\usepackage{nameref}
 %\usepackage{amsbsy}
-% \usepackage{bezier}  
+% \usepackage{bezier}
 % \usepackage{colortbl}
 % \usepackage{verbatim}
 %\usepackage{qtree}
@@ -101,7 +101,7 @@
 % \usepackage{subfig}
 
 % \usepackage{listings}
-% 
+%
 % \lstset{
 % language=Java,                  % the language of the code
 % basicstyle=\scriptsize,        % the size of the fonts that are used for the code
@@ -110,9 +110,9 @@
 % showspaces=false,               % show spaces adding particular underscores
 % showstringspaces=false,         % underline spaces within strings
 % showtabs=false,                 % show tabs within strings adding particular underscores
-% frame=none,                     % adds a frame around the code, none, single 
-% tabsize=1,                   	% sets default tabsize to 2 spaces
-% captionpos=b,                  	% sets the caption-position to bottom
+% frame=none,                     % adds a frame around the code, none, single
+% tabsize=1,                       % sets default tabsize to 2 spaces
+% captionpos=b,                      % sets the caption-position to bottom
 % breaklines=flase,                % sets automatic line breaking
 % % breakatwhitespace=false,      % sets if automatic breaks should only happen at whitespace
 % title=\lstname,                 % show the filename of files included with \lstinputlisting;
@@ -123,9 +123,9 @@
 % belowskip=0em,
 % framexleftmargin=10pt
 % }
-% 
-% 
-% 
+%
+%
+%
 % \newcommand{\TODO}[1]{\todo[inline,color=orange!40]{KIA: #1}}
 
 
@@ -148,25 +148,25 @@
 
 \author{Sambasiva Rao Gangineni}
 \affiliation{%
-  \institution{Boston University}  
+  \institution{Boston University}
 }
 \email{samba693@bu.edu}
 
 \author{Harshad Reddy Nalla}
 \affiliation{%
-	\institution{Boston University}  
+    \institution{Boston University}
 }
 \email{harshad@bu.edu}
 
 % \author{Dimitrije Jankov}
 % \affiliation{%
-% 	\institution{Rice University}  
+%     \institution{Rice University}
 % }
 % \email{dimitrijejankov@gmail.com}
 
 \author{Saeed Fathollahzadeh}
 \affiliation{%
-	\institution{Iran University of Science and Technology}  
+    \institution{Iran University of Science and Technology}
 }
 \email{fathollahzadeh@comp.iust.ac.ir}
 
@@ -179,7 +179,7 @@
 
 
 %
-% By default, the full list of authors will be used in the page headers. Often, this list is too long, and will overlap
+% By default, the full list of authors will be used in the page headers. Often, this list is too long and will overlap
 % other information printed in the page headers. This command allows the author to define a more concise list
 % of authors' names for this purpose.
 \renewcommand{\shortauthors}{Gangineni, et al.}
@@ -188,16 +188,16 @@
 % The abstract is a short summary of the work to be presented in the article.
 \begin{abstract}
 Recognition of objects surrounding a robot in a dynamic environment is one of the research challenges in robotics.
-LiDAR (Light Direction and Ranging) scanner is used to gather data about robot's environment.  
-Applications like autonomous vehicles require real-time processing of the LiDAR generated point cloud data with high accuracy.   
+LiDAR (Light Detection and Ranging) scanner is used to gather data about the environment.
+Applications like autonomous vehicles require real-time processing the LiDAR point cloud data with high accuracy.
 
-We describe in this paper, our implementation for DEBS 2019 Grand Challenge for an object recognition system from high-speed 
-LiDAR data stream. Our system includes a data processing pipeline with 3 main stages, 1. LiDAR data filtering 2. Object segmentation and noise removal 3. Object classifications using Convolutional Neural Network (CNN). We have evaluated our system by using point cloud data in 3 dimensional system and in projection of it in 2D. Our evaluation shows that the we can classify objects with high accuracy using the point cloud data and neural network. However, we observed that the classification may fail if the object segmentation is not separating objects correctly in different segments specially when the objects are largely covered. We proposed segmentation approach based on separating LiDAR data first to multiple sectors before the main segmentation.     
+We describe in this paper, our implementation for DEBS 2019 Grand Challenge for an object recognition system from high-speed
+LiDAR data stream. Our system includes a data processing pipeline with 3 main stages, 1. LiDAR data filtering 2. Object segmentation and noise removal 3. Object classifications using Convolutional Neural Network (CNN). We have evaluated our system by using point cloud data in the 3-dimensional system and in the projection of it in 2D. Our evaluation shows that we can classify objects with high accuracy using the point cloud data and neural network. However, we observed that the classification may fail if the object segmentation is not separating objects correctly in different segments especially when the objects are largely covered. We proposed a segmentation approach based on separating LiDAR data first to multiple sectors before the main segmentation.
 \end{abstract}
 
 
 % \begin{abstract}
-% Many real-world applications include multi-lable data and require real-time high-speed multi-lable classification. In most application, it is crucial to proactively react based on classification results. For example, in autonomous car application it is important to detect surrounding cars and pedestrians in real-time to send reaction signals.  We describe in this paper, our implementation for DEBS 2019 Grand Challenge for a high-speed online neural network classifier that is highly customized to classify objects from streaming data in real-time.
+% Many real-world applications include multi-label data and require real-time high-speed multi-label classification. In most application, it is crucial to proactively react based on classification results. For example, an autonomous car application, it is important to detect surrounding cars and pedestrians in real-time to send reaction signals.  We describe in this paper, our implementation for DEBS 2019 Grand Challenge for a high-speed online neural network classifier that is highly customized to classify objects from streaming data in real-time.
 % \end{abstract}
 
 
@@ -247,34 +247,34 @@ LiDAR data stream. Our system includes a data processing pipeline with 3 main st
 \maketitle
 
 \section{Introduction}
-One of the special and still not completely solved problems in robotics research, is the real-time object recognition surrounding an autonomous robot. Highly dynamic and rapidly changing environment of a robot requires a fast and intelligent system to detect its surrounding objects. Many applications like autonomous vehicles or autonomous cleaning robots require object recognition in real-time with high accuracy. 
-For such applications, it is important to detect surrounding objects accurately in real-time and be able to react proactively based on object classification results. 
+One of the special and still not completely solved problems in robotics research is the real-time object recognition surrounding an autonomous robot. Highly dynamic and rapidly changing environment of a robot requires a fast and intelligent system to detect its surrounding objects. Many applications like autonomous vehicles or autonomous cleaning robots require object recognition in real-time with high accuracy.
+For such applications, it is important to detect surrounding objects accurately in real-time and be able to react proactively based on object classification results.
 
-One of the surveying methods that is in such application is a LiDAR scanner (Light Detection and Ranging). Such laser scanner can be used to generate a three dimensional representation of the surrounding environment. 
-It uses multiple lasers to generate a point cloud of coordinates (x,y,z) of objects. 
-LiDAR point cloud includes data that can be processed to recognize objects. This task needs a fast data process pipeline and an accurate learning model to learn and classify different object types. 
+One of the surveying methods that are in such application is a LiDAR scanner (Light Detection and Ranging). Such a laser scanner can be used to generate a three-dimensional representation of the surrounding environment.
+It uses multiple lasers to generate a point cloud of coordinates (x,y,z) of objects.
+LiDAR point cloud includes data that can be processed to recognize objects. This task needs a fast data process pipeline and an accurate learning model to learn and classify different object types.
 
-The ACM DEBS 2019 grand challenge \cite{DEBSGC2019} describes an object recognition challenge from stream of LiDAR point cloud data. 
-The organizers of the challenge provide a training set of LiDAR data for 28 different object types like car (2 different types), pedestrian, trees (2 different types), ATM machine, pedestrian, benches, container. The DEBS 2019 challenge scenario, data set and evaluation criteria are described by  organizers Bodunov et al. in \cite{DEBSGC2019}. 
+The ACM DEBS 2019 grand challenge \cite{DEBSGC2019} describes an object recognition challenge from the stream of LiDAR point cloud data.
+The organizers of the challenge provide a training set of LiDAR data for 28 different object types like the car (2 different types), pedestrian, trees (2 different types), ATM machine, pedestrian, benches, container. The DEBS 2019 challenge scenario, data set and evaluation criteria are described by organizers Bodunov et al. in \cite{DEBSGC2019}.
 
 
-Our contributions in this paper are: 
+Our contributions in this paper are:
 
 
 \begin{enumerate}
   \item A brief state-of-the-art overview regarding object recognition from LiDAR point cloud.  (Sec. \ref{sec:relatedWork})
   \item Description of our data analysis architecture and processing pipeline including data pre-processing for LiDAR ground removal, data segmentation (generating voxels containing objects ), and multi-label object classification  (Sec.  \ref{sec:Architecture}).
-  \item Experimental evaluation and comparisons of different data processing architectures, different data models to achieve high accuracy 
-  and real-time data processing (Sec. \ref{sec:Evaluation}).  
-  \item A discussion about lessons learned and challenges (Sec. \ref{sec:conclusion} ). 
+  \item Experimental evaluation and comparisons of different data processing architectures, different data models to achieve high accuracy
+  and real-time data processing (Sec. \ref{sec:Evaluation}).
+  \item A discussion about lessons learned and challenges (Sec. \ref{sec:conclusion} ).
   % \item Future extensions of our implementation
-\end{enumerate}    
-
-  
+\end{enumerate}
 
 
 
-  
+
+
+
 
 
 
