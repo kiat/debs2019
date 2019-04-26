@@ -11,7 +11,7 @@ Lessons Learned form our implementation are:
 \begin{enumerate}
   \item Classification of LiDAR point cloud can achieve high accuracy and real-time processing time by projecting the 3D data into 2D view.
   \item Classification using CNN on point cloud does not need a large number of hidden layers to achieve high accuracy.
-  \item CNN may fail only in the classification of tiny objects or objects have variable density like ``Tree Objects''.
+  \item CNN may fail to classify if the scene includes tiny objects or objects have variable density like ``Tree Objects''.
   \item If multiple objects are in a scene and they are hiding each other (completely or partially) then object segmentation using DBSCAN or other traditional clustering methods may fail to separate objects.
 \end{enumerate}
 
