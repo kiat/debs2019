@@ -23,7 +23,7 @@ Our data processing pipeline consist of 3 main processing steps:
 \end{figure*}
 
 
-Figure \ref{fig:dataPipeline} depicts our data processing pipeline. As the system runs in the testing time in gets point cloud data for a single scene which includes multiple objects and process it in 3 steps and to deliver the classification results in real-time.   
+Figure \ref{fig:dataPipeline} depicts our data processing pipeline. As the system runs in the testing it gets point cloud data for a single scene which includes multiple objects and process it in 3 steps and to deliver the classification results in real-time.   
 
 The provided training data by DEBS 2019 Challenge \cite{DEBSGC2019} includes only one single object per scene with its label so that it is not require to have the step-2 object segmentation when we train our system.
 
@@ -59,8 +59,8 @@ The provided training data by DEBS 2019 Challenge \cite{DEBSGC2019} includes onl
 
 The first step in our data processing pipeline is to filter out the LiDAR laser lines that are building a cylinder form 3D shape from the laser standing point $(x=0, y=0, z=0)$. Figure \ref{fig:ground_before} visualizes the LiDAR data from a single scene with LiDAR laser lines and Figure \ref{fig:after} shows the data after filtering the Laser ground lines. As you can see objects like car or pedestrian are visible in Figure \ref{fig:after} after filtering the LiDAR lines.
 
-This first filtering step in our data processing pipeline reduces highly the amount of data that we process and also heps to be able to find object segments in the next following step. 
-We training and test the classification model (in the Step-3) after removing the Laser base lines and filtering them out.  
+This first filtering step in our data processing pipeline reduces highly the amount of data that we process and also helps to be able to find object segments in the next following step. 
+We train and test the classification model (in the Step-3) after removing the Laser base lines and filtering them out.  
 
 
 \begin{figure*}[!h]
