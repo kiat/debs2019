@@ -1,12 +1,17 @@
 \section{Data Set}
+DEBS 2019  Challenge provides a training and test data sets \cite{DEBSGC2019}. 
+The data set consist of LiDAR sensor point cloud which has 64 lasers. Each scene includes 72,000 data readings which includes  X, Y, and Z coordinates (Y axis is the shown to be the elevation). 
+In each scene objects are placed around the LiDAR scanner and data is collected, example objects are \textbf{ATM machine}, \textbf{pedestrian}, \textbf{benches}, \textbf{cloth recycling container}. 
+
+We build multiple 2D and 3D visualizations of the data like shown in Figures \ref{fig:ground_before} 
+
+We observed that sequence of scenes have no relations and scenes are randomly selected from a set of scenes. However, in applications like autonomous vehicles, sequences of scenes have a correlations so that one can track the object coming in range of LiDAR laser and going out of the range. This information could be used to improved the classification accuracy such application.    
 
 
-
-%SAEED
+% SAEED
 % The data provided for the challenge consists of point cloud readings simulated for a LiDAR sensor that mounts 64 lasers Fig.\ref{fig:data_overview} a , each shoot 1125 times per rotation. That is, each scene consists of 72,000 readings. Each reading is composed of attributes where X, Y, and Z coordinates are as presented in Fig.\ref{fig:data_overview} b.
 % 
 % In each scene, objects are representative of urban environments and are of the following types: \textbf{ATM machine}, \textbf{pedestrian}, \textbf{benches}, \textbf{cloth recycling container}, \textbf{drinking fountain}, \textbf{electrical cabinet}, \textbf{emergency phone}, \textbf{fire hydrant}, \textbf{glass recycling container}, \textbf{ice freeze container}, \textbf{mailbox}, \textbf{trash bins}, \textbf{phone booth}, \textbf{trees}, and \textbf{several vehicle types}. In some cases, it is possible for an object in a scene to be hidden from the LiDAR sensor (e.g., when such object is occluded by other objects in the scene)\cite{DEBSGC2019}.
-
 
 
 % 
@@ -39,9 +44,4 @@
 % We need to mention other data sets like The KITTI Dataset \cite{Geiger2013IJRR}
 
 
-
 % KITTI Dataset \cite{Geiger2013IJRR}
-
-DEBS 2019 Training and Test data sets \cite{DEBSGC2019}
-
-
