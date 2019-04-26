@@ -2,6 +2,7 @@
 We have seen that it is possible to use the LiDAR data to classify objects from the point cloud in real-time. 
 We have seen that the accuracy of our classification stage is very high when we train and test it on LiDAR point cloud containing only one object.  
 
+
 Clearly, our implementation can be improved and time optimized using all CPUs of a single machine using multi-threading and multi-processing achieve real-time processing time and met application requirements.    
 
 
@@ -15,6 +16,3 @@ Lessons Learned form our implementation are:
 \end{enumerate}
 
 One of the parts that needs improvement, is the segmentation stage. We observed that if the segmentation stage fails to clearly separate objects into single voxels then the sub-sequent classifier cannot correctly classify the object type. This can be improved by extending our sectioning idea and combination of it with traditional density-based clustering. 
-
- 
-  
