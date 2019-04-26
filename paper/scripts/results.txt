@@ -1,0 +1,27 @@
+---------
+Optimization Epochs:    1.0, Training Accuracy:   4.0%, validation Accuracy:   3.9%, training cost: 3.3477611484981717, val_cost: 3.339404216834477
+---------
+Optimization Epochs:    2.0, Training Accuracy:  30.1%, validation Accuracy:  32.3%, training cost: 2.2241944812593006, val_cost: 2.1006985817636763
+---------
+Optimization Epochs:    3.0, Training Accuracy:  42.3%, validation Accuracy:  47.2%, training cost: 1.7425105302106767, val_cost: 1.5959497009004866
+---------
+Optimization Epochs:    4.0, Training Accuracy:  54.6%, validation Accuracy:  62.9%, training cost: 1.4080561491705121, val_cost: 1.2513146911348616
+---------
+Optimization Epochs:    5.0, Training Accuracy:  61.8%, validation Accuracy:  69.2%, training cost: 1.1798349061892146, val_cost: 1.0288932344743185
+---------
+Optimization Epochs:    6.0, Training Accuracy:  67.6%, validation Accuracy:  74.9%, training cost: 0.9870324613792556, val_cost: 0.8808506109884807
+---------
+Optimization Epochs:    7.0, Training Accuracy:  72.5%, validation Accuracy:  77.9%, training cost: 0.8687446770213899, val_cost: 0.7654717649732318
+---------
+Optimization Epochs:    8.0, Training Accuracy:  75.9%, validation Accuracy:  81.2%, training cost: 0.7552096765665781, val_cost: 0.6983004574264798
+---------
+Optimization Epochs:    9.0, Training Accuracy:  78.7%, validation Accuracy:  82.5%, training cost: 0.6347689186888081, val_cost: 0.6212001187460763
+---------
+Optimization Epochs:   10.0, Training Accuracy:  81.7%, validation Accuracy:  85.4%, training cost: 0.5813740756185282, val_cost: 0.5836971732122558
+---------
+Optimization Epochs:   11.0, Training Accuracy:  84.7%, validation Accuracy:  88.3%, training cost: 0.5345980231952341, val_cost: 0.5516728492015421
+---------
+Optimization Epochs:   12.0, Training Accuracy:  87.2%, validation Accuracy:  92.7%, training cost: 0.4935826014766234, val_cost: 0.4953841207632198
+
+Time usage: 1:05:22.005232
+Accuracy on Test-Set: 94.2% (7921 / 8400)
