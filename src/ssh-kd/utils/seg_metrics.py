@@ -19,7 +19,7 @@ def meanshift_seg(data_frame):
     return len(np.unique(clustering.labels_))
 
 # MiniBatchKMeans
-def doClusteringWitkMiniBatchKmeans(data, min_cluster_number=10, max_cluster_number=50, Elbow_ratio = 1.02):
+def minibatch_seg(data, min_cluster_number=10, max_cluster_number=50, Elbow_ratio = 1.02):
 
     Sum_of_squared_distances = []
 
@@ -49,22 +49,21 @@ def kmeans_seg(data_frame):
 
 # Count the number of actual clusters
 def load_output(file_path):
-    out_file = open(file_path, 'r').readlines()
-    outfile = [i.rstrip() for i in out_file]
+    outfile = open(file_path, 'r').readlines()
+    outfile = [i.rstrip() for i in outfile]
     outfile = [i.split(',') for i in outfile]
     outfile = [i[1:] for i in outfile]
 
-    outfile_list = []
     out_cluster = []
     for i in outfile:
-        a  = {}
+        sum1=0
         for j in range(0,len(i),2):
-            a[i[j]] = int(i[j+1])
-        out_cluster.append(sum(a.values()))
+            sum1+=int(i[j+1])
+        out_cluster.append(sum1)
         
     return out_cluster
 
-def cal_error(pred,original):
+def cal_accuracy(pred,original):
     error = np.array(pred)-np.array(original)
     rms = np.sum(error**2)/len(error)
     return rms
@@ -79,8 +78,9 @@ def main():
     # no_out = remove_outliers(dataframes,path_to_pkl="../data/outliers.pkl")        # returns the list of numpy arrays
     
     # read in the number of clusters
-    out_clusters = load_output("../../dataset/test/debs2019_dataset2/in.csv")
-
+    print("yes")
+    out_clusters = load_output("../../dataset/set1/out.csv")
+    print("yes")
     # record the time
     db_time = 0
     mean_time = 0
@@ -93,10 +93,10 @@ def main():
     mini_pred = []
     kmean_pred = []
 
-    for j in range(500):
+    for j in range(100):
         print(j)
-        j = pd.read_csv("../../dataset/test/debs2019_dataset2/in.csv",skipcols = j*72000, nrows = 72000,usecols=[1,2,3,4],columns=['laser_id','X','Y','Z'])
-        i = remove_outliers(j,path_to_pkl="../data/outliers.pkl")[0]
+        i = pd.read_csv("../../dataset/set1/in.csv",skiprows = j*72000, nrows = 72000,usecols=[1,2,3,4],names=['laser_id','X','Y','Z'])
+        i = remove_outliers([i],path_to_pkl="../data/outliers.pkl")[0]
         start = time.time()
         db_clusters = dbscan_seg(i)
         end = time.time()
@@ -104,13 +104,13 @@ def main():
         db_time+=end-start
 
         start = time.time()
-        mean_clusters = meanshift_seg()
+        mean_clusters = meanshift_seg(i)
         end = time.time()
         mean_pred.append(mean_clusters)
         mean_time+=end-start
 
         start = time.time()
-        mini_clusters= minibatch_seg()
+        mini_clusters= minibatch_seg(i)
         end = time.time()
         mini_pred.append(mini_clusters)
         mini_time+=end-start
