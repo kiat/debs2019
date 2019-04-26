@@ -141,7 +141,7 @@ To achieve better object segmentation, we developed a new approach by viewing th
 Figure \ref{fig:sectors1} depicts the top-view of the LiDAR point cloud data.
 The red point is the zero point which is the position of the LiDAR scanner. All other surrounding points are object points from the top-view.
 
-Our idea for sectioning the data from top-view is illustrated in Figure \ref{fig:sectors2}. We calculate for each point the degree of the angel that they have to the starting x-axis. As we know angles of points will be between 0 and 360 degrees. We sort the list of angles and see for which ranges of angles we have the number of data points under a certain threshold (or we have no data). Then we can clearly separate the data into sectors by using the degree ranges that have no data points or less than a threshold. If the objects are very close to the LiDAR laser positron, then we might have data in all ranges of angle degrees, but we would then be able to separate the data by using a threshold.
+Our idea for sectioning the data from top-view is illustrated in Figure \ref{fig:sectors2}. We calculate for each point the degree of angel that they have with x-axis. As it is clear angles of points will be values between 0 and 360 degrees. We sort the list of angles and see for which ranges of angles we have the number of data points under a certain threshold (or we have no data). Then we can clearly separate the data into sectors by using the degree ranges that have no data points or less than a threshold. If the objects are very close to the LiDAR laser positron, then we might have data in all ranges of angle degrees, but we would then be able to separate the data by using a threshold.
 
 
 \begin{figure*}[!h]
