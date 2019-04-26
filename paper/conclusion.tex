@@ -15,4 +15,4 @@ Lessons Learned form our implementation are:
   \item If multiple objects are in a scene and they are hiding each other (completely or partially) then object segmentation using DBSCAN or other traditional clustering methods may fail to separate objects.
 \end{enumerate}
 
-One of the parts that need improvement, is the segmentation stage. We observed that if the segmentation stage fails to clearly separate objects into single voxels then the subsequent classifier cannot correctly classify the object type. This can be improved by extending our sectioning idea and combination of it with traditional density-based clustering.
+We observed that if the segmentation stage fails to clearly separate objects into single objects segments so that the subsequent classifier cannot correctly classify the object type. This can be improved by extending our sectioning idea and combination of it with traditional density-based clustering. We are working to further investigate this idea and evaluate its general ability to segment LiDAR data.  
