@@ -1,4 +1,4 @@
-\section{Architecture}\label{sec:Architecture}
+\section{Architecture and Implementation}\label{sec:Architecture}
 % Describe the data processing pipeline here. 
 % 1. Get the raw data and remove the ground (LiDAR data clean up)
 % 2. Segment data and sent it to classifier 
@@ -7,8 +7,10 @@
 Our data processing pipeline consist of 3 main processing steps: 
 
 \begin{enumerate}
-  \item \textbf{Step-1  Filtering. } Filtering the LiDAR base lines (cylinder lines around objects - See Figures \ref{fig:ground_before} and \ref{fig:after})
-  \item \textbf{Step-2 Object Segmentation.} Separating the 3D point cloud to segments that contain one single object or in other words marking the object with a voxel grid.  
+  \item \textbf{Step-1 Data Filtering. } Filtering the LiDAR base lines (cylinder lines around objects - See Figures \ref{fig:ground_before} and \ref{fig:after})
+  
+  \item \textbf{Step-2 Object Segmentation.} Separating the 3D point cloud to segments that contain one single object or in other words marking the object with a voxel grid.
+    
   \item \textbf{Step-3 Object Classification.}  Sending data of a single object to classifier for classification.  
 \end{enumerate}
 
@@ -115,7 +117,20 @@ Our evaluation result (Sec \ref{sec:Evaluation}) showed that the k-means algorit
 
 \textbf{Density based Clustering Approaches - Meanshift and DBSCAN.} We observed that density based approaches can build better object segments in comparison to K-Means clustering mainly because of two important factors, 1. Density of LiDAR points are approximately equal on different objects considering the fact that we have areas/spaces with and without objects. In the case that there is an object, the density of points are roughly equal independent of type of object 2. When objects are close to each other or hiding each other partially, density-based approaches can achieve better segments and does not joint the two different clusters of the two objects.  
 
-We have evaluated the segmentation step with different parameters (density value and number of minimum samples in each cluster). We observed that the segments build based on 3D DBSCAN approach can achieve acceptable real-time performance and  DBSCAN can be build better quality segments in 3D than using the algorithm with projected 2D data. However, we also observed that the classification of object types in the following step can fail to recognize objects correctly because the segmentation quality is not sufficient. DBSCAN clustering algorithm is also able to remove the noise form the data set and return point cloud data with cluster labels. 
+We have evaluated the segmentation step with different parameters (density value and number of minimum samples in each cluster). We observed that the segments build based on 3D DBSCAN approach can achieve acceptable real-time performance and  DBSCAN can be build better quality segments in 3D than using the algorithm with projected 2D data. However, we also observed that the classification of object types in the following step can fail to recognize objects correctly because the segmentation quality is not sufficient. 
+
+
+DBSCAN clustering algorithm is also able to remove the noise form the data set and return point cloud data with cluster labels. 
+
+
+\begin{figure}
+\begin{center}
+  \includegraphics[width=.65\linewidth]{./images/seg_noise_removal.png}
+  \caption[labelInTOC]{Clustered Point Cloud Data after Filtering the Data Noise (Colors indicate Clusters). }
+  \label{fig:ClusteringWithNoiseFiltering}
+\end{center}
+\end{figure}
+
 
 
 \textbf{Sectioning From Top-View.}
