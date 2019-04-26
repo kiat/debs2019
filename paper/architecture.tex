@@ -1,10 +1,8 @@
 \section{Architecture}\label{sec:Architecture}
-
 % Describe the data processing pipeline here. 
 % 1. Get the raw data and remove the ground (LiDAR data clean up)
 % 2. Segment data and sent it to classifier 
 % 3. Classification with Neural Network. 
-
 
 Our data processing pipeline consist of 3 main processing steps: 
 
@@ -14,19 +12,20 @@ Our data processing pipeline consist of 3 main processing steps:
   \item \textbf{Step-3 Object Classification.}  Sending data of a single object to classifier for classification.  
 \end{enumerate}
 
-
-Figure \ref{fig:dataPipeline} depicts our data processing pipeline. As the system runs in the testing time in gets point cloud data for a single scene which includes multiple objects and process it in 3 steps and to deliver the classification results in real-time.   
-
-The provided training data by DEBS 2019 Challenge \cite{DEBSGC2019} includes only one single object per scene with its label so that it is not require to have the step-2 object segmentation when we train our system.
-
-
-\begin{figure*}[ht!]
+\begin{figure*}[!hb]
  \begin{center}
    \includegraphics[width=0.9\textwidth]{./images/DataProcessingPipleline.pdf}
    \caption{An Overview of our Data Processing Architecture}
    \label{fig:dataPipeline}
  \end{center}
 \end{figure*}
+
+
+Figure \ref{fig:dataPipeline} depicts our data processing pipeline. As the system runs in the testing time in gets point cloud data for a single scene which includes multiple objects and process it in 3 steps and to deliver the classification results in real-time.   
+
+The provided training data by DEBS 2019 Challenge \cite{DEBSGC2019} includes only one single object per scene with its label so that it is not require to have the step-2 object segmentation when we train our system.
+
+
 
 
 
@@ -62,7 +61,7 @@ This first filtering step in our data processing pipeline reduces highly the amo
 We training and test the classification model (in the Step-3) after removing the Laser base lines and filtering them out.  
 
 
-\begin{figure*}[!ht]
+\begin{figure*}
 \centering
 \begin{minipage}{0.49\textwidth}
   \centering
@@ -85,15 +84,23 @@ We training and test the classification model (in the Step-3) after removing the
 
 
 \subsection{Object Segmentation and Noise Removal}
-
 The first during the testing phase is to segment the point cloud to chunks of data that include possibly only one single object.
 For this task we have implemented different clustering methods to cluster the data in original 3 dimensional format and in projected 2D form.      
+
+We have implemented and test the following clustering methods to build segments of point cloud. 
+
+\begin{enumerate}
+  \item Kmeans and Minibatch-Kmeans on the 3D and project 2D data. 
+  \item Meanshift (on 3D and 2D data)
+  \item DBSCAN  (on 3D and 2D)
+\end{enumerate}
+
 
 
 
 
 \textbf{3D to 2D Projection.}
-
+We have projected the 3D data in 4 different ways to 2D data. The first 3 methods is just to consider the data by dropping one of the axis, for examples by dropping the y axis and considering the x and z axis.  The last method was to project 3D data by using a point of eye view and project each data point to a plane (also named window) in a distance d.  The following formula gives us the new $(x',  y')$ after projecting the $(x,y,z)$ to a plane in distance d. 
 
 \large 
 \begin{align*}
@@ -111,10 +118,11 @@ z' & =  z (\frac{d}{z}) = d
 
 
 
+
 \textbf{Sectioning From Top-View.} 
 
 %\usepackage{graphics} is needed for \includegraphics
-\begin{figure*}[!ht]
+\begin{figure*}
 \begin{center}
   \includegraphics[scale=0.5]{./images/sector-with-bg/74.pdf}
   \caption{Top-View - Unoccupied Sectors (gray colored) and  Sectors including objects}
