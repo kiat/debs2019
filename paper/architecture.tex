@@ -15,7 +15,7 @@ Our data processing pipeline consist of 3 main processing steps:
 \begin{figure*}[!hb]
  \begin{center}
    \includegraphics[width=0.9\textwidth]{./images/DataProcessingPipleline.pdf}
-   \caption{An Overview of our Data Processing Architecture}
+   \caption{Overview of our Data Processing Pipeline}
    \label{fig:dataPipeline}
  \end{center}
 \end{figure*}
@@ -61,7 +61,7 @@ This first filtering step in our data processing pipeline reduces highly the amo
 We training and test the classification model (in the Step-3) after removing the Laser base lines and filtering them out.  
 
 
-\begin{figure*}
+\begin{figure*}[!h]
 \centering
 \begin{minipage}{0.49\textwidth}
   \centering
@@ -87,48 +87,63 @@ We training and test the classification model (in the Step-3) after removing the
 The first during the testing phase is to segment the point cloud to chunks of data that include possibly only one single object.
 For this task we have implemented different clustering methods to cluster the data in original 3 dimensional format and in projected 2D form.      
 
-We have implemented and test the following clustering methods to build segments of point cloud. 
-
-\begin{enumerate}
-  \item Kmeans and Minibatch-Kmeans on the 3D and project 2D data. 
-  \item Meanshift (on 3D and 2D data)
-  \item DBSCAN  (on 3D and 2D)
-\end{enumerate}
 
 
+\textbf{3D to 2D Projection.} We have projected the 3D data in 4 different ways to 2D data. The first 3 methods is just to consider the data by dropping one of the axis, for examples by dropping the y axis and considering the x and z axis.  The last method was to project 3D data by using a point of eye view and project each data point to a plane (also named window) in a distance d.  The following formula gives us the new $(x',  y')$ after projecting the $(x,y,z)$ to a plane in distance d. 
 
-
-
-\textbf{3D to 2D Projection.}
-We have projected the 3D data in 4 different ways to 2D data. The first 3 methods is just to consider the data by dropping one of the axis, for examples by dropping the y axis and considering the x and z axis.  The last method was to project 3D data by using a point of eye view and project each data point to a plane (also named window) in a distance d.  The following formula gives us the new $(x',  y')$ after projecting the $(x,y,z)$ to a plane in distance d. 
-
-\large 
+% \large 
 \begin{align*}
 d  & = \text{Distance to a projection plane} \\   
 x' & =  x (\frac{d}{z}) \\  
 y' & =  y (\frac{d}{z}) \\
 z' & =  z (\frac{d}{z}) = d  
 \end{align*}
-\normalsize
+% \normalsize
+
+
+
+\textbf{Object segmentation using Clustering.} We have implemented and tested the following clustering methods to build segments of point cloud that contain as well as possible only one single separated object.  
+
+\begin{enumerate}
+  \item \textbf{K-means and Minibatch-Kmeans} on the 3D and project 2D data.    
+  \item \textbf{Meanshift} (on 3D and 2D data) 
+  \item \textbf{DBSCAN}  (on 3D and 2D)
+\end{enumerate}
+
+\textbf{K-means Clustering.} We run multiple iterations of k-means with different batch sizes and also applied elbow method to determine the optimal number of clusters.
+Our evaluation result (Sec \ref{sec:Evaluation}) showed that the k-means algorithm cannot separate the data into one-object segments with high quality. It also could not achieve real-time processing when we need to test different number of clusters. 
+
+\textbf{Density based Clustering Approaches - Meanshift and DBSCAN.} We observed that density based approaches can build better object segments in comparison to K-Means clustering mainly because of two important factors, 1. Density of LiDAR points are approximately equal on different objects considering the fact that we have areas/spaces with and without objects. In the case that there is an object, the density of points are roughly equal independent of type of object 2. When objects are close to each other or hiding each other partially, density-based approaches can achieve better segments and does not joint the two different clusters of the two objects.  
+
+We have evaluated the segmentation step with different parameters (density value and number of minimum samples in each cluster). We observed that the segments build based on 3D DBSCAN approach can achieve acceptable real-time performance and  DBSCAN can be build better quality segments in 3D than using the algorithm with projected 2D data. However, we also observed that the classification of object types in the following step can fail to recognize objects correctly because the segmentation quality is not sufficient. DBSCAN clustering algorithm is also able to remove the noise form the data set and return point cloud data with cluster labels. 
+
+
+\textbf{Sectioning From Top-View.}
+To achieve better object segmentation, we developed a new approach by viewing the data from the top-view (considering data from the top elevation view (bird-view)) and projecting it to 2D. The LiDAR laser scanner is then positioned at the center point with the coordinate of (0, 0, 0), we can see that there are areas or spaces that are not occupied by any objects and there are sections with objects inside.     
+
+ 
 
 
 
 
-
-
-
-
-
-\textbf{Sectioning From Top-View.} 
-
-%\usepackage{graphics} is needed for \includegraphics
 \begin{figure*}
-\begin{center}
-  \includegraphics[scale=0.5]{./images/sector-with-bg/74.pdf}
-  \caption{Top-View - Unoccupied Sectors (gray colored) and  Sectors including objects}
-  \label{fig:sectors}
-\end{center}
+\centering
+\begin{minipage}{0.44\textwidth}
+  \centering
+         \includegraphics[scale=0.445]{./images/sector-transforms/scene-with-centre.pdf}
+       \caption{Top-View of LiDAR Data}
+       \label{fig:sectors1}
+\end{minipage}%
+\begin{minipage}{0.44\textwidth}
+  \centering
+        \includegraphics[scale=0.448]{./images/sector-transforms/scene-with-sector.pdf}
+        \caption{Top-View - Unoccupied Sectors (gray colored) and  Sectors including objects}
+        \label{fig:sectors2}
+\end{minipage}%
+% \caption{General caption.} \label{fig:1}
 \end{figure*}
+
+
 
 
 
