@@ -63,6 +63,7 @@ We experimented with 3D CNN as dataset could be transformed into the input of 3D
 Our approach was to convert point clouds into a set of voxels by voxelization. Voxelization is the process of conversion 
 of a geometric object from its continuous geometric representation into a set of voxels that best approximates the continuous
 object. We used the process to fit a bounding box voxel around the point cloud to form a voxel grid.
+
 We designed for 4 layered 3D CNN architecture with 2 fully connected layers, a dropout layer, around a softmax layer at the end. 
 The voxel-grid is feed into the network as input and network predict the object out the 28 classes on which network is trained. 
 The 3D CNN model gave the best performance when trained on a minimal number of class attributes but failed to perform when trained on all the class. 
