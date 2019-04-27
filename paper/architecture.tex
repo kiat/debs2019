@@ -26,7 +26,8 @@ Our data processing pipeline consist of 3 main processing steps:
 
 
 Figure \ref{fig:dataPipeline} depicts our data processing pipeline. 
-When our system runs in the testing phase, it retrieves the point cloud data for a single scene which includes multiple objects and process it in 3 steps and to deliver the classification results.
+When our system runs in the testing phase, it retrieves the point cloud data for a single scene which includes multiple objects and process 
+it in 3 steps and to deliver the classification results.
 
 The provided training data by DEBS 2019 Challenge \cite{DEBSGC2019} includes only one single object per scene 
 with its label so that it is not required to have the step-2 object segmentation when we train our classifier.
@@ -50,16 +51,17 @@ with its label so that it is not required to have the step-2 object segmentation
 
 \subsection{LiDAR Ground Data Removal}
 %KIA: Describe here how we remove the ground - keep this very general
-The first step in our data processing pipeline is to filter out the LiDAR laser lines that are building a cylinder 
-form 3D shape from the laser standing point $(x=0, y=0, z=0)$. Figure \ref{fig:ground_before} visualizes the LiDAR 
-data from a single scene with LiDAR laser lines and Figure \ref{fig:after} shows the data after filtering the Laser ground lines. 
-As you can see objects like car or pedestrian are visible in Figure \ref{fig:after} after filtering the LiDAR lines.
+The first step in our data processing pipeline is to filter out the LiDAR laser lines that builds
+a cylinder 3D shape from the laser standing point $(x=0, y=0, z=0)$. Figure \ref{fig:ground_before} visualizes the LiDAR 
+data for a single scene with LiDAR laser lines and Figure \ref{fig:after} visualizes the data after
+filtering out the Laser lines. Objects like car or pedestrian are
+visible in Figure \ref{fig:after} after filtering the LiDAR lines.
 
 This first filtering step in our data processing pipeline reduces highly the amount of data that we process and 
 also helps to be able to find object segments in the next following step.
-We train and test the classification model (in the Step-3) after removing the Laser baselines and filtering them out.
-
-
+We train and test the classification model (in the step-3) after removing the laser baselines and
+filtering them out.
+%
 \begin{figure*}[!h]
 \centering
 \begin{minipage}{0.49\textwidth}
@@ -76,22 +78,26 @@ We train and test the classification model (in the Step-3) after removing the La
 \end{minipage}%
 % \caption{General caption.} \label{fig:1}
 \end{figure*}
-
-
 % Describe here how we filter the ground.
+%
+%
+\subsection{Object Segmentation and Noise Removal.}
+The first step in testing phase is to segment the point cloud to chunks of data that include
+possibly only one single object. For this purpose, we use different clustering
+methods to cluster the data in the original 3-dimensional format and in projected 2D form. 
+Data points for a separated objects can build separate clusters. 
 
 
+\textbf{3D to 2D Projection.} 
+We have projected the 3D data in 4 different ways to 2D plane and reduced the data dimensionality.
+The first 3 data projection methods are just to consider the data by dropping one of the axes and
+viewing the data from one of the sides, for examples by dropping the y-axis and considering the x
+and z-axis.
 
-\subsection{Object Segmentation and Noise Removal}
-The first step during the testing phase is to segment the point cloud to chunks of data that include possibly only one single object.
-For this task, we have implemented different clustering methods to cluster the data in the original 3-dimensional format and in projected 2D form.
-
-
-
-\textbf{3D to 2D Projection.} We have projected the 3D data in 4 different ways to 2D data. 
-The first 3 methods are just to consider the data by dropping one of the axes, for examples by dropping the y-axis and considering the x and z-axis. 
-The last method was to project 3D data by using a point of eye view and project each data point to a plane (also named window) in a distance d.
-The following formula gives us the new $(x',  y')$ after projecting the $(x,y,z)$ to a plane in distance d.
+The last method is to project 3D data by using a point of eye view and projecting each data points
+to a plane (also named window) with the a distance d from eye or camera stand point. 
+The following projection is used to project the point $(x,y,z)$ in 3D to new $(x',  y')$ in 2D
+using a distance d to a plane.
 % \large
 \begin{align*}
 d  & = \text{Distance to a projection plane} \\
