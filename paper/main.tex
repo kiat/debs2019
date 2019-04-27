@@ -188,11 +188,11 @@
 % The abstract is a short summary of the work to be presented in the article.
 \begin{abstract}
 Recognition of objects surrounding a robot in a dynamic environment is one of the research challenges in robotics.
-LiDAR (Light Detection and Ranging) scanner is used to gather data about the environment.
-Applications like autonomous vehicles require real-time processing the LiDAR point cloud data with high accuracy.
+In many robotic applications LiDAR (Light Detection and Ranging) scanner is used to gather data about the environment.
+Applications like autonomous vehicles require real-time processing of LiDAR point cloud data with high accuracy.
 
 We describe in this paper, our implementation for DEBS 2019 Grand Challenge for an object recognition system from high-speed
-LiDAR data stream. Our system includes a data processing pipeline with 3 main stages, 1. LiDAR data filtering 2. Object segmentation and noise removal 3. Object classifications using Convolutional Neural Network (CNN). We have evaluated our system by using point cloud data in the 3-dimensional system and in the projection of it in 2D. Our evaluation shows that we can classify objects with high accuracy using the point cloud data and neural network. However, we observed that the classification may fail if the object segmentation is not separating objects correctly in different segments especially when the objects are largely covered. We proposed a segmentation approach based on separating LiDAR data first to multiple sectors before the main segmentation.
+LiDAR data stream. Our system includes a data processing pipeline with 3 main stages, 1. LiDAR data filtering 2. Object segmentation and noise reduction 3. Multi-lable object classifications using Convolutional Neural Network (CNN). We have evaluated our system using point cloud data in 3D and in projection of it into 2D. Our evaluation shows that we can classify objects with high accuracy using the point cloud data and neural network. However, we observed that the classification may fail if the object segmentation is not separating objects correctly in different segments especially when the objects are largely covering each other. We proposed a pre-processing approach for object segmentation based on separating LiDAR data in to multiple area sectors before segmenting the objects. 
 \end{abstract}
 
 
