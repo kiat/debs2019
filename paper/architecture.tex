@@ -92,12 +92,10 @@ For this task, we have implemented different clustering methods to cluster the d
 The first 3 methods are just to consider the data by dropping one of the axes, for examples by dropping the y-axis and considering the x and z-axis. 
 The last method was to project 3D data by using a point of eye view and project each data point to a plane (also named window) in a distance d.
 The following formula gives us the new $(x',  y')$ after projecting the $(x,y,z)$ to a plane in distance d.
-
 % \large
 \begin{align*}
 d  & = \text{Distance to a projection plane} \\
-x' & =  x (\frac{d}{z})  ,  y' =  y (\frac{d}{z}) \\
-z' & =  z (\frac{d}{z}) = d
+x' & =  x (\frac{d}{z}) \ \  , \ \  y' =  y (\frac{d}{z}) \ \  , \ \  z'=  z (\frac{d}{z}) = d
 \end{align*}
 % \normalsize
 
