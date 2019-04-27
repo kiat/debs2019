@@ -10,12 +10,12 @@
 % - We should run it on a standard machine (better on EC2 because it is better reproducible) and show the processing time performance.
 % - We present on our plots, Precision/Recall and Processing time.
 
-We evaluated our implementation using the 5 different experiment setups: 
+We evaluated our implementation using the 4 different experiment setups: 
 \begin{enumerate}
   \item 2-Layer CNN on projected data to 2D (Single View) and Object Segmentation with 3D DBSCAN
-  \item 2-Layer CNN on projected data to 2D (Using height projection) and Object Segmentation with 3D DBSCAN
+  \item 2-Layer CNN on projected data to 2D (Using perspective projection) and Object Segmentation with 3D DBSCAN
   \item 4-Layer CNN on projected data to 2D (Single View) and Object Segmentation with 3D DBSCAN
-  \item 4-Layer CNN on projected data to 2D (Using height projection) and Object Segmentation with 3D DBSCAN
+  \item 4-Layer CNN on projected data to 2D (Using perspective projection) and Object Segmentation with 3D DBSCAN
 \end{enumerate}
 
 Figure \ref{fig:evaluation2} depicts the precision, recall, accuracy and processing time of each of the 4 different experiment settings.
