@@ -44,11 +44,23 @@ We use ReLUs to save the final output layer, where the number of outputs corresp
 to the number of class labels and a softmax nonlinearity is used to provide a probabilistic output.
 
 
-Our Network model starts with an input layer feeding to convolution layer with ReLu then
-another convolutional layer with ReLu and max pool layer then passing input to another batch of convolutional layers
-with Relu and convolutional layer with Relu and max pool, then the feature map is flattened to be feed-forwarded to
-fully connected layer with ReLu, then random samples are dropped with dropout layers
-and finally fed to a fully connected layer and softmax to classify the object into multiclass.
+% Our Network model starts with an input layer feeding to convolution layer with ReLu then
+% another convolutional layer with ReLu and max pool layer then passing input to another batch of convolutional layers
+% with Relu and convolutional layer with Relu and max pool, then the feature map is flattened to be feed-forwarded to
+% fully connected layer with ReLu, then random samples are dropped with dropout layers
+% and finally fed to a fully connected layer and softmax to classify the object into multiclass.
+
+The combination of above layers has formed some state-of-the-art models which give high accuracy on 2-D images.
+In order to build the model for this challenge we used the above layers, because the input to the model is in the form of pixels.
+Different configurations had different resulted in different models.
+To come up with the state-of-the-art architecture, we started with implementing a simple 2 layered convolutional neural network,
+which uses two convolutional layer with rectified nonlinearity unit and a single layers of max pool, drop out and couple of 
+fully connected layers to classify point cloud objects based upon classes. These architecture was effective but did not give 
+acceptable results. Futher experimenting with layers explained the learning of pixel input by convolutional layer.
+The experiment with 4 layered convoluational network has better performance, as they were able to learn planes, edges and distribution of the 
+point cloud object. The couple of 2 convoluational layer with alternative Relu added before output and max pooling layer between them shows the
+best results while training and testing on individual objects. The architecture was added with 2 fully connected layers with a single drop out layer to reduce overfitting.
+This experimented architecture showed best result with the training set and the evalution platform.
 
 \begin{figure*}[!h]
      \begin{center}
