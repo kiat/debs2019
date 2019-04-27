@@ -11,13 +11,15 @@ Other layers learn the global label for the input grid from the knowledge passed
 
 \textbf{Input layer.}
 The network model takes a fixed-size grid of NxM voxels as an input. We have 
-used $N=70$ and $M=100$ for our model requirements. Each voxel grid contains the consolidated LiDAR point-clouds point into the voxels. Each voxel is of size k, we have used $k=0.1$ which generates the input voxel grids. The input layer forwards each object input to the 1st layer
+used $N=70$ and $M=100$ for our model requirements. Each voxel grid contains the consolidated LiDAR point-clouds point into the voxels. 
+Each voxel is of size k, we have used $k=0.1$ which generates the input voxel grids. The input layer forwards each object input to the 1st layer
 of convolutional.
 
 
 \textbf{Convolutional Layer(input,f,s).}
 There is 4 convolutional layer in our architecture to learn features on each orientation.
-The first convolutional layer feed on three-dimensional input of size NxMxf from the input layer, a filter size=f and number of filter to be applied.
+The first convolutional layer feed on three-dimensional input of size $N \times  M \times f$ from
+the input layer, a filter size=f and number of filter to be applied.
 
 The filter-size provided to convolutional layer is $5x5$ with 16 such filters to be applied on the input.
 The convolutional layer equates filter f by apply convolutional on input dimension to create a feature map as output.
@@ -52,9 +54,14 @@ The combination of above layers has formed some state-of-the-art models which gi
 In order to build the model for this challenge, we used the above layers, because the input to the model is in the form of pixels.
 Different configurations had different resulted in different models.
 To come up with the state-of-the-art architecture, we started with implementing a simple 2 layered convolutional neural network,
-which uses two convolutional layers with rectified nonlinearity unit and a single layers of the max pool, drop out and a couple of fully connected layers to classify point cloud objects based upon classes. This architecture was effective but did not give acceptable results. Further experimenting with layers explained the learning of pixel input by convolutional layer.
-The experiment with 4 layered convolutional network has better performance, as they were able to learn planes, edges, and distribution of the point cloud object. The couple of 2 convolutional layers with alternative Relu added before output and max-pooling layer between them shows the
-best results while training and testing on individual objects. The architecture was added with 2 fully connected layers with a single drop out layer to reduce overfitting.
+which uses two convolutional layers with rectified nonlinearity unit and a single layers of the max pool, drop out and a couple of 
+fully connected layers to classify point cloud objects based upon classes. This architecture was effective but did not give acceptable 
+results. Further experimenting with layers explained the learning of pixel input by convolutional layer.
+The experiment with 4 layered convolutional network has better performance, as they were able to learn planes, edges, 
+and distribution of the point cloud object. The couple of 2 convolutional layers with alternative Relu added before output and max-pooling 
+layer between them shows the
+best results while training and testing on individual objects. The architecture was added with 2 fully connected layers with a single 
+drop out layer to reduce overfitting.
 This experimented architecture showed the best result with the training set and the evaluation platform.
 
 \begin{figure*}[!h]

@@ -1,15 +1,19 @@
 \section{Data Set}
-DEBS 2019  Challenge provides training and test data sets which are well-described in \cite{DEBSGC2019}. 
-Here we provided a brief overview of the data set. 
- 
-The data set consist of a LiDAR sensor point cloud which has 64 lasers. Each scene includes 72,000 data readings which include X, Y, and Z coordinates (Y-axis is the shown to be the elevation).
-In each scene objects are placed around the LiDAR scanner and data is collected, example objects are \textbf{ATM machine}, \textbf{pedestrian}, \textbf{benches}, \textbf{cloth recycling container}.
+% DEBS 2019  Challenge provides training and test data sets which are well-described in \cite{DEBSGC2019}. 
+% Here we provided a brief overview of the data set.  
+The data set consist of a LiDAR sensor point cloud which has 64 lasers. Each scene includes 72,000 data readings 
+which include X, Y, and Z coordinates (Y-axis is the shown to be the elevation).
+In each scene objects are placed around the LiDAR scanner and data is collected, 
+example objects are \textbf{ATM machine}, \textbf{pedestrian}, \textbf{benches}, \textbf{cloth recycling container}.
 
-We generated multiple 2D and 3D visualizations of the data like shown in Figures \ref{fig:ground_before},  \ref{fig:after} and \ref{fig:ClusteringWithNoiseFiltering}.
+We generated multiple 2D and 3D visualizations of the data like shown in Figures \ref{fig:ground_before},  \ref{fig:after} 
+and \ref{fig:ClusteringWithNoiseFiltering}.
 Additionally, we generated animated images of the sequences of scenes to check if the scene sequences have any relations to each other.
-We observed that the sequence of scenes has no relations and scenes are randomly selected from a set of scenes. Each scene includes a set of a different object placed around the LiDAR scanner.  
+We observed that the sequence of scenes has no relations and scenes are randomly selected from a set of scenes. Each scene 
+includes a set of a different object placed around the LiDAR scanner.  
 
-However, in real-world applications like autonomous vehicles, sequences of scenes are correlated in their time-sequence so that one can track the object coming in a range of LiDAR laser and going out of the view range.
+However, in real-world applications like autonomous vehicles, sequences of scenes are correlated in their time-sequence so that 
+one can track the object coming in a range of LiDAR laser and going out of the view range.
 The sequence information could be used to improve the classification accuracy if the correlation between scenes exists.
 
 
