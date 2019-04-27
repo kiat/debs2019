@@ -16,7 +16,7 @@ Each voxel is of size k, we have used $k=0.1$ which generates the input voxel gr
 of convolutional.
 
 
-\textbf{Convolutional Layer(input,f,s).}
+\textbf{Convolutional Layer (input,f,s).}
 There is 4 convolutional layer in our architecture to learn features on each orientation.
 The first convolutional layer feed on three-dimensional input of size $N \times  M \times f$ from
 the input layer, a filter size=f and number of filter to be applied.
@@ -52,9 +52,11 @@ to the number of class labels and a softmax nonlinearity is used to provide a pr
 
 The combination of above layers has formed some state-of-the-art models which give high accuracy on 2-D images.
 In order to build the model for this challenge, we used the above layers, because the input to the model is in the form of pixels.
-Different configurations had different resulted in different models.
-To come up with the state-of-the-art architecture, we started with implementing a simple 2 layered convolutional neural network,
-which uses two convolutional layers with rectified nonlinearity unit and a single layers of the max pool, drop out and a couple of 
+% Different configurations had different resulted in different models.
+%To come up with the state-of-the-art architecture, 
+We started with implementing a simple 2 layered
+convolutional neural network, which uses two convolutional layers with rectified nonlinearity unit and a single layers of 
+the max pool, drop out and a couple of 
 fully connected layers to classify point cloud objects based upon classes. This architecture was effective but did not give acceptable 
 results. Further experimenting with layers explained the learning of pixel input by convolutional layer.
 The experiment with 4 layered convolutional network has better performance, as they were able to learn planes, edges, 
@@ -67,12 +69,12 @@ This experimented architecture showed the best result with the training set and 
 \begin{figure*}[!h]
      \begin{center}
        \includegraphics[width=0.8\textwidth]{./images/object_net.pdf}
-       \caption{Overview of Convolutional Neural Network Layers}
+       \caption{Overview of Convolutional Neural Network Layers with 4 Convolutional Layers}
        \label{fig:cnn}
      \end{center}
 \end{figure*}
 
-\subsection{3D CNN experiment}
+\subsection{CNN with 3D point cloud Input Data}
 We experimented with 3D CNN as dataset could be transformed into the input of 3D CNN being a 3D point cloud dataset. 
 Our approach was to convert point clouds into a set of voxels by voxelization. Voxelization is the process of conversion of a geometric object from its continuous geometric representation into a set of voxels that best approximates the continuous
 object. We used the process to fit a bounding box voxel around the point cloud to form a voxel grid.

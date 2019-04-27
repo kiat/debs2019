@@ -24,10 +24,10 @@ Our data processing pipeline consist of 3 main processing steps:
 
 
 
-
 Figure \ref{fig:dataPipeline} depicts our data processing pipeline. 
-When our system runs in the testing phase, it retrieves the point cloud data for a single scene which includes multiple objects and process 
-it in 3 steps and to deliver the classification results.
+When our system runs in testing phase, it retrieves the point cloud data for a single scene
+from the DEBS2019 evaluation system which includes multiple objects and process it in 3 steps to
+deliver the classification results.
 
 The provided training data by DEBS 2019 Challenge \cite{DEBSGC2019} includes only one single object per scene 
 with its label so that it is not required to have the step-2 object segmentation when we train our classifier.
@@ -49,7 +49,7 @@ with its label so that it is not required to have the step-2 object segmentation
 % Add two images about it.
 
 
-\subsection{LiDAR Ground Data Removal}
+\subsection{LiDAR Laser Line Data Filtering}
 %KIA: Describe here how we remove the ground - keep this very general
 The first step in our data processing pipeline is to filter out the LiDAR laser lines that build
 a cylinder 3D shape from the laser standing point $(x=0, y=0, z=0)$. Figure \ref{fig:ground_before} visualizes the LiDAR data for a single scene with LiDAR laser lines and Figure \ref{fig:after} visualizes the data after
@@ -84,7 +84,7 @@ filtering them out.
 The first step in testing phase is to segment the point cloud to chunks of data that include
 possibly only one single object. For this purpose, we use different clustering
 methods to cluster the data in the original 3-dimensional format and in projected 2D form. 
-Data points for separated objects can build separate clusters. 
+Data points for different objects can build separate clusters. 
 
 
 \textbf{3D to 2D Projection.} 
@@ -94,7 +94,7 @@ viewing the data from one of the sides, for examples by dropping the y-axis and 
 and z-axis.
 
 The last method is to project 3D data by using a point of eye view and projecting each data points
-to a plane (also named window) with a distance d from eye or camera standpoint. 
+to a plane (also named window) with a distance $d$ from eye or camera standpoint. 
 The following projection is used to project the point $(x,y,z)$ in 3D to new $(x',  y')$ in 2D
 using a distance d to a plane.
 % \large
@@ -121,11 +121,18 @@ Our evaluation result (Sec \ref{sec:Evaluation}) showed that the k-means algorit
 It also could not achieve real-time processing when we need to test the different number of clusters.
 
 \textbf{Density based Clustering Approaches - Meanshift and DBSCAN.} 
-We observed that density based approaches can build better object segments in comparison to K-Means clustering mainly because of two important factors, 1. The density of LiDAR points is approximately equal on different objects considering the fact that we have areas/spaces with and without objects. In the case that there is an object, the density of points is roughly equal independent of the type of object 2. When objects are close to each other or hiding each other partially, density-based approaches can achieve better segments and does not joint the two different clusters of the two objects.
+We observed that density based approaches can build better object segments in comparison to K-Means clustering mainly because of two important factors,
+1. The density of LiDAR points is approximately equal on different objects. 
+In the case that there is an object, the density of points is roughly equal on surface of
+object independent of the object type 2. When objects are close to each other or hiding each
+other partially, density-based approaches can achieve better segments and do not joint the two different clusters of the two objects.
 
 We have evaluated the segmentation step with different parameters (density value and number of minimum samples in each cluster). 
-We observed that the segments build based on 3D DBSCAN approach can achieve acceptable real-time performance and  DBSCAN can build better quality segments in 3D than using the algorithm with projected 2D data. However, we also observed that the classification of object types 
-in the following step can fail to recognize objects correctly because the segmentation quality is not sufficient.
+We observed that the segments build using 3D DBSCAN approach can achieve acceptable
+real-time performance and DBSCAN can build better quality segments in 3D than using the algorithm
+with projected 2D data. We observed as well that the classification of object types in the
+next step can fail to recognize object types correctly due to the low-quality of segment
+building. 
 
 
 DBSCAN clustering algorithm is also able to remove the noise from the data set and return point cloud data with cluster labels.
@@ -147,10 +154,16 @@ of (0, 0, 0).  We observed that there are areas or spaces that are not occupied 
 objects and there are sections with objects inside.
 
 Figure \ref{fig:sectors1} depicts the top-view of the LiDAR point cloud data.
-The red point is the zero point which is the position of the LiDAR scanner. 
+The red central point is the zero point - the position of the LiDAR scanner. 
 All other surrounding points are object points from the top-view.
 
-Our idea for sectioning the data from top-view is illustrated in Figure \ref{fig:sectors2}. We calculate for each point the degree of angle that they have with the x-axis. As it is clear angles of points will be valued between 0 and 360 degrees. We sort the list of angles and see for which ranges of angles we have the number of data points under a certain threshold (or we have no data). Then we can clearly separate the data into sectors by using the degree ranges that have no data points or less than a threshold. If the objects are very close to the LiDAR laser position, then we might have data in all ranges of angle degrees, but we would then be able to separate the data by using a threshold.
+Our idea for sectioning the data from top-view is illustrated in 
+Figure \ref{fig:sectors2}. We calculate for each point the degree of angle that they have with the x-axis. 
+Angles of data points to center will be valued between 0 and 360 degrees. We sort the list of angles
+and check for ranges that we do not have data or data under certain numbers. Then we can separate the data into sectors 
+by using the degree ranges that have no data points or less than a threshold. If the objects are very close to 
+the LiDAR laser position, then we might have data in all ranges of angle degrees, but we would then be able
+to separate the data by using a threshold value.
 \begin{figure*}[!h]
 \centering
 \begin{minipage}{0.40\textwidth}
