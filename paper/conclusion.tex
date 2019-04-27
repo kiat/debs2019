@@ -1,11 +1,10 @@
 \section{Conclusion and Future Work}\label{sec:conclusion}
 We have shown that it is possible to use the LiDAR point cloud data to classify objects with
 acceptable accuracy in real-time. The accuracy of our classification stage is very high when we train and test it on the LiDAR point cloud 
-that contains only one single object.
+that contains only one single object. Clearly, our python implementation can be optimized to
+use all CPU cores by implementing efficient multi-threading (e.g., a C++ implementation with MPI ) . 
 
-
-Clearly, our implementation can be time optimized using all CPUs of a single machine by implementing more efficient multi-threading 
-and multi-processing to achieve real-time processing time.  Lessons learned from our implementation are:
+Lessons learned from our implementation are:
 \begin{enumerate}
   \item Classification of LiDAR point cloud can achieve high accuracy and real-time processing time by projecting the 3D data into 2D view.
   \item Classification using CNN on point cloud does not need a large number of hidden layers to achieve high accuracy.
