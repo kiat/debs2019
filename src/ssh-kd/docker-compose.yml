@@ -13,10 +13,11 @@ services:
           - bench
 
   client:
+    image: samba693/classification
     container_name: client-app
-    build:
-      context: .
-      dockerfile: Dockerfile.client
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile.client
     environment:
       BENCHMARK_SYSTEM_URL: 'server'
 
