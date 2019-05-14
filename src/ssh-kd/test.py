@@ -24,7 +24,7 @@ def format_output(output_path):
 
     return outfile_list
 
-def test(proj=False, proj_type=None):
+def test(proj=False, proj_type=None, segment_type = False):
     # Creating the session
     session, img_length, img_height, y_pred_cls, x, weights1, weights2, conv1, conv2 = load_graph(layers=True, path_to_model="model/two_d_cnn_proj.ckpt")
     object_names = object_names_func()
@@ -58,7 +58,8 @@ def test(proj=False, proj_type=None):
                     y_pred_cls,
                     x,
                     proj,
-                    proj_type
+                    proj_type,
+                    segment_type
                 )
                 pred_output.append(result)
     
@@ -86,9 +87,10 @@ if __name__ == "__main__":
     
     proj = True
     proj_type = 'perspective'
+    segment_type = True
 
     if proj:
-        actual, prediction, time_taken = test(proj, proj_type)
+        actual, prediction, time_taken = test(proj, proj_type, segment_type)
     else:
         actual, prediction, time_taken = test()
     

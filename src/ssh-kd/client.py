@@ -62,7 +62,8 @@ def main():
             y_pred_cls,
             x,
             True,
-            'perspective'
+            'perspective',
+            True
         )
 
         post_answer(host, result)
