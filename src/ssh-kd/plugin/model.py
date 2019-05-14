@@ -216,16 +216,3 @@ class ClassifyWith2dCnn(object):
         self.weights2 = weights_conv2
         self.conv1 = layer_conv1
         self.conv2 = layer_conv2
-
-        # Print the shape of the neural net architecture
-        print(x)
-        print(x_image)
-        print(layer_conv1)
-        print(layer_conv2)
-        print(layer_conv3)
-        print(layer_conv4)
-        print(layer_flat)
-        print(layer_fc1)
-        print(layer_dropout)
-        print(layer_fc2)
-        print(y_pred)
