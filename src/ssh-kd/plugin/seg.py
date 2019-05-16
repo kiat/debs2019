@@ -23,6 +23,8 @@ def remove_outliers(dataframes, number_of_scenes=1, path_to_pkl="data/outliers.p
         df = df[~bool_vec]
         # df = df[(df[:,1]<=10)]
         df = df[~(df[:,3]==0)]
+        bool_vec1 = (df[:,0]==0) & (df[:,2]==0)
+        df = df[~bool_vec1]
         object_points.append(df)
 
     return object_points

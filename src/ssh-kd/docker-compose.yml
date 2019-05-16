@@ -7,7 +7,7 @@ services:
     container_name: benchmark-server
     restart: always
     volumes:
-      - /home/ubuntu/DEBS/debs2019/src/dataset/test/debs2019_dataset2/:/dataset
+      - /home/samba693/Documents/DEBS/debs2019/src/dataset/test/debs2019_dataset2/:/dataset
 
     networks:
           - bench
