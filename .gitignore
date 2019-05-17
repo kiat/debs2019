@@ -52,3 +52,4 @@ checkpoint
 # original data files
 *.csv
 *.pkl
+*.html
