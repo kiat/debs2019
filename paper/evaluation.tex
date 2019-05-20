@@ -10,7 +10,9 @@
 % - We should run it on a standard machine (better on EC2 because it is better reproducible) and show the processing time performance.
 % - We present on our plots, Precision/Recall and Processing time.
 
-We evaluated our implementation using the 4 different experiment setups: 
+We evaluated our implementation \footnote{Github Repository
+of our Implementation \url{https://github.com/kiat/debs2019}} using the 4 different experiment
+setups:
 \begin{enumerate}
   \item 2-Layer CNN on projected data to 2D (Single View) and Object Segmentation with 3D DBSCAN
   \item 2-Layer CNN on projected data to 2D (Using perspective projection) and Object Segmentation with 3D DBSCAN
@@ -30,8 +32,8 @@ or it failed to process them all in the given time limit.
 \end{center}
 \end{figure*}
 All of the above settings have a data filtering pre-processing step. In Figure \ref{fig:accuracy} and \ref{fig:loss} of our CNN implementation 
-using TensorFlow\footnote{TensorFlow is an open source platform for machine learning \textbf{https://www.tensorflow.org/} , April 2019 } to classify objects into 28 class
-types.
+using TensorFlow\footnote{\url{https://www.tensorflow.org/} TensorFlow is an open source platform
+for machine learning, April 2019} to classify objects into 28 class types.
 %\usepackage{graphics} is needed for \includegraphics
 \begin{figure}[htp]
 \begin{center}
