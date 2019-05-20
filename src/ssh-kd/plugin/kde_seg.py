@@ -1,4 +1,5 @@
 import numpy as np
+from sklearn.cluster import DBSCAN
 from scipy import stats
 
 import warnings
@@ -23,7 +24,7 @@ def get_different_sectors(temp, threshold=0.7):
 
     # calculate the top_radius(sqrt(x**2+z**2))
     top_rad = np.round(np.sqrt(temp[:,0]**2+temp[:,2]**2),1)
-
+    # print(top_rad.tolist())
     # appending angles and the top radius to the input
     temp = np.hstack([temp, angles.reshape(-1,1), top_rad.reshape(-1,1)])
 
@@ -111,7 +112,55 @@ def get_valid_density(list_of_valid_sec):
     
     return list_of_valid_density
 
-def prep_obj_data(temp):
+def removeOutWithDBSCAN(temp1, top=False, count=0, objects=False):
+    if top:
+        data =  np.array(
+                list(
+                    zip(
+                        np.array(temp1[:,0]), 
+                        np.array(temp1[:,2])
+                    )
+                )
+            )
+    else:
+        data =  np.array(
+                    list(
+                        zip(
+                            np.array(temp1[:,0]), 
+                            np.array(temp1[:,1]), 
+                            np.array(temp1[:,2])
+                        )
+                    )
+                )
+
+    # Fitting the model    
+    clustering = DBSCAN(eps=1, min_samples=16).fit(data)
+    labels = clustering.labels_
+
+    # Appending the labels to the array
+    temp1 = np.hstack([temp1, labels.reshape(-1,1)])
+    temp1 = temp1[~(labels==-1)]
+
+    if objects:
+        temp1[:,6] = temp1[:,6]+count
+    return temp1
+
+def get_valid_objects(list_of_densities):
+    objects = []                    # Return this list
+    count = 0                       # TO count the number of objects
+
+    for each in list_of_densities:
+        temp1 = removeOutWithDBSCAN(each, True,count, True)
+        if len(temp1)>=1:
+            objs = np.unique(temp1[:,6])
+            count+=len(objs)
+            objects += [ temp1[temp1[:,6]==i] for i in objs ]
+    
+    return objects
+    
+
+
+def prep_obj_data(temp, use_db = False):
     """
         Takes in the data frame and return the list of the valid objects
         
@@ -126,5 +175,9 @@ def prep_obj_data(temp):
 
     # Finding the list of objects
     list_of_valid_density = get_valid_density(list_of_sectors)
+
+    # Using the dbscan to get the objects
+    if use_db:
+        list_of_valid_density = get_valid_objects(list_of_valid_density)
 
     return list_of_valid_density

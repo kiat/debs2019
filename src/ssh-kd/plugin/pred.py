@@ -40,7 +40,7 @@ def predict(data_frame, session, img_length, img_height, y_pred_cls, x, proj=Fal
     data_frame = remove_outliers([data_frame])[0]
     
     if segment_type:
-        object_df = prep_obj_data(data_frame)
+        object_df = prep_obj_data(data_frame, False)
     else:
         segmented_df = prepare_data(data_frame)
         object_df = list_of_objects(segmented_df)
