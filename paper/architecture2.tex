@@ -9,14 +9,19 @@ Our network model is designed with 4 convolutional layers where each layer filte
 recognize planes, corners, edges, and distribution of the objects per orientation.
 Other layers learn the global label for the input grid from the knowledge passed by each layer.
 
-\textbf{Input layer.}
-The network model takes a fixed-size grid of NxM voxels as an input. We have 
-used $N=70$ and $M=100$ for our model requirements. Each voxel grid contains the consolidated LiDAR point-clouds point into the voxels. 
-Each voxel is of size k, we have used $k=0.1$ which generates the input voxel grids. The input layer forwards each object input to the 1st layer
+\textbf{Input preparation:}
+The 3D points \textit{(x,y,z)} of the object are projected into 2D points \textit{(x,y) or (x',y')} (Sec 3.2). 
+These projected object points are placed on a grid of height 7 and length 10. 
+This grid is divided into cells of 0.1x0.1 resulting in 70x100 cells and the information about the number of points in each cell is the input to the model.
+This input on plotting as pixel values will result in the object.
+
+\textbf{Input layer:}
+The network model takes a fixed-size input of NxM point counts in grid-cells. We have 
+used $N=70$ and $M=100$ for our model requirements. The input layer forwards each object input to the 1st layer
 of convolutional.
 
 
-\textbf{Convolutional Layer (input,f,s).}
+\textbf{Convolutional Layer (input,f,s):}
 There is 4 convolutional layer in our architecture to learn features on each orientation.
 The first convolutional layer feed on three-dimensional input of size $N \times  M \times f$ from
 the input layer, a filter size=f and number of filter to be applied.
@@ -27,17 +32,17 @@ The convolutional layer learns about the spatial planes, edges, and distribution
 the convolutional layer passes the output to the rectified nonlinearity unit (Relu) before feeding
 it forwards to next Layers.
 
-\textbf{Max Pooling layer.} 
+\textbf{Max Pooling layer:} 
 The pooling layer is added to downsample the by a factor of vector d, in
 our network model d = [1,2,2,1]. The max pooling layer is after each alternative convolutional
 layer, it downsamples the dimension of the feature map with their maximums.
 
-\textbf{Dropout Layer.}
+\textbf{Dropout Layer:}
 Dropout layer is used for reducing overfitting. As the network is executed on the iterative model with a feed forward network.
 The model network tends to overfit on the data. Dropout layer drops random samples from the feature
 map.
 
-\textbf{Fully Connected Layer.}
+\textbf{Fully Connected Layer:}
 As fully connected layers contain n output neurons. Each neuron of the output is a learned linear
 combination of all the outputs from the previous layer, passed through a nonlinearity.
 We use ReLUs to save the final output layer, where the number of outputs corresponds
@@ -54,16 +59,17 @@ The combination of above layers has formed some state-of-the-art models which gi
 In order to build the model for this challenge, we used the above layers, because the input to the model is in the form of pixels.
 % Different configurations had different resulted in different models.
 %To come up with the state-of-the-art architecture, 
-We started with implementing a simple 2 layered
-convolutional neural network, which uses two convolutional layers with rectified nonlinearity unit and a single layers of 
-the max pool, drop out and a couple of 
-fully connected layers to classify point cloud objects based upon classes. This architecture was effective but did not give acceptable 
-results. Further experimenting with layers explained the learning of pixel input by convolutional layer.
-The experiment with 4 layered convolutional network has better performance, as they were able to learn planes, edges, 
-and distribution of the point cloud object. The couple of 2 convolutional layers with alternative Relu added before output and max-pooling 
-layer between them shows the
-best results while training and testing on individual objects. The architecture was added with 2 fully connected layers with a single 
-drop out layer to reduce overfitting.
+
+\textbf{Model:}
+Single objects data is used as input for training the model. We started with implementing a simple 2 layered convolutional neural network, 
+which uses two convolutional layers with rectified nonlinearity unit and a single layers of the max pool, 
+drop out and a couple of fully connected layers to classify point cloud objects based upon classes. 
+This architecture was effective but did not give acceptable results. Further experimenting with layers explained the learning of pixel input by convolutional layer.
+
+The experiment with 4 layered convolutional network has better performance, as they were able to learn planes, edges, and distribution of the point cloud object. 
+A couple of 2 convolutional layers with alternative Relu added before output and max-pooling layer between them shows the best results while training and testing on individual objects. 
+
+The architecture was added with 2 fully connected layers with a single drop out layer to reduce overfitting.
 This experimented architecture showed the best result with the training set and the evaluation platform.
 
 \begin{figure*}[!h]

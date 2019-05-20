@@ -121,10 +121,11 @@ Our evaluation result (Sec \ref{sec:Evaluation}) showed that the k-means algorit
 It also could not achieve real-time processing when we need to test the different number of clusters.
 
 \textbf{Density based Clustering Approaches - Meanshift and DBSCAN.} 
-We observed that density based approaches can build better object segments in comparison to K-Means clustering mainly because of two important factors,
+We observed that density based approaches can build better object segments in comparison to K-Means clustering mainly because of two important factors,\\
 1. The density of LiDAR points is approximately equal on different objects. 
 In the case that there is an object, the density of points is roughly equal on surface of
-object independent of the object type 2. When objects are close to each other or hiding each
+object independent of the object type\\
+2. When objects are close to each other or hiding each
 other partially, density-based approaches can achieve better segments and do not joint the two different clusters of the two objects.
 
 We have evaluated the segmentation step with different parameters (density value and number of minimum samples in each cluster). 
