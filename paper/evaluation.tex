@@ -20,7 +20,7 @@ setups:
   \item 4-Layer CNN on projected data to 2D (Using perspective projection) and Object Segmentation with 3D DBSCAN
 \end{enumerate}
 
-Figure \ref{fig:evaluation2} depicts the precision, recall, accuracy and processing time of each of the 4 different experiment settings.
+Figure \ref{fig:evaluation2} depicts the precision, recall, accuracy and processing time of each of the 4 different experiment settings on Grand Challange evaluation platform.
 The Figure \ref{fig:evaluation2} also includes if in testing all 500 scenes are processed in time
 or it failed to process them all in the given time limit.
 %\usepackage{graphics} is needed for \includegraphics
@@ -31,7 +31,7 @@ or it failed to process them all in the given time limit.
   \label{fig:evaluation2}
 \end{center}
 \end{figure*}
-All of the above settings have a data filtering pre-processing step. In Figure \ref{fig:accuracy} and \ref{fig:loss} of our CNN implementation 
+All of the above settings have a data filtering step. The Figure \ref{fig:accuracy} and \ref{fig:loss} represents accuracy and loss during training on individual objects of our CNN model 
 using TensorFlow\footnote{\url{https://www.tensorflow.org/} TensorFlow is an open source platform
 for machine learning, April 2019} to classify objects into 28 class types.
 %\usepackage{graphics} is needed for \includegraphics
