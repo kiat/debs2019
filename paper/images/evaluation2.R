@@ -8,7 +8,7 @@ accuracy <-c(13.35, 39.79, 45.12, 47.06)
 time<-c(3.958, 1.118, 1.246, 0.924)
 precision<-c(17.43, 50.78, 57.76,61.06)
 recall<-c(17.92, 60.09, 58.9,63.08)
-scene_evaluated<-c(146, 488, 446, 500)
+scene_evaluated<-c(0,146, 488, 446, 500)
 
 
 plot_colors <- c("blue","green","red","grey90");
@@ -65,22 +65,6 @@ axis(side=2,  lwd.ticks=1,cex.axis=0.7,las=1)
 title(ylab="Recall(Percent)", line=2, cex.lab=0.8, family="Helvetica")
 abline(h=0,col="black",lwd=2)
 
-
-#scene_evaluated
-barplot(scene_evaluated,type = "l", col = plot_colors[4], xlab = "", ylab = "", main = "",lwd=2,pch=15,ylim=c(0,500),xaxs="i", yaxs="i",axes = FALSE);
-
-#grid(nx = 20);
-
-axis(side=1, at=seq(1,4),labels=model , lwd.ticks=1,cex.axis=0.7)
-axis(side=2,  lwd.ticks=1,cex.axis=0.7,las=1)
-#text(seq(1,4), par("usr")[3]-0.25, 
-#     srt = 60, adj= 1, xpd = TRUE,
-#     labels = model, cex=0.65)
-
-title(ylab="Scene Evaluated", line=2, cex.lab=0.8, family="Helvetica")
-abline(h=0,col="black",lwd=2)
-
-
 #time
 barplot(time,type = "l", col = plot_colors[5], xlab = "", ylab = "", main = "",lwd=2,pch=15,ylim=c(0,4),xaxs="i", yaxs="i",axes = FALSE);
 
@@ -97,6 +81,21 @@ title(ylab="Time(sec/scene)", line=2, cex.lab=0.8, family="Helvetica")
 
 abline(h=0,col="black",lwd=2)
 
-legend(x=-25,y=-0.8,legend=model_names,col='black',pch=16,bty="n",xpd=NA,cex = 0.9)
+#scene_evaluated
+barplot(scene_evaluated,type = "l", col = plot_colors[4], xlab = "", ylab = "", main = "",lwd=2,pch=15,ylim=c(0,500),xaxs="i", yaxs="i",axes = FALSE);
+
+#grid(nx = 20);
+
+axis(side=1, at=seq(1,4),labels=model , lwd.ticks=1,cex.axis=0.7)
+axis(side=2,  lwd.ticks=1,cex.axis=0.7,las=1)
+#text(seq(1,4), par("usr")[3]-0.25, 
+#     srt = 60, adj= 1, xpd = TRUE,
+#     labels = model, cex=0.65)
+
+title(ylab="Scene Evaluated", line=2, cex.lab=0.8, family="Helvetica")
+abline(h=0,col="black",lwd=2)
+
+par(xpd=TRUE)
+legend(x=-30,y=-90,legend=model_names,col='black',pch=16,bty="n",xpd=NA,cex = 0.9)
 
 dev.off()
