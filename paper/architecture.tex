@@ -86,7 +86,9 @@ also helps to be able to find object segments in the next following step.
 %
 %
 \subsection{Object Segmentation and Noise Removal.}
-The first step in testing phase is to segment the point cloud to chunks of data that include
+The %first 
+second
+step in testing phase is to segment the point cloud to chunks of data that include
 possibly only one single object. For this purpose, we use different clustering
 methods to cluster the data in the original 3-dimensional format and in projected 2D form.
 Data points for different objects can build separate clusters.
@@ -94,6 +96,7 @@ Data points for different objects can build separate clusters.
 
 \textbf{3D to 2D Projection.}
 We have projected the 3D data in 4 different ways to a 2D plane and reduced the data dimensionality.
+% Explain here the reason for reducing the dimensionality
 The first 3 data projection methods are just to consider the data by dropping one of the axes and
 viewing the data from one of the sides, for examples by dropping the y-axis and considering the x
 and z-axis.
