@@ -96,6 +96,6 @@ title(ylab="Scene Evaluated", line=2, cex.lab=0.8, family="Helvetica")
 abline(h=0,col="black",lwd=2)
 
 par(xpd=TRUE)
-legend(x=-30,y=-90,legend=model_names,col='black',pch=16,bty="n",xpd=NA,cex = 0.9)
+legend(x=-25,y=-90,legend=model_names,col='black',pch=16,bty="n",xpd=NA,cex = 0.9)
 
 dev.off()
