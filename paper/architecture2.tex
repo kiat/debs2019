@@ -63,7 +63,7 @@ In order to build the model for this challenge, we have used the above layers, b
 %To come up with the state-of-the-art architecture,
 
 \textbf{Model:}
-Single objects data is used as input for training the model. We started with implementing a simple 2 layered convolutional neural network,
+Single objects data is used as input for training the model and it predicts the object out of 28 classes. We started implementing a simple 2 layered convolutional neural network,
 which uses two convolutional layers with rectified linear unit and a max pool layer,
 drop out and a couple of fully connected layers to classify point cloud objects based upon classes.
 This architecture was effective but 
@@ -72,7 +72,7 @@ did not give acceptable results.
 Further experimenting with layers explained the learning of pixel input by convolutional layer.
 
 The experiment with 4 layered convolutional network has better performance, as they were able to learn planes, edges, and distribution of the point cloud object.
-A couple of 2 convolutional layers with alternative Relu added before output and max-pooling layer between them shows the best results while training and testing on individual objects.
+A couple of 2 convolutional layers with alternative ReLU added before output and max-pooling layer between them shows the best results while training and testing on individual objects.
 
 The architecture was added with 2 fully connected layers with a single drop out layer to reduce overfitting.
 This experimented architecture showed the best result with the training set and the evaluation platform.
@@ -86,11 +86,14 @@ This experimented architecture showed the best result with the training set and 
 \end{figure*}
 
 \subsection{CNN with 3D point cloud Input Data}
-We experimented with 3D CNN as dataset could be transformed into the input of 3D CNN being a 3D point cloud dataset.
-Our approach was to convert point clouds into a set of voxels by voxelization. Voxelization is the process of conversion of a geometric object from its continuous geometric representation into a set of voxels that best approximates the continuous
+We experimented with 3D CNN as 
+% dataset could be transformed into the input of 3D CNN being a 3D point cloud dataset.
+3D point cloud could be transformed into the input of 3D CNN.
+Our approach was to convert point clouds into a set of voxels by voxelization. 
+Voxelization is the process of conversion of a geometric object from its continuous geometric representation into a set of voxels that best approximates the continuous
 object. We used the process to fit a bounding box voxel around the point cloud to form a voxel grid.
 
-We designed for 4 layered 3D CNN architecture with 2 fully connected layers, a dropout layer, around a softmax layer at the end.
+We designed for 4 layered 3D CNN architecture with 2 fully connected layers, a dropout layer, and a softmax layer at the end.
 The voxel-grid is feed into the network as input and network predict the object out the 28 classes on which network is trained.
 The 3D CNN model gave the best performance when trained on a minimal number of class attributes but failed to perform when trained on all the class.
 The major reason we tracked for low performance of 3D CNN with a large number of output classes was the density of the object and its distribution.
