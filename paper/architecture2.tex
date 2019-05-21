@@ -30,7 +30,7 @@ the input layer, a filter size=f and number of filters=s to be applied.
 The filter-size provided to convolutional layer is $5 \times 5$ with 16 such filters to be applied on the input.
 The convolutional layer uses filter f to apply convolution operation on input to create a feature map as output.
 The convolutional layer learns about the spatial planes, edges, and distribution in the object,
-the convolutional layer passes the output to the rectified nonlinearity unit (Relu) before feeding
+the convolutional layer passes the output to the rectified linear unit (ReLU) before feeding
 it forwards to next layers.
 
 \textbf{Max Pooling layer:}
@@ -64,9 +64,12 @@ In order to build the model for this challenge, we have used the above layers, b
 
 \textbf{Model:}
 Single objects data is used as input for training the model. We started with implementing a simple 2 layered convolutional neural network,
-which uses two convolutional layers with rectified nonlinearity unit and a single layers of the max pool,
+which uses two convolutional layers with rectified linear unit and a max pool layer,
 drop out and a couple of fully connected layers to classify point cloud objects based upon classes.
-This architecture was effective but did not give acceptable results. Further experimenting with layers explained the learning of pixel input by convolutional layer.
+This architecture was effective but 
+did not give acceptable results. 
+%%%%%decide%%%%%% the test accuracy on single objects is low
+Further experimenting with layers explained the learning of pixel input by convolutional layer.
 
 The experiment with 4 layered convolutional network has better performance, as they were able to learn planes, edges, and distribution of the point cloud object.
 A couple of 2 convolutional layers with alternative Relu added before output and max-pooling layer between them shows the best results while training and testing on individual objects.
