@@ -85,7 +85,7 @@ also helps to be able to find object segments in the next following step.
 % Describe here how we filter the ground.
 %
 %
-\subsection{Object Segmentation and Noise Removal.}
+\subsection{Object Segmentation and Noise Removal}
 The %first 
 second
 step in testing phase is to segment the point cloud to chunks of data that include
@@ -136,12 +136,17 @@ showed that the k-means algorithm cannot separate the data into one-object segme
 It also could not achieve real-time processing when we need to test the different number of clusters.
 
 \textbf{Density based Clustering Approaches - Meanshift and DBSCAN.}
-We observed that density based approaches can build better object segments in comparison to K-Means clustering mainly because of two important factors,\\
-1. The density of LiDAR points is approximately equal on different objects.
-In the case that there is an object, the density of points is roughly equal on the surface of
-an object independent of the object type\\
-2. When objects are close to each other or hiding each
-other partially, density-based approaches can achieve better segments and do not joint the two different clusters of the two objects.
+We observed that density based approaches can build better object segments in comparison to K-Means clustering mainly because of two important factors:
+\begin{enumerate}
+	\item The density of LiDAR points is approximately equal on different objects.
+	In the case that there is an object, the density of points is roughly equal on the surface of an object independent of the object type.
+	
+	\item When objects are close to each other or hiding each
+	other partially, density-based approaches can achieve better segments and do not joint the two different clusters of the two objects.	
+	
+\end{enumerate}
+ 
+
 
 However, the object points have varying density when the surface of the object is not normal to the LiDAR scanner. 
 To make the object points dense 2D projections are used.
