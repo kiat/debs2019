@@ -25,10 +25,13 @@ However, these CNN based methods still require quantization of point clouds with
 Huang et al. \cite{DBLP:conf/icpr/HuangY16} take a point cloud and parse it through a dense voxel grid, generating a set of occupancy voxels which are used as input to a 3D CNN to produce one label per voxel. They map back the labels to the point cloud. Although this approach has been applied successfully, it has disadvantages like quantization, loss of spatial information, and unnecessarily large representations.
 
 Maturana et al. \cite{DBLP:conf/iros/MaturanaS15} used deep learning models is to first convert raw point cloud data into a
-volumetric representation, namely a 3D grid. This approach, however, usually introduces quantization artifacts and excessive memory usage, making it difficult to go to capture high-resolution or fine-grained features.
+volumetric representation, namely a 3D grid. This approach, however, usually introduces quantization artifacts and excessive memory usage, making it difficult 
+to capture high-resolution or fine-grained features.
 
 
-The defined grand challenge 2019 \cite{DEBSGC2019} scenario for an object is slightly different from
+The defined grand challenge 2019 \cite{DEBSGC2019} scenario 
+% for an object 
+is slightly different from
 the above described state-of-the-art because of the following reasons: (i) We need to classify and
 count the objects and this is different from semantic segmentation of point clouds. (ii) Objects
 can partially cover each other and it is required to classify them with counts of objects.
