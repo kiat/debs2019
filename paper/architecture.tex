@@ -101,7 +101,9 @@ The first 3 data projection methods are just to consider the data by dropping on
 viewing the data from one of the sides, for examples by dropping the y-axis and considering the x
 and z-axis.
 
-The last method is to project 3D data by using a point of eye view and projecting each data points
+The last method is to project 3D data by using 
+(0,0,0) as
+a point of eye view and projecting each data points
 to a plane (also named window) with a distance $d$ from eye or camera standpoint.
 The following projection is used to project the point $(x,y,z)$ in 3D to new $(x',  y')$ in 2D
 using a distance d to a plane.
@@ -141,10 +143,17 @@ an object independent of the object type\\
 2. When objects are close to each other or hiding each
 other partially, density-based approaches can achieve better segments and do not joint the two different clusters of the two objects.
 
+However, the object points have varying density when the surface of the object is not normal to the LiDAR scanner. 
+To make the object points dense 2D projections are used.
+
 We have evaluated the segmentation step with different parameters (density value and number of minimum samples in each cluster).
 We observed that the segments build using 3D DBSCAN approach can achieve acceptable
-real-time performance and DBSCAN can build better quality segments in 3D than using the algorithm
-with projected 2D data. We observed as well that the classification of object types in the
+real-time performance 
+compared to Meanshift 
+and DBSCAN can build better quality segments in 3D than 
+using 
+% the algorithm with 
+projected 2D data. We observed as well that the classification of object types in the
 next step can fail to recognize object types correctly due to the low-quality of segment
 building.
 
