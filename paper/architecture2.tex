@@ -34,14 +34,15 @@ the convolutional layer passes the output to the rectified nonlinearity unit (Re
 it forwards to next layers.
 
 \textbf{Max Pooling layer:}
-The pooling layer is added to downsample the by a factor of vector d, in
-our network model d = [1,2,2,1]. The max pooling layer is after each alternative convolutional
-layer, it downsamples the dimension of the feature map with their maximums.
+The pooling layer is added to reduce the dimension of the data by a factor of d. 
+The size of pooling layer is  $d \times  d$, in our model d = 2. 
+The max pooling layer is applied after each alternative convolutional
+layer, it reduces the dimension of the feature map with their maximums.
 
 \textbf{Dropout Layer:}
 Dropout layer is used for reducing overfitting. As the network is executed on the iterative model with a feed forward network.
 The model network tends to overfit on the data. Dropout layer drops random samples from the feature
-map.
+map while training.
 
 \textbf{Fully Connected Layer:}
 As fully connected layers contain n output neurons. Each neuron of the output is a learned linear
