@@ -8,7 +8,7 @@ accuracy <-c(13.35, 39.79, 45.12, 47.06)
 time<-c(3.958, 1.118, 1.246, 0.924)
 precision<-c(17.43, 50.78, 57.76,61.06)
 recall<-c(17.92, 60.09, 58.9,63.08)
-scene_evaluated<-c(0,146, 488, 446, 500)
+scene_evaluated<-c(146, 488, 446, 500)
 
 
 plot_colors <- c("blue","green","red","grey90");
