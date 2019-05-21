@@ -2,9 +2,10 @@
 % Describe here the CNN architecture.
 We use for classification of point cloud data Convolutional Neural Network (CNN).
 Our neural network architecture is represented in Figure \ref{fig:cnn}.
-The network model is designed for multi-class classification of point cloud object.
+The network model is designed for multi-class classification of 
+point cloud objects.
 % Convolutional neural network provides a promising result of object model with spatial data.
-CNN effectively learns the feature recognition of planes, corners, and the edge of the object model.
+CNN effectively learns the feature recognition of planes, corners, and the edges of the object model.
 Our network model is designed with 4 convolutional layers where each layer filter is expected to
 recognize planes, corners, edges, and distribution of the objects per orientation.
 Other layers learn the global label for the input grid from the knowledge passed by each layer.
@@ -13,7 +14,7 @@ Other layers learn the global label for the input grid from the knowledge passed
 The 3D points \textit{(x,y,z)} of the object are projected into 2D points \textit{(x,y) or (x',y')} (Sec 3.2).
 These projected object points are placed on a grid of height 7 and length 10.
 This grid is divided into cells of 0.1x0.1 resulting in 70x100 cells and the information about the number of points in each cell is the input to the model.
-This input on plotting as pixel values will result in the object.
+This input on plotting as pixels will result in the object.
 
 \textbf{Input layer:}
 The network model takes a fixed-size input of NxM point counts in grid-cells. We have
@@ -22,15 +23,15 @@ of convolutional.
 
 
 \textbf{Convolutional Layer (input,f,s):}
-There is 4 convolutional layer in our architecture to learn features on each orientation.
-The first convolutional layer feed on three-dimensional input of size $N \times  M \times f$ from
-the input layer, a filter size=f and number of filter to be applied.
+There are 4 convolutional layers in our architecture to learn features on each orientation.
+The first convolutional layer feed on two-dimensional input of size $N \times  M$ from
+the input layer, a filter size=f and number of filters=s to be applied.
 
-The filter-size provided to convolutional layer is $5x5$ with 16 such filters to be applied on the input.
-The convolutional layer equates filter f by apply convolutional on input dimension to create a feature map as output.
+The filter-size provided to convolutional layer is $5 \times 5$ with 16 such filters to be applied on the input.
+The convolutional layer uses filter f to apply convolution operation on input to create a feature map as output.
 The convolutional layer learns about the spatial planes, edges, and distribution in the object,
 the convolutional layer passes the output to the rectified nonlinearity unit (Relu) before feeding
-it forwards to next Layers.
+it forwards to next layers.
 
 \textbf{Max Pooling layer:}
 The pooling layer is added to downsample the by a factor of vector d, in
