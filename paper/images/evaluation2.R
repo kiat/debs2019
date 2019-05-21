@@ -27,7 +27,7 @@ barplot(accuracy,type = "l", col = plot_colors[1], xlab = "", ylab = "", main = 
 #grid(nx = 20);
 
 axis(side=1, at=seq(1,4),labels=model , lwd.ticks=1,cex.axis=0.7)
-axis(side=2,  lwd.ticks=1,cex.axis=0.7)
+axis(side=2,  lwd.ticks=1,cex.axis=0.7,las=1)
 
 #text(seq(1,4), par("usr")[3]-0.25, 
 #     srt = 60, adj= 1, xpd = TRUE,
