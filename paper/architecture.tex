@@ -181,9 +181,13 @@ The red central point is the zero point - the position of the LiDAR scanner.
 All other surrounding points are object points from the top-view.
 
 Our idea for sectioning the data from top-view is illustrated in
-Figure \ref{fig:sectors2}. We calculate for each point the degree of angle that they have with the x-axis.
+Figure \ref{fig:sectors2}. We calculate for each point the degree of angle that they have with the 
+positive
+x-axis.
 Angles of data points to the center will be valued between 0 and 360 degrees. We sort the list of angles
-and check for ranges that we do not have data or data under certain numbers. Then we can separate the data into sectors by using the degree ranges that have no data points or less than a threshold. If the objects are very close to the LiDAR laser position, then we might have data in all ranges of angle degrees, but we would then be able
+and check for ranges that we do not have data or data under certain numbers. 
+Then we can separate the data into sectors by using the degree ranges that have no data points or less than a threshold. 
+If the objects are very close to the LiDAR laser position, then we might have data in all ranges of angle degrees, but we would then be able
 to separate the data by using a threshold value.
 \begin{figure*}[!h]
 \centering
@@ -208,12 +212,13 @@ Then we create the density of these radius values and separate the data from the
 An example of the density curve is shown in Figure \ref{fig:SectorDensity} with 3 objects in a
 sector.
 
+%%%%%%%%%%% Check this %%%%%%%%%%
 It can happen that we have on a single sector objects behind each other or on each other side.
 If objects are behind each other then the density value vector will have a local minimum that can
 be used to separate the objects. If the density vector has local minimum points of zero then, we can separate it from the zero
 points. If local minimums are very close to each other and have large values then we need to
 use the density-based clustering approach like DBSCAN to build clusters.
-
+%%%%%%%%%%% Check this %%%%%%%%%%
 
 
 \begin{figure}[!h]
