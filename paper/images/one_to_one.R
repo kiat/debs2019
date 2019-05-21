@@ -34,7 +34,7 @@ lines( val_loss, col = plot_colors[2], lwd=1)
 
 axis(side=1, at=seq(1,12),labels=range_value , lwd.ticks=0.3,cex.axis=0.35,mgp=c(3, 0.2, 0))
 axis(side=2,  lwd.ticks=0.3,cex.axis=0.35,mgp=c(3, 0.6, 0),las=1)
-title(ylab="Accuracy", line=1, cex.lab=0.5, family="Helvetica")
+title(ylab="Loss", line=1, cex.lab=0.5, family="Helvetica")
 title(xlab="Epochs", line=1, cex.lab=0.5, family="Helvetica")
 legend(5.5,3.9,c("Training Loss","Validation Loss"), lwd=c(1,1), col=plot_colors, y.intersp=1,pch=16,cex = 0.4)
 
