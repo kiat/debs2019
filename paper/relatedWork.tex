@@ -2,37 +2,37 @@
 In this brief section, we review some of the most related publications regarding LiDAR point cloud object recognition problem.
 
 %SAEED: describe some related work:
-\textbf{3D shape analysis} Performance of 3D shape analysis is heavily dependent on the input representation. 
+\textbf{3D shape analysis} Performance of 3D shape analysis is heavily dependent on the input representation.
 The main representations are volumetric, point cloud and multi-view.
 
 To better compare 3D shape descriptors, we will focus on retrieval performance. Recent
-approaches show significant improvements in retrieval. Yavartanoo et al. \cite{DBLP:journals/corr/abs-1811-01571} 
+approaches show significant improvements in retrieval. Yavartanoo et al. \cite{DBLP:journals/corr/abs-1811-01571}
 introduces multi-view stereographic projection; it first transforms a 3D input volume into a 2D planar image using stereographic projection.
 
-Zhou et al. \cite{Zhou_2018_CVPR} proposed a model that operates only on LiDAR data. 
-In regard to that, it is the best-ranked model on KITTI \cite{geiger2012we} for 3D and birds-eye view detections using LiDAR data only. 
-The basic idea is end-to-end learning that operates on grid cells without using handcrafted features. However, even with sparse 3D convolution 
+Zhou et al. \cite{Zhou_2018_CVPR} proposed a model that operates only on LiDAR data.
+In regard to that, it is the best-ranked model on KITTI \cite{geiger2012we} for 3D and birds-eye view detections using LiDAR data only.
+The basic idea is end-to-end learning that operates on grid cells without using handcrafted features. However, even with sparse 3D convolution
 operations, this model's computational speed is still slower than other similar proposed architectures.
 
 
-Wu et al. \cite{DBLP:conf/icra/WuWYK18} present SqueezeSeg which projects point cloud to the front view with cells gridded by LiDAR rotation. 
-It applies normal 2D CNN for classification and segmentation. The front view representation of point cloud shares 
+Wu et al. \cite{DBLP:conf/icra/WuWYK18} present SqueezeSeg which projects point cloud to the front view with cells gridded by LiDAR rotation.
+It applies normal 2D CNN for classification and segmentation. The front view representation of point cloud shares
 the same multi-scale problem like the camera because the sizes of objects change as the distance varies.
 
-Riegler et al \cite{DBLP:conf/cvpr/RieglerUG17} design more efficient 3D CNN or neural network architectures that exploit sparsity in the point cloud. 
+Riegler et al \cite{DBLP:conf/cvpr/RieglerUG17} design more efficient 3D CNN or neural network architectures that exploit sparsity in the point cloud.
 However, these CNN based methods still require quantization of point clouds with certain voxel resolution.
 
 Huang et al. \cite{DBLP:conf/icpr/HuangY16} take a point cloud and parse it through a dense voxel grid, generating a set of occupancy voxels which are used as input to a 3D CNN to produce one label per voxel. They map back the labels to the point cloud. Although this approach has been applied successfully, it has disadvantages like quantization, loss of spatial information, and unnecessarily large representations.
 
-Maturana et al. \cite{DBLP:conf/iros/MaturanaS15} used deep learning models is to first convert raw point cloud data into a 
+Maturana et al. \cite{DBLP:conf/iros/MaturanaS15} used deep learning models is to first convert raw point cloud data into a
 volumetric representation, namely a 3D grid. This approach, however, usually introduces quantization artifacts and excessive memory usage, making it difficult to go to capture high-resolution or fine-grained features.
 
 
 The defined grand challenge 2019 \cite{DEBSGC2019} scenario for an object is slightly different from
 the above described state-of-the-art because of the following reasons: (i) We need to classify and
-count the objects and this is different than semantic segmentation of point clouds. (ii) Objects
-can partially cover each other and it is required to classify them with counts of objects.   
-(iii) Scenes have no relations and are random selected. 
+count the objects and this is different from semantic segmentation of point clouds. (ii) Objects
+can partially cover each other and it is required to classify them with counts of objects.
+(iii) Scenes have no relations and are randomly selected.
 
 
 

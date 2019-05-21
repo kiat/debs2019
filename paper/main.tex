@@ -192,17 +192,17 @@ In many robotic applications, LiDAR (Light Detection and Ranging) scanner is use
 Applications like autonomous vehicles require real-time processing of LiDAR point cloud data with high accuracy.
 
 We describe in this paper, our implementation for DEBS 2019 Grand Challenge for an object recognition system from high-speed
-LiDAR data stream. Our system includes a data processing pipeline with 3 main stages, 
-1. LiDAR data filtering 2. Object segmentation and noise reduction 3. Multi-class object classification using Convolutional Neural Network (CNN). 
-% We have evaluated our system using point cloud data in 3D and in the projection of it into 2D. 
-Our evaluation shows that we can classify objects with high accuracy using the point cloud data and neural network. 
-However, we observed that the classification may fail if the object segmentation is not separating objects correctly in different segments especially when the objects are largely covering each other. 
-We proposed a pre-processing approach for object segmentation based on separating LiDAR data into multiple area sectors before segmenting the objects. 
+LiDAR data stream. Our system includes a data processing pipeline with 3 main stages,
+1. LiDAR data filtering 2. Object segmentation and noise reduction 3. Multi-class object classification using Convolutional Neural Network (CNN).
+% We have evaluated our system using point cloud data in 3D and in the projection of it into 2D.
+Our evaluation shows that we can classify objects with high accuracy using the point cloud data and neural network.
+However, we observed that the classification may fail if the object segmentation is not separating objects correctly in different segments especially when the objects are largely covering each other.
+We proposed a pre-processing approach for object segmentation based on separating LiDAR data into multiple area sectors before segmenting the objects.
 \end{abstract}
 
 
-\copyrightyear{2019} 
-\acmYear{2019} 
+\copyrightyear{2019}
+\acmYear{2019}
 \setcopyright{acmlicensed}
 \acmConference[DEBS '19]{DEBS '19: The 13th ACM International Conference on Distributed and Event-based Systems}{June 24--28, 2019}{Darmstadt, Germany}
 \acmBooktitle{DEBS '19: The 13th ACM International Conference on Distributed and Event-based Systems (DEBS '19), June 24--28, 2019, Darmstadt, Germany}
@@ -214,7 +214,7 @@ We proposed a pre-processing approach for object segmentation based on separatin
 
 \section{Introduction}
 % One of the special and still not completely solved problems in robotics research is the real-time object recognition surrounding an autonomous robot.
-% Highly dynamic and rapidly changing environment of a robot requires a fast and intelligent system to detect its surrounding objects. 
+% Highly dynamic and rapidly changing environment of a robot requires a fast and intelligent system to detect its surrounding objects.
 % Examples of such applications are autonomous vehicles or autonomous cleaning robots that require object recognition in real-time with high accuracy.
 % For such applications, it is important to detect surrounding objects accurately in real-time and be able to react proactively based on object classification results.
 
@@ -223,17 +223,16 @@ Detection and Ranging). A LiDAR laser scanner is used to generate a three-dimens
 
 The ACM DEBS 2019 grand challenge \cite{DEBSGC2019} specifies an object recognition development challenge for LiDAR streaming point cloud data.
 The organizers provide a training set of LiDAR data for 28 different object types like the car (2 different types), pedestrian, trees (2 different types),
- ATM machine, pedestrian, benches, container. The DEBS 2019 challenge scenario, data set and evaluation criteria are 
- described by organizers Bodunov et al. in \cite{DEBSGC2019}.
+ ATM machine, pedestrian, benches, containers, etc. The DEBS 2019 challenge scenario, data set and evaluation criteria are described by organizers Bodunov et al. in \cite{DEBSGC2019}.
 
 In this paper we describe our implementation for the grand challenge, our contributions are:
 
 
 \begin{enumerate}
-  
-  \item Description of our data analysis architecture and processing pipeline including data pre-processing for LiDAR ground removal, 
+
+  \item Description of our data analysis architecture and processing pipeline including data pre-processing for LiDAR ground removal,
   data segmentation (generating voxels containing objects ), and multi-class object classification  (Sec.  \ref{sec:Architecture}).
-  \item Experimental evaluation and comparisons of different data processing architectures, different data models to achieve high 
+  \item Experimental evaluation and comparisons of different data processing architectures, different data models to achieve high
   accuracy and real-time data processing (Sec. \ref{sec:Evaluation}).
   \item A brief state-of-the-art study reviewing most related object recognition from LiDAR point cloud.  (Sec. \ref{sec:relatedWork})
   \item A discussion about lessons learned and challenges (Sec. \ref{sec:conclusion} ).

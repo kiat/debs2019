@@ -1,16 +1,15 @@
 \section{Conclusion and Future Work}\label{sec:conclusion}
 We have shown that it is possible to use the LiDAR point cloud data to classify objects with
-acceptable accuracy in real-time. The accuracy of our classification stage is very high when we train and test it on the LiDAR point cloud 
-that contains only one single object. Clearly, our python implementation can be optimized to
-use all CPU cores by implementing efficient multi-threading (e.g., a C++ implementation with MPI ) . 
+acceptable accuracy in real-time. The accuracy of our classification stage is very high when we train and test it on the LiDAR point cloud that contains only one single object. Clearly, our python implementation can be optimized to
+use all CPU cores by implementing efficient multi-threading (e.g., a C++ implementation with MPI).
 
 Lessons learned from our implementation are:
 \begin{enumerate}
   \item Classification of LiDAR point cloud can achieve high accuracy and real-time processing time by projecting the 3D data into 2D view.
   \item Classification using CNN on point cloud does not need a large number of hidden layers to achieve high accuracy.
   \item CNN may fail to classify if the scene includes tiny objects or objects have variable density like ``Tree Objects''.
-  \item If multiple objects are in a scene and they are hiding each other (completely or partially) then object segmentation using DBSCAN 
+  \item If multiple objects are in a scene and they are hiding each other (completely or partially) then object segmentation using DBSCAN
   or other traditional clustering methods may fail to separate objects.
 \end{enumerate}
 
-We observed that if the segmentation stage fails to clearly separate objects into single objects segments then the subsequent classifier cannot correctly classify the object types. This can be improved by extending our LiDAR data sectioning approach and by using its combination with traditional density-based clustering. We are working on a further extension of this idea and investigate its general ability to segment LiDAR data.  
+We observed that if the segmentation stage fails to clearly separate objects into single objects segments then the subsequent classifier cannot correctly classify the object types. This can be improved by extending our LiDAR data sectioning approach and by using its combination with traditional density-based clustering. We are working on a further extension of this idea and investigate its general ability to segment LiDAR data.
