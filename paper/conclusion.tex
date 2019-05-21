@@ -1,6 +1,7 @@
 \section{Conclusion and Future Work}\label{sec:conclusion}
 We have shown that it is possible to use the LiDAR point cloud data to classify objects with
-acceptable accuracy in real-time. The accuracy of our classification stage is very high when we train and test it on the LiDAR point cloud that contains only one single object. Clearly, our python implementation can be optimized to
+acceptable accuracy in real-time. The accuracy of our classification stage is very high when we train and test it on the LiDAR point 
+cloud that contains only one single object. Clearly, our python implementation can be optimized to
 use all CPU cores by implementing efficient multi-threading (e.g., a C++ implementation with MPI).
 
 Lessons learned from our implementation are:
@@ -12,4 +13,6 @@ Lessons learned from our implementation are:
   or other traditional clustering methods may fail to separate objects.
 \end{enumerate}
 
-We observed that if the segmentation stage fails to clearly separate objects into single objects segments then the subsequent classifier cannot correctly classify the object types. This can be improved by extending our LiDAR data sectioning approach and by using its combination with traditional density-based clustering. We are working on a further extension of this idea and investigate its general ability to segment LiDAR data.
+We observed that if the segmentation stage fails to clearly separate objects into single objects segments then the subsequent classifier 
+cannot correctly classify the object types. This can be improved by extending our LiDAR data sectioning approach and its combination 
+with traditional density-based clustering. We are working on a further extension of this idea and investigate its general ability to segment LiDAR data.
