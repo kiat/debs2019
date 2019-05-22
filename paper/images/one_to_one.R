@@ -24,7 +24,7 @@ lines( val_acc, col = plot_colors[2], lwd=1)
 
 axis(side=1, at=seq(1,12),labels=range_value , lwd.ticks=0.3,cex.axis=0.35,mgp=c(3, 0.2, 0))
 axis(side=2,  lwd.ticks=0.3,cex.axis=0.35,mgp=c(3, 0.6, 0),las=1)
-title(ylab="Accuracy", line=1, cex.lab=0.5, family="Helvetica")
+title(ylab="Accuracy(%)", line=1, cex.lab=0.5, family="Helvetica")
 title(xlab="Epochs", line=1, cex.lab=0.5, family="Helvetica")
 legend(4.5,18,c("Training Accuracy","Validation Accuracy"), lwd=c(1,1), col=plot_colors, y.intersp=1,pch=16,cex = 0.4)
 
