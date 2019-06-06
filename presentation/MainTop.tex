@@ -1,0 +1,153 @@
+\setbeamersize{text margin left=6mm,text margin right=8mm} 
+
+\usetheme[progressbar=frametitle]{metropolis}
+
+\usepackage{xcolor}
+
+\definecolor{bluegreen}{RGB}{3, 166, 155}
+\definecolor{pitchblack}{RGB}{0, 0, 0}
+\definecolor{lightbeige}{RGB}{255, 251, 241}
+\definecolor{mediumgray}{RGB}{183, 183, 183}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\definecolor{red}{RGB}{160,0,0}
+\definecolor{green}{RGB}{0,150,0}
+\definecolor{navy}{RGB}{0,0,128}
+
+
+
+% \setbeamercolor{progress bar}{fg=green,bg=blue}
+% \setbeamercolor{background canvas}{bg=pitchblack}
+% \setbeamercolor{normal text}{fg=lightbeige}
+% \setbeamercolor{frametitle}{bg=bluegreen, fg=mediumgray}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{normal text}{fg=black}
+\setbeamercolor{frametitle}{bg=white, fg=black}
+
+
+
+\usepackage{appendixnumberbeamer}
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+
+\usepackage{xspace}
+\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+
+\usepackage{fancyhdr}
+\usepackage[mmddyyyy,hhmmss]{datetime}
+
+% \date{\today}
+\date{}
+% \date[Last Compiled:]{\today}
+
+\author{Kia Teymourian}
+\institute{Boston University \\ \\ \\ \\ \\ \\ \\ \\  Date: \today}
+% compiled: \today , Time: \currenttime}
+
+
+
+% This is important to set the default font to serif. 
+\usefonttheme{serif} % default family is serif
+
+% \setmainfont{Liberation Serif}
+
+% Packages for drawing arrows. 
+\usepackage{tikz}
+\usepgflibrary{arrows}% for more options on arrows
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+\usepackage{xspace}
+% \newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+
+\usepackage{blindtext}
+
+\usepackage{listings}
+
+% \usepackage{color}
+
+\usepackage{caption}
+\usepackage{graphicx}
+
+
+
+\definecolor{backgroundCol}{rgb}{.97, .97, .97}
+\definecolor{commentstyleCol}{rgb}{0, 0, 80}
+\definecolor{keywordstyleCol}{rgb}{0.737,0.353,0.396}
+\definecolor{stringstyleCol}{rgb}{0.192,0.494,0.8}
+\definecolor{NumCol}{rgb}{0.686,0.059,0.569}
+\definecolor{basicstyleCol}{rgb}{0.345, 0.345, 0.345}       
+
+
+
+\lstset{ %
+  language=R,                     % the language of the code
+  basicstyle=\footnotesize  \ttfamily \color{basicstyleCol},       % the size of the fonts that are used for the code
+  % numbers=left,                   % where to put the line-numbers
+  % numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+  stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
+                                  % will be numbered
+  numbersep=2pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=1,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                                  % also try caption instead of title
+  keywordstyle=\color{keywordstyleCol},      % keyword style
+  commentstyle=\color{commentstyleCol},   % comment style
+  stringstyle=\color{stringstyleCol},      % string literal style
+  escapeinside={\%*}{*)},         % if you want to add a comment within your code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  belowskip=-0.8 \baselineskip
+}
+
+
+\usepackage{algpseudocode} 
+\usepackage{MnSymbol,wasysym}
+
+\definecolor{DarkGrenen}{RGB}{0,100,0}
+\definecolor{DarkOliveGreen}{RGB}{85,107,47}
+
+\definecolor{saddlebrown}{RGB}{139,69,19}
+
+
+
+
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\green}[1]{\textcolor{DarkGrenen}{#1}}
+\newcommand{\brown}[1]{\textcolor{saddlebrown}{#1}}
+
+
+\newcommand{\redb}[1]{\textcolor{red}{\textbf{\boldmath{#1}}}}
+\newcommand{\blueb}[1]{\textcolor{blue}{\textbf{\boldmath{#1}}}}
+\newcommand{\greenb}[1]{\textcolor{DarkGrenen}{\textbf{\boldmath{#1}}}}
+\newcommand{\brownb}[1]{\textcolor{saddlebrown}{\textbf{\boldmath{#1}}}}
+
+\usepackage{url}
+
+
+\usepackage{wrapfig}
+
+\usepackage{subcaption}
+
+
+% \usepackage[parfill]{parskip}
+
+
+
+
+
