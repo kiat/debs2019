@@ -76,24 +76,84 @@
 \begin{frame}[fragile]{Introduction}
 
 \redb{Problems:}
-
- 
-
 \begin{itemize}
   \item test \blueb{test}   
   \item test \redb{test}   
   \item test \brownb{test}   
-  
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Architecture}
+\redb{Steps for data processing:}
+\begin{itemize}
+	\item \blueb{Step 1:} Data Filtering  
+	\item \blueb{Step 2:} Object Segmentation
+	\item \blueb{Step 3:} Object Classification   
 \end{itemize}
 
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{images/DataProcessingPipleline.pdf}
 
-
+\end{figure}
 \end{frame}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}[fragile]{Step 1: LiDAR Laser Line Data Filtering}
+	\redb{Steps for Data Filtering}
 
+\end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Step 2: Object Segmentation and Noise Removal}
+	\begin{itemize}
+		\item segment the point cloud to chunks of data 
+		
+		
+		\redb{3D to 2D Projection:} projected the 3D data in 4 different ways to a 2D plane and reduced the data dimensionality
+		
+		\begin{align*}
+		d  & = \text{Distance to a projection plane} \\
+		x' & =  x (\frac{d}{z}) \ \  , \ \  y' =  y (\frac{d}{z}) \ \  , \ \  z'=  z (\frac{d}{z}) = d
+		\end{align*}
+		
+		
+		\item different clustering methods to cluster the data		
+		\begin{enumerate}
+			\item \textbf{K-means and Mini Batch K-means} on the 3D and project 2D data.
+			\item \textbf{Meanshift} on 3D and 2D data
+			\item \textbf{DBSCAN} on 3D and 2D
+		\end{enumerate}
+	\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Step 3: Multi-class Object Classification}	
+	Used for classification of point cloud data Convolutional Neural Network (CNN) 
+	
+	\redb{The convolutional layers:}
+	\begin{itemize}
+		\item Max Pooling layer
+		\item Dropout Layer
+		\item Fully Connected Layer  
+	\end{itemize}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{images/object_net.pdf}
+		
+	\end{figure}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
