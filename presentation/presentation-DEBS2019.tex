@@ -106,7 +106,29 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[fragile]{Step 1: LiDAR Laser Line Data Filtering}
-	\redb{Steps for Data Filtering}
+	\begin{itemize}
+		\item Filter out the LiDAR laser lines that build
+		a cylinder 3D shape from the laser standing point $(x=0, y=0, z=0)$.
+		\item Figure 1 visualizes the LiDAR data for a single scene with LiDAR laser lines and Figure 2 visualizes the data after
+		filtering out the Laser lines.
+	\end{itemize}
+	\redb{}
+	
+	\begin{columns}
+		\begin{column}{0.48\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth]{images/ground_before2.png}
+				\caption{LiDAR Raw Point Cloud Data}			
+			\end{figure}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth]{images/ground_after2.png}		\caption{Data After Filtering the LiDAR Scan Lines}		
+			\end{figure}
+		\end{column}
+	\end{columns}
 
 \end{frame}
 
@@ -114,11 +136,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[fragile]{Step 2: Object Segmentation and Noise Removal}
+	\redb{segment the point cloud to chunks of data}
 	\begin{itemize}
-		\item segment the point cloud to chunks of data 
-		
-		
-		\redb{3D to 2D Projection:} projected the 3D data in 4 different ways to a 2D plane and reduced the data dimensionality
+		\item \blueb{3D to 2D Projection:} projected the 3D data in 4 different ways to a 2D plane and reduced the data dimensionality
 		
 		\begin{align*}
 		d  & = \text{Distance to a projection plane} \\
@@ -126,7 +146,7 @@
 		\end{align*}
 		
 		
-		\item different clustering methods to cluster the data		
+		\item \blueb{Object segmentation using Clustering:} different clustering methods to cluster the data		
 		\begin{enumerate}
 			\item \textbf{K-means and Mini Batch K-means} on the 3D and project 2D data.
 			\item \textbf{Meanshift} on 3D and 2D data
