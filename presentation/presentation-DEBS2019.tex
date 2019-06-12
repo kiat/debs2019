@@ -4,7 +4,7 @@
 % V1, S 1-7
 % V2, S 8-18
 % V3, S 18-25
-% V4, S 25-37 
+% V4, S 25-37
 
 \input{MainTop.tex}
 
@@ -26,7 +26,7 @@
 %   \begin{beamercolorbox}[wd=1\paperwidth,ht=0.1ex,dp=3.5ex,right]{date in
 %   head/foot}%
 %     	\usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
-% 		\insertframenumber{} / \inserttotalframenumber\hspace*{3ex} 
+% 		\insertframenumber{} / \inserttotalframenumber\hspace*{3ex}
 %   \end{beamercolorbox}}%
 %   \vskip0pt%
 % }
@@ -50,8 +50,8 @@
 \begin{frame}{Table of contents}
  \setbeamertemplate{section in toc}[sections numbered]
    \tableofcontents[hideallsubsections]
- 
- 
+
+
 \end{frame}
 
 
@@ -61,7 +61,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Paper Idea}
+\section{Data Processing Pipleline}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -70,9 +70,9 @@
 \begin{frame}[fragile]{Architecture}
 \redb{Steps for data processing:}
 \begin{itemize}
-	\item \blueb{Step 1:} Data Filtering  
+	\item \blueb{Step 1:} Data Filtering
 	\item \blueb{Step 2:} Object Segmentation
-	\item \blueb{Step 3:} Object Classification   
+	\item \blueb{Step 3:} Object Classification
 \end{itemize}
 
 \begin{figure}
@@ -93,19 +93,19 @@
 		\item Figure 1 visualizes the LiDAR data for a single scene with LiDAR laser lines and Figure 2 visualizes the data after
 		filtering out the Laser lines.
 	\end{itemize}
-		
+
 	\begin{columns}
 		\begin{column}{0.48\textwidth}
 			\begin{figure}
 				\centering
 				\includegraphics[width=\textwidth]{images/ground_before2.png}
-				\caption{LiDAR Raw Point Cloud Data}			
+				\caption{LiDAR Raw Point Cloud Data}
 			\end{figure}
 		\end{column}
 		\begin{column}{0.48\textwidth}
 			\begin{figure}
 				\centering
-				\includegraphics[width=\textwidth]{images/ground_after2.png}		\caption{Data After Filtering the LiDAR Scan Lines}		
+				\includegraphics[width=\textwidth]{images/ground_after2.png}		\caption{Data After Filtering the LiDAR Scan Lines}
 			\end{figure}
 		\end{column}
 	\end{columns}
@@ -119,14 +119,14 @@
 	\redb{segment the point cloud to chunks of data}
 	\begin{itemize}
 		\item \blueb{3D to 2D Projection:} projected the 3D data in 4 different ways to a 2D plane and reduced the data dimensionality
-		
+
 		\begin{align*}
 		d  & = \text{Distance to a projection plane} \\
 		x' & =  x (\frac{d}{z}) \ \  , \ \  y' =  y (\frac{d}{z}) \ \  , \ \  z'=  z (\frac{d}{z}) = d
 		\end{align*}
-		
-		
-		\item \blueb{Object segmentation using Clustering:} different clustering methods to cluster the data		
+
+
+		\item \blueb{Object segmentation using Clustering:} different clustering methods to cluster the data
 		\begin{enumerate}
 			\item \textbf{K-means and Mini Batch K-means} on the 3D and project 2D data.
 			\item \textbf{Meanshift} on 3D and 2D data
@@ -138,20 +138,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[fragile]{Step 3: Multi-class Object Classification}	
-	Used for classification of point cloud data Convolutional Neural Network (CNN) 
-	
+\begin{frame}[fragile]{Step 3: Multi-class Object Classification}
+	Used for classification of point cloud data Convolutional Neural Network (CNN)
+
 	\redb{The convolutional layers:}
 	\begin{itemize}
 		\item Max Pooling layer
 		\item Dropout Layer
-		\item Fully Connected Layer  
+		\item Fully Connected Layer
 	\end{itemize}
-	
+
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{images/object_net.pdf}
-		
+
 	\end{figure}
 \end{frame}
 
@@ -182,8 +182,8 @@
 \begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{images/evaluation2.pdf}
-	
-\end{figure}	
+
+\end{figure}
 \end{frame}
 
 
@@ -192,8 +192,8 @@
 	\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{images/one_to_one.pdf}
-		
-	\end{figure}	
+
+	\end{figure}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -201,24 +201,24 @@
 \section{Related Work}
 \begin{frame}[fragile]{Related Work}
 	\redb{In this brief section, we review some of the most related publications regarding LiDAR point cloud object recognition problem.}
-	
+
 	\begin{itemize}
 		\item  \cite{DBLP:journals/corr/abs-1811-01571}
 		introduces multi-view stereographic projection; it first transforms a 3D input volume into a 2D planar image using stereographic projection.
-		
+
 		\item \cite{Zhou_2018_CVPR} is the best-ranked model on KITTI \cite{geiger2012we} for 3D and birds-eye view detections using LiDAR data only
-		
+
 		\item \cite{DBLP:conf/icra/WuWYK18} present SqueezeSeg which projects point cloud to the front view with cells gridded by LiDAR rotation
-		
+
 		\item \cite{DBLP:conf/cvpr/RieglerUG17} design more efficient 3D CNN or neural network architectures that exploit sparsity in the point cloud
-		
+
 		\item \cite{DBLP:conf/icpr/HuangY16} take a point cloud and parse it through a dense voxel grid, generating a set of occupancy voxels which are used as input to a 3D CNN to produce one label per voxel
-		
+
 		\item \cite{DBLP:conf/iros/MaturanaS15} used deep learning models is to first convert raw point cloud data into a
 		volumetric representation, namely a 3D grid
-		
-		
-		
+
+
+
 	\end{itemize}
 %\resizebox{\linewidth}{!}{
 %	\begin{tabular}{*{3}{l}}
@@ -226,11 +226,11 @@
 %		Yavartanoo \cite{DBLP:journals/corr/abs-1811-01571}  & A & B\\
 %		\midrule
 %		One   & 1 & 2 \\
-%		Two   & 26 & 25 \\	
+%		Two   & 26 & 25 \\
 %		\bottomrule
 %	\end{tabular}
 %}
-	
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -254,7 +254,7 @@
 \begin{frame}[fragile]{}
 
 \centering
-\Huge 
+\Huge
 Thank you!
 
 \end{frame}
@@ -263,11 +263,11 @@ Thank you!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{References}
 \begin{frame}[allowframebreaks]{References}
-	
+
 	%	\bibliographystyle{apalike}
 	\bibliographystyle{apalike}
 	\bibliography{references}
-	
+
 \end{frame}
 
 \end{document}
