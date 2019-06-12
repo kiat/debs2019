@@ -64,25 +64,6 @@
 \section{Paper Idea}
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[fragile]{Introduction}
-
-\redb{Problems:}
-\begin{itemize}
-  \item test \blueb{test}   
-  \item test \redb{test}   
-  \item test \brownb{test}   
-\end{itemize}
-\end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -112,8 +93,7 @@
 		\item Figure 1 visualizes the LiDAR data for a single scene with LiDAR laser lines and Figure 2 visualizes the data after
 		filtering out the Laser lines.
 	\end{itemize}
-	\redb{}
-	
+		
 	\begin{columns}
 		\begin{column}{0.48\textwidth}
 			\begin{figure}
@@ -175,74 +155,102 @@
 	\end{figure}
 \end{frame}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[fragile]{Text Descriptions and Visualizations}
+\section{Evaluation}
 
-\redb{Two Challenges:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{enumerate}
-  \item Text descriptions and interpretations  
-  \item Visualizations    
-\end{enumerate}
-
-
-\redb{We Separated the assignments into two parts}
-
-\begin{enumerate}
-  \item Matching numbers (done by system)
-  \item Correction of text description and visualizations (done by instructors/TAs) 
-\end{enumerate}
- 
-
+\begin{frame}[fragile]{Experiment Setups }
+\redb{We evaluated our implementation \footnote{Github Repository
+	of our Implementation \url{https://github.com/kiat/debs2019}} using the 4 different experiment setups:}
+\begin{itemize}
+	\item 2-Layer CNN on projected data to 2D (Single View) and Object Segmentation with 3D DBSCAN
+	\item 2-Layer CNN on projected data to 2D (Using perspective projection) and Object Segmentation with 3D DBSCAN
+	\item 4-Layer CNN on projected data to 2D (Single View) and Object Segmentation with 3D DBSCAN
+	\item 4-Layer CNN on projected data to 2D (Using perspective projection) and Object Segmentation with 3D DBSCAN
+\end{itemize}
 
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\section{Potential Extensions}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[fragile]{Other Courses }
-
-Data Science courses 
-
-\begin{itemize}
-
-  \item Data Mining, Machine Learning, Databases, Math, Stats   
-\end{itemize}
-
-
-\redb{Big Data Course} 
-
-\begin{itemize}
-  \item Each Student gets 10 GB of Data 
-  \item Running on Cluster of Machines  
-\end{itemize}
- 
- \blueb{Solution:} Combining data partitions and pre-compute results based on combinations.  
- 
-
-
+\begin{frame}[fragile]{Evaluation: Experiment Settings on DEBS2019 }
+\redb{Precision, Recall, Accuracy and Processing Time of 4 different our Experiment Variation}
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{images/evaluation2.pdf}
+	
+\end{figure}	
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{System Demonstration}
+\begin{frame}[fragile]{Evaluation: Accuracy and Loss }
+	\redb{Training and Validation Accuracy and Loss}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{images/one_to_one.pdf}
+		
+	\end{figure}	
+\end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Related Work}
+\begin{frame}[fragile]{Related Work}
+	\redb{In this brief section, we review some of the most related publications regarding LiDAR point cloud object recognition problem.}
+	
+	\begin{itemize}
+		\item  \cite{DBLP:journals/corr/abs-1811-01571}
+		introduces multi-view stereographic projection; it first transforms a 3D input volume into a 2D planar image using stereographic projection.
+		
+		\item \cite{Zhou_2018_CVPR} is the best-ranked model on KITTI \cite{geiger2012we} for 3D and birds-eye view detections using LiDAR data only
+		
+		\item \cite{DBLP:conf/icra/WuWYK18} present SqueezeSeg which projects point cloud to the front view with cells gridded by LiDAR rotation
+		
+		\item \cite{DBLP:conf/cvpr/RieglerUG17} design more efficient 3D CNN or neural network architectures that exploit sparsity in the point cloud
+		
+		\item \cite{DBLP:conf/icpr/HuangY16} take a point cloud and parse it through a dense voxel grid, generating a set of occupancy voxels which are used as input to a 3D CNN to produce one label per voxel
+		
+		\item \cite{DBLP:conf/iros/MaturanaS15} used deep learning models is to first convert raw point cloud data into a
+		volumetric representation, namely a 3D grid
+		
+		
+		
+	\end{itemize}
+%\resizebox{\linewidth}{!}{
+%	\begin{tabular}{*{3}{l}}
+%		\toprule
+%		Yavartanoo \cite{DBLP:journals/corr/abs-1811-01571}  & A & B\\
+%		\midrule
+%		One   & 1 & 2 \\
+%		Two   & 26 & 25 \\	
+%		\bottomrule
+%	\end{tabular}
+%}
+	
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Conclusion}
+\begin{frame}[fragile]{Conclusion }
+\redb{Lessons learned from our implementation are}:
+\begin{itemize}
+	\item Classification of LiDAR point cloud can achieve high accuracy and real-time processing time by projecting the 3D data into 2D view.
+	\item Classification using CNN on point cloud does not need a large number of hidden layers to achieve high accuracy.
+	\item CNN may fail to classify if the scene includes tiny objects or objects have variable density like ``Tree Objects''.
+	\item If multiple objects are in a scene and they are hiding each other (completely or partially) then object segmentation using DBSCAN
+	or other traditional clustering methods may fail to separate objects.
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
 \begin{frame}[fragile]{}
 
 \centering
@@ -251,7 +259,15 @@ Thank you!
 
 \end{frame}
 
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{References}
+\begin{frame}[allowframebreaks]{References}
+	
+	%	\bibliographystyle{apalike}
+	\bibliographystyle{apalike}
+	\bibliography{references}
+	
+\end{frame}
 
 \end{document}
