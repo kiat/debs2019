@@ -57,6 +57,19 @@ from Streaming LiDAR Point Cloud Data}
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Challenges with the data %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Challanges with the data}
+	\begin{itemize}
+		\item In the training data we have input file and output file, where input has the coordinates and output has object names and the count of the each object.
+		\item But there are no annotations i.e., we don't exactly know which points belong to which object.
+		\item There are single-object scenes and multiple object scenes in the training data.
+		\item Because of this problem, we cannot use the multiple-object scenes in the training phase. Also, this helped us to design our data processing pipeline.
+	\end{itemize}
+\end{frame}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -113,6 +126,20 @@ from Streaming LiDAR Point Cloud Data}
 
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Algorithm for removing the ground points %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Step 1: Contd}
+	\redb{Decoding the 3D cylinder}
+	\begin{itemize}
+		\item In the given data each point is annotated with the laser number.
+		\item LiDAR used for collecting this data is mounted with the 64 lasers, each with different angle of elevation. Each cylinder line is formed by a single laser.
+		\item In an empty scene and flat ground, the distance of the points in each cylinder line from the LiDAR is always constant.
+		\item Thus, all the boundary points for each laser will always correspond to same distance given that the vehicle used to mount LiDAR is same.
+	\end{itemize}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -135,6 +162,17 @@ from Streaming LiDAR Point Cloud Data}
 		\end{enumerate}
 	\end{itemize}
 \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Data Preparation for training %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Proposed solution for the clustering %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
