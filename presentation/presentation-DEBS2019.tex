@@ -63,8 +63,8 @@ from Streaming LiDAR Point Cloud Data}
 
 \begin{frame}[fragile]{Challanges with the data}
 	\begin{itemize}
-		\item In the training data we have input file and output file, where input has the coordinates and output has object names and the count of the each object.
-		\item But there are no annotations i.e., we don't exactly know which points belong to which object.
+		\item Training data has input file and output file, input file has the coordinates and output has object names and the count of the each object.
+		\item But there are no annotations.
 		\item There are single-object scenes and multiple object scenes in the training data.
 		\item Because of this problem, we cannot use the multiple-object scenes in the training phase. Also, this helped us to design our data processing pipeline.
 	\end{itemize}
@@ -84,9 +84,9 @@ from Streaming LiDAR Point Cloud Data}
 \begin{frame}[fragile]{Architecture}
 \redb{Steps for data processing:}
 \begin{itemize}
-	\item \blueb{Step 1:} Data Filtering
-	\item \blueb{Step 2:} Object Segmentation
-	\item \blueb{Step 3:} Object Classification
+	\item \blueb{Step 1:} Data Filtering (Training and Testing)
+	\item \blueb{Step 2:} Object Segmentation (Testing)
+	\item \blueb{Step 3:} Object Classification (Training and Testing)
 \end{itemize}
 
 \begin{figure}
@@ -131,7 +131,7 @@ from Streaming LiDAR Point Cloud Data}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[fragile]{Step 1: Contd}
-	\redb{Decoding the 3D cylinder}
+	\redb{Understanding the 3D cylinder}
 	\begin{itemize}
 		\item In the given data each point is annotated with the laser number.
 		\item LiDAR used for collecting this data is mounted with the 64 lasers, each with different angle of elevation. Each cylinder line is formed by a single laser.
@@ -148,21 +148,50 @@ from Streaming LiDAR Point Cloud Data}
 	\begin{itemize}
 		\item \blueb{3D to 2D Projection:} projected the 3D data in 4 different ways to a 2D plane and reduced the data dimensionality
 
+		\item \blueb{Perspective projection}:
 		\begin{align*}
 		d  & = \text{Distance to a projection plane} \\
 		x' & =  x (\frac{d}{z}) \ \  , \ \  y' =  y (\frac{d}{z}) \ \  , \ \  z'=  z (\frac{d}{z}) = d
 		\end{align*}
 
+		\item Object points have varying density when the surface of the object is not notmal to the LiDAR. To make the object points dense 2D projections are used.
+	\end{itemize}
+\end{frame}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Step 2: Contd}
+	\redb{Distance based vs Density based Clustering}
+	\begin{itemize}
 		\item \blueb{Object segmentation using Clustering:} different clustering methods to cluster the data
 		\begin{enumerate}
 			\item \textbf{K-means and Mini Batch K-means} on the 3D and project 2D data.
 			\item \textbf{Meanshift} on 3D and 2D data
 			\item \textbf{DBSCAN} on 3D and 2D
 		\end{enumerate}
+		\item Figure 3 visualizes the data after filtering the LiDAR lines and Figure 4 visualizes the objects after clustering
 	\end{itemize}
-\end{frame}
 
+	\begin{columns}
+		\begin{column}{0.48\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth]{images/ground_after2.png}
+				\caption{Data after Filtering the LiDAR Scan Lines}
+			\end{figure}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth]{images/seg_noise_removal.png}		
+				\caption{Clustered Point Cloud Data}
+			\end{figure}
+		\end{column}
+	\end{columns}
+
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% Data Preparation for training %%%%%%
@@ -180,8 +209,9 @@ from Streaming LiDAR Point Cloud Data}
 \begin{frame}[fragile]{Step 3: Multi-class Object Classification}
 	Used for classification of point cloud data Convolutional Neural Network (CNN)
 
-	\redb{The convolutional layers:}
+	\redb{Layers:}
 	\begin{itemize}
+		\item Convolutional layer
 		\item Max Pooling layer
 		\item Dropout Layer
 		\item Fully Connected Layer
