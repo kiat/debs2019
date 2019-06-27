@@ -162,7 +162,7 @@ from Streaming LiDAR Point Cloud Data}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[fragile]{Step 2: Contd}
+\begin{frame}[fragile]{Step 2: Object Segmentation - Contd. }
 	\redb{Distance based vs Density based Clustering}
 	\begin{itemize}
 		\item \blueb{Object segmentation using Clustering:} different clustering methods to cluster the data
@@ -190,6 +190,35 @@ from Streaming LiDAR Point Cloud Data}
 			\end{figure}
 		\end{column}
 	\end{columns}
+
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Step 2: Object Segmentation - Top-View }
+
+
+
+\begin{columns}
+	\begin{column}{0.48\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=\textwidth]{./images/sector-transforms/scene-with-centre.pdf}
+			 \caption{Top-View of LiDAR Data}
+		\end{figure}
+	\end{column}
+	\begin{column}{0.48\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=\textwidth]{./images/sector-transforms/scene-with-sector.pdf}		
+			\caption{Top-View - Separating unoccupied spaces/sectors (gray colored) from sectors with objects}
+		\end{figure}
+	\end{column}
+\end{columns}
 
 \end{frame}
 
