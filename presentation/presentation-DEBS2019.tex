@@ -130,7 +130,7 @@ from Streaming LiDAR Point Cloud Data}
 %%%%% Algorithm for removing the ground points %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[fragile]{Step 1: Contd}
+\begin{frame}[fragile]{Step 1: Contd.}
 	\redb{Understanding the 3D cylinder}
 	\begin{itemize}
 		\item In the given data each point is annotated with the laser number.
@@ -257,8 +257,8 @@ from Streaming LiDAR Point Cloud Data}
 \begin{frame}[fragile]{Preparing Input data}
 	\begin{itemize}
 		\item The 3D points of the object are projected to 2D using one of the techniques.
-		\item The projected points are placed in a grid of 7\textit{x}10
-		\item This grid is divided into cells of 0.1\textit{x}0.1, resulting in 70\textit{x}100 cells.
+		\item The projected points are placed in a grid of $7 \times 10$
+		\item This grid is divided into cells of $0.1 \times 0.1$, resulting in $70 \times 100$ cells.
 		\item The number of points in each cell is the input to the model.
 		\item This input on plotting as pixels is as follows
 	\end{itemize}
@@ -312,29 +312,6 @@ Note: Segmentation is done only in the testing.
 \end{frame}
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[fragile]{Real-time Data Stream Processing}
-	
-	How to achieve real-time stream processing? 
-
-	
-\begin{itemize}
-	\item \blueb{Step 1:} Data Filtering
-	\item \blueb{Step 2:} Object Segmentation
-	\item \blueb{Step 3:} Object Classification
-\end{itemize}
-
-Fast algorithm and efficient implementation. 
-
-\begin{itemize}
-	\item Choose appropiate alogirthm
-	\item Be caution about implementation details, e.g. which PL? (C++)
-\end{itemize}
-
-\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -427,6 +404,7 @@ Fast algorithm and efficient implementation.
 	or other traditional clustering methods may fail to separate objects.
 \end{itemize}
 \end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -447,6 +425,41 @@ Thank you!
 	%	\bibliographystyle{apalike}
 	\bibliographystyle{apalike}
 	\bibliography{references}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+\begin{frame}[fragile]{}
+
+\centering
+\Huge
+Backup Slides
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Real-time Data Stream Processing}
+How to achieve real-time stream processing? 
+	
+\begin{itemize}
+	\item \blueb{Step 1:} Data Filtering
+	\item \blueb{Step 2:} Object Segmentation
+	\item \blueb{Step 3:} Object Classification
+\end{itemize}
+
+Fast algorithm and efficient implementation. 
+
+\begin{itemize}
+	\item Choose appropiate alogirthm
+	\item Be caution about all implementation details
+\end{itemize}
 
 \end{frame}
 
