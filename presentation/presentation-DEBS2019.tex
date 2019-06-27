@@ -154,7 +154,7 @@ from Streaming LiDAR Point Cloud Data}
 		x' & =  x (\frac{d}{z}) \ \  , \ \  y' =  y (\frac{d}{z}) \ \  , \ \  z'=  z (\frac{d}{z}) = d
 		\end{align*}
 
-		\item Object points have varying density when the surface of the object is not notmal to the LiDAR. To make the object points dense 2D projections are used.
+		\item Object points have varying density when the surface of the object is not normal to the LiDAR. To make the object points dense 2D projections are used.
 	\end{itemize}
 \end{frame}
 
@@ -270,7 +270,7 @@ from Streaming LiDAR Point Cloud Data}
 	\item Prepare the input for the model and train the model
 \end{itemize}
 
-\redb{Tesing: Both single object and multiple object scenes can be used}
+\redb{Testing: Both single object and multiple object scenes can be used}
 
 \begin{itemize}
 	\item Using Step 1 filter the data
@@ -393,7 +393,7 @@ Fast algorithm and efficient implementation.
 \begin{itemize}
 	\item Classification of LiDAR point cloud can achieve high accuracy and real-time processing time by projecting the 3D data into 2D view.
 	\item Classification using CNN on point cloud does not need a large number of hidden layers to achieve high accuracy.
-	\item CNN may fail to classify if the scene includes tiny objects or objects have variable density like ``Tree Objects''.
+	\item Segmentation may fail if the scene includes tiny objects or objects have variable density like ``Tree Objects''.
 	\item If multiple objects are in a scene and they are hiding each other (completely or partially) then object segmentation using DBSCAN
 	or other traditional clustering methods may fail to separate objects.
 \end{itemize}
