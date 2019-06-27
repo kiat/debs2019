@@ -193,9 +193,6 @@ from Streaming LiDAR Point Cloud Data}
 
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%% Data Preparation for training %%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -224,6 +221,66 @@ from Streaming LiDAR Point Cloud Data}
 	\end{figure}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Data Preparation for training %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Preparing Input data}
+	\begin{itemize}
+		\item The 3D points of the object are projected to 2D using one of the techniques.
+		\item The projected points are placed in a grid of 7\textit{x}10
+		\item This grid is divided into cells of 0.1\textit{x}0.1, resulting in 70\textit{x}100 cells.
+		\item The number of points in each cell is the input to the model.
+		\item This input on plotting as pixels is as follows
+	\end{itemize}
+
+	\begin{columns}
+		\begin{column}{0.33\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth]{images/Toyota.png}
+				\caption{Toyota}
+			\end{figure}
+		\end{column}
+		\begin{column}{0.33\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth]{images/Tractor.png}		
+				\caption{Tractor}
+			\end{figure}
+		\end{column}
+		\begin{column}{0.33\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth]{images/pedestrian.png}		
+				\caption{Pedestrain}
+			\end{figure}
+		\end{column}
+	\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Training and Testing}
+	\redb{Training: only single object scenes are used}
+\begin{itemize}
+	\item Using Step 1 filter the data
+	\item Prepare the input for the model and train the model
+\end{itemize}
+
+\redb{Tesing: Both single object and multiple object scenes can be used}
+
+\begin{itemize}
+	\item Using Step 1 filter the data
+	\item Using Step 2 do the segmentation
+	\item Prepare the input to the model and test the data
+\end{itemize}
+
+Note: Segmentation is done only in the testing.
+
+\end{frame}
 
 
 
@@ -259,6 +316,15 @@ Fast algorithm and efficient implementation.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}[fragile]{Evaluation: Accuracy and Loss }
+	\redb{Training and Validation Accuracy and Loss}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{images/one_to_one.pdf}
+
+	\end{figure}
+\end{frame}
+
 \begin{frame}[fragile]{Experiment Setups }
 \redb{We evaluated our implementation \footnote{Github Repository
 	of our Implementation \url{https://github.com/kiat/debs2019}} using the 4 different experiment setups:}
@@ -279,16 +345,6 @@ Fast algorithm and efficient implementation.
 	\includegraphics[width=\textwidth]{images/evaluation2.pdf}
 
 \end{figure}
-\end{frame}
-
-
-\begin{frame}[fragile]{Evaluation: Accuracy and Loss }
-	\redb{Training and Validation Accuracy and Loss}
-	\begin{figure}
-		\centering
-		\includegraphics[width=\textwidth]{images/one_to_one.pdf}
-
-	\end{figure}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
