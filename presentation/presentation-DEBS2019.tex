@@ -394,14 +394,22 @@ Note: Segmentation is done only in the testing.
 
 % \section{Conclusion}
 \begin{frame}[fragile]{Conclusion }
-\redb{Lessons learned from our implementation are}:
+
+Lessons learned from our implementation are:
+
 \begin{itemize}
-	\item Classification of LiDAR point cloud can achieve high accuracy and real-time processing time by projecting the 3D data into 2D view.
-	\item Classification using CNN on point cloud does not need a large number of hidden layers to achieve high accuracy.
-	\item Segmentation may fail if the scene includes tiny objects or objects have variable density like ``Tree Objects''.
-	\item If multiple objects are in a scene and they are hiding each other (completely or partially) then object segmentation using DBSCAN
-	or other traditional clustering methods may fail to separate objects.
+  	\item \greenb{We can classify objects from LiDAR 3D point cloud in real-time with high accuracy. } 
+	\item \textbf{Projection from to 3D to 2D helps to improve performance and accuracy}.
+	\item \greenb{No need for large number of convolution layers} to achieve high accuracy.
 \end{itemize}
+
+\redb{Objecgt Segmentation may fail if}
+
+\begin{itemize}
+	\item the scene includes tiny objects or objects have variable density like \brownb{``Tree Objects''}.
+	\item  multiple objects hiding each other (completely or partially).
+\end{itemize}
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
