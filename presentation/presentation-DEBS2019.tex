@@ -57,17 +57,15 @@ from Streaming LiDAR Point Cloud Data}
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%% Challenges with the data %%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[fragile]{Challanges with the data}
-	\begin{itemize}
-		\item Training data has input file and output file, input file has the coordinates and output has object names and the count of the each object.
-		\item But there are no annotations.
-		\item There are single-object scenes and multiple object scenes in the training data.
-		\item Because of this problem, we cannot use the multiple-object scenes in the training phase. Also, this helped us to design our data processing pipeline.
-	\end{itemize}
+\begin{frame}[fragile]{InputData}
+
+
+				\centering
+				\includegraphics[width=\textwidth]{./images/lidar-3d-view.png}
+	
 \end{frame}
 
 
@@ -441,6 +439,21 @@ Backup Slides
 
 \end{frame}
 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Challenges with the data %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Challanges with the data}
+	\begin{itemize}
+		\item Training data has input file and output file, input file has the coordinates and output has object names and the count of the each object.
+		\item But there are no annotations.
+		\item There are single-object scenes and multiple object scenes in the training data.
+		\item Because of this problem, we cannot use the multiple-object scenes in the training phase. Also, this helped us to design our data processing pipeline.
+	\end{itemize}
+\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
